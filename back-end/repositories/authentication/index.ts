@@ -6,9 +6,8 @@ import { functionRepository, user, userData } from '../../dto/auth';
 /*---> Function to handle user registration (SignUp) <---*/
 export const SignUpRepository: functionRepository = async (userData) => {
     const { id, fullName, email, password, profile, subscribe, admin } = userData;
-
     try {
-        const existingAccount: user | null = await accountModel.findOne({ email })
+        const existingAccount: user | null = await accountModel.findOne({ email });
         if (existingAccount) {
             return { token: null, message: "Email already exists" }
         }

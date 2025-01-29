@@ -12,6 +12,7 @@ export interface user extends Document {
     subscribe?: boolean | null | undefined;
     admin?: boolean | null | undefined;
 }
+
 /*---> Structure of data for the user <---*/
 export interface userData {
     id: string;
@@ -22,11 +23,24 @@ export interface userData {
     subscribe: boolean | null | undefined;
     admin: boolean | null | undefined;
 }
-/*---> Type for Repository Function <---*/
-export type functionRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
-/*---> Type for Controller Function <---*/
-export type functionControllers = (req: Request, res: Response) => Promise<void>
 
+/*---> Structure of product information <---*/
+export interface productTypes {
+    id: string,
+    name: string,
+    description: string,
+    price: number,
+    pictures: Buffer | null,
+    categoryId: string
+}
+
+/*---> Type for Account Repository Function <---*/
+export type functionRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
+/*---> Type for Product Repository Function <---*/
+export type productRepository = (product: Partial<productTypes>) => Promise<{ productId: string | null, message: string }>
+/*---> Type for Account Controller Function <---*/
+
+export type functionControllers = (req: Request, res: Response) => Promise<void>
 // Expanding the Request interface of Express to include the `data` property
 declare global {
     namespace Express {

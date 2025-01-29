@@ -3,8 +3,7 @@ import { SignInRepository, SignUpRepository } from "../../repositories/authentic
 
 /*---> Sign Up Controller <---*/
 export const SignUpController: functionControllers = async (req, res) => {
-    const { id, fullName, email, password, profile, subscribe, admin }: userData = req.body;
-
+    const { id, fullName, email, password, profile, subscribe, admin } = req.body as userData
     if (!fullName || !email || !password) {
         res.send(400).type("json").json({ message: "You dont have all information" });
         return
