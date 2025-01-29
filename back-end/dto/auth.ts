@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { JwtPayload } from "jsonwebtoken";
 import { Document } from "mongoose";
 
 /*---> Structure of data in the database <---*/
@@ -25,3 +26,14 @@ export interface userData {
 export type functionRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
 /*---> Type for Controller Function <---*/
 export type functionControllers = (req: Request, res: Response) => Promise<void>
+
+// Expanding the Request interface of Express to include the `data` property
+declare global {
+    namespace Express {
+        // Adding a `data` property to the `Request` interface
+        interface Request {
+            // `data` can be a string, a decoded JWT payload, or undefined
+            data?: string | JwtPayload | undefined;
+        }
+    }
+}
