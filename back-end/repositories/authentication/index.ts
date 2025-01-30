@@ -5,7 +5,7 @@ import { functionRepository, user, userData } from '../../dto/auth';
 
 /*---> Function to handle user registration (SignUp) <---*/
 export const SignUpRepository: functionRepository = async (userData) => {
-    const { id, fullName, email, password, profile, subscribe, admin } = userData;
+    const { id, fullName, email, password, profile, subscribe, admin } = userData as userData;
     try {
         const existingAccount: user | null = await accountModel.findOne({ email });
         if (existingAccount) {
@@ -13,7 +13,7 @@ export const SignUpRepository: functionRepository = async (userData) => {
         }
         /*---> Hash password for better security <---*/
         const hashedPassword: string = await bcrypt.hash(password ?? '', 10);
-        const userData: Partial<userData> = {
+        const userData: userData = {
             id: id,
             fullName: fullName,
             email: email,
@@ -26,7 +26,7 @@ export const SignUpRepository: functionRepository = async (userData) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token: string = jwt.sign(userData, process.env.JWT_SECRET);
+        const token: string = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
             const newAccount: user | null = new accountModel(userData);
             await newAccount.save();
@@ -38,12 +38,11 @@ export const SignUpRepository: functionRepository = async (userData) => {
         console.error("Error creating account:", error);
         return { token: null, message: `Error creating account ${error}` }
     }
-
 }
 
 /*---> Function to handle user login (SignIn) <---*/
 export const SignInRepository: functionRepository = async (userData) => {
-    const { email, password }: Partial<userData> = userData;
+    const { email, password } = userData as Partial<userData>
     if (!email || !password) {
         return { token: null, message: 'You dont have all information' }
     }
@@ -65,7 +64,7 @@ export const SignInRepository: functionRepository = async (userData) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token: string | null = jwt.sign(userData, process.env.JWT_SECRET);
+        const token: string | null = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
             return { token: token, message: 'Login successful!' }
         } else {
