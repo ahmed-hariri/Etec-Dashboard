@@ -1,5 +1,19 @@
 import { functionControllers, productTypes } from "../../dto/auth";
-import { addProductRepository, getProductRepository, removeProductRepository } from "../../repositories/product";
+import { addProductRepository, getProductRepository, removeProductRepository, updateProductRepository } from "../../repositories/product";
+
+/*---> Get All Products Controller <---*/
+export const getProductController: functionControllers = async (req, res) => {
+    try {
+        const { data, message } = await getProductRepository();
+        if (data) {
+            return res.status(200).type("json").json({ data, message });
+        }
+        return res.status(400).type("json").json({ message });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).type("json").json({ message: "Error Geting products" });
+    }
+}
 
 /*---> Add Product Controller <---*/
 export const addProductController: functionControllers = async (req, res) => {
@@ -19,38 +33,44 @@ export const addProductController: functionControllers = async (req, res) => {
         return res.status(400).type("json").json({ message });
     } catch (error) {
         console.error(error);
-        return res.status(500).type("json").json({ message: "Error creating products" });
-    }
-}
-
-/*---> Get All Products Controller <---*/
-export const getProductController: functionControllers = async (req, res) => {
-    try {
-        const { data, message } = await getProductRepository();
-        if (data) {
-            return res.status(200).type("json").json({ data, message });
-        }
-        return res.status(400).type("json").json({ message });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).type("json").json({ message: "Error get products" });
+        return res.status(500).type("json").json({ message: "Error Creating product" });
     }
 }
 
 /*---> Remove Product Controller <---*/
 export const removeProductController: functionControllers = async (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).type("json").json({ data: null, message: "You don't have Id!" })
+    }
     try {
-        const { id } = req.params as any;
-        if (!id) {
-            return res.status(400).type("json").json({ data: null, message: "You don't have Id!" })
-        }
-        const { data, message } = await removeProductRepository(id);
+        const { data, message } = await removeProductRepository({ id });
         if (data) {
             return res.status(200).type("json").json({ data, message });
         }
         return res.status(404).type("json").json({ message });
     } catch (error) {
         console.error(error);
-        return res.status(500).type("json").json({ message: "Error remove product" });
+        return res.status(500).type("json").json({ message: "Error Removing product" });
+    }
+}
+
+/*---> Update Product Controller <---*/
+export const updateProductController: functionControllers = async (req, res) => {
+    const { id } = req.params
+    const { name, description, price, categoryId } = req.body as productTypes
+    if (!id) {
+        return res.status(400).type("json").json({ data: null, message: "You don't have Id!" })
+    }
+    try {
+        const product: Partial<productTypes> = { id, name, description, price, categoryId }
+        const { data, message } = await updateProductRepository(product);
+        if (data) {
+            return res.status(201).type("json").json({ data, message });
+        }
+        return res.status(400).type("json").json({ message });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).type("json").json({ message: "Error Updating product" });
     }
 }
