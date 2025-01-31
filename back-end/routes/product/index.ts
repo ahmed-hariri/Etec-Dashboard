@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { authenticateToken, checkAdmin } from "../../middleware";
-import { addProductController, getProductController } from "../../controllers/product";
+import { addProductController, getProductController, removeProductController } from "../../controllers/product";
 
 /*---> Define product routes <---*/
 export const productRoutes: Router = Router();
 
 productRoutes.post("/product", authenticateToken, checkAdmin, addProductController)
-productRoutes.get("/products", authenticateToken, checkAdmin, getProductController)
+productRoutes.get("/product", authenticateToken, checkAdmin, getProductController)
+productRoutes.delete("/product/:id", authenticateToken, checkAdmin, removeProductController)

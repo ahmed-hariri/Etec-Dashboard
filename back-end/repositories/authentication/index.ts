@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import accountModel from '../../models/user';
-import { functionRepository, user, userData } from '../../dto/auth';
+import { accountRepository, userData } from '../../dto/auth';
 
 /*---> Function to handle user registration (SignUp) <---*/
-export const SignUpRepository: functionRepository = async (userData) => {
+export const SignUpRepository: accountRepository = async (userData) => {
     const { id, fullName, email, password, profile, subscribe, admin } = userData as userData;
     try {
-        const existingAccount: user | null = await accountModel.findOne({ email });
+        const existingAccount: null = await accountModel.findOne({ email });
         if (existingAccount) {
             return { token: null, message: "Email already exists" }
         }
@@ -28,12 +28,11 @@ export const SignUpRepository: functionRepository = async (userData) => {
         }
         const token: string = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
-            const newAccount: user | null = new accountModel(userData);
+            const newAccount = new accountModel(userData);
             await newAccount.save();
             return { token: token, message: "Account has been created!" }
-        } else {
-            return { token: null, message: "Failed to generate token" };
         }
+        return { token: null, message: "Failed to generate token" };
     } catch (error) {
         console.error("Error creating account:", error);
         return { token: null, message: `Error creating account ${error}` }
@@ -41,13 +40,13 @@ export const SignUpRepository: functionRepository = async (userData) => {
 }
 
 /*---> Function to handle user login (SignIn) <---*/
-export const SignInRepository: functionRepository = async (userData) => {
+export const SignInRepository: accountRepository = async (userData) => {
     const { email, password } = userData as Partial<userData>
     if (!email || !password) {
         return { token: null, message: 'You dont have all information' }
     }
     try {
-        const existingAccount: user | null = await accountModel.findOne({ email });
+        const existingAccount = await accountModel.findOne({ email });
         if (!existingAccount) {
             return { token: null, message: 'Account not found!' }
         }
@@ -67,9 +66,8 @@ export const SignInRepository: functionRepository = async (userData) => {
         const token: string | null = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
             return { token: token, message: 'Login successful!' }
-        } else {
-            return { token: token, message: 'Failed to generate token!' }
         }
+        return { token: token, message: 'Failed to generate token!' }
     } catch (error) {
         console.error("Error logging:", error);
         return { token: null, message: `Error logging ${error}` }

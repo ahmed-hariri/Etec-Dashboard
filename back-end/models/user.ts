@@ -5,7 +5,7 @@ const account = new Schema({
     fullName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    profile: { type: Buffer ?? null, required: false },
+    profile: { type: Buffer || null, required: false },
     subscribe: { type: Boolean, required: false, default: false },
     admin: { type: Boolean, required: false, default: false },
 });
