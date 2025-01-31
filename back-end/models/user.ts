@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+/*---> Define data structure <---*/
 const account = new Schema({
     id: { type: String, required: true },
     fullName: { type: String, required: true },

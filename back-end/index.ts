@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
+import { categoryRoutes } from './routes/category/index';
 
 const app: express.Application = express();
 app.use(express.json(), cors());
@@ -15,6 +16,9 @@ app.use("/auth", authRoutes);
 
 /*---> Mounting the product routes on the "/api" path <---*/
 app.use("/api", productRoutes);
+
+/*---> Mounting the category routes on the "/api" path <---*/
+app.use("/api", categoryRoutes);
 
 mongoose.connect(process.env.MONGO_URL ?? '')
     .then(() => {

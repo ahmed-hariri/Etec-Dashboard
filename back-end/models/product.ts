@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
+/*---> Define data structure <---*/
 const product = new Schema({
     id: { type: String, required: true },
     name: { type: String, required: true },

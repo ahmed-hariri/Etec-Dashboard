@@ -1,8 +1,8 @@
-import { productRepository, productTypes } from "../../dto/auth";
+import { functionRepository, productTypes } from "../../dto/auth";
 import productModel from "../../models/product";
 
-/*---> Get All Products Repository <---*/
-export const getProductRepository: productRepository = async () => {
+/*---> Get all products repository <---*/
+export const getProductRepository: functionRepository = async () => {
     try {
         const products = await productModel.find();
         if (products.length > 0) {
@@ -15,8 +15,8 @@ export const getProductRepository: productRepository = async () => {
     }
 }
 
-/*---> Add Product Repository <---*/
-export const addProductRepository: productRepository = async (product) => {
+/*---> Add product repository <---*/
+export const addProductRepository: functionRepository = async (product) => {
     const { name, description, price, categoryId } = product as productTypes;
     if (!name || !description || !price || !categoryId) {
         return { data: null, message: "You don't have all information" }
@@ -31,8 +31,8 @@ export const addProductRepository: productRepository = async (product) => {
     }
 }
 
-/*---> Remove Product Repository <---*/
-export const removeProductRepository: productRepository = async (productId) => {
+/*---> Remove product repository <---*/
+export const removeProductRepository: functionRepository = async (productId) => {
     if (!productId) {
         return { data: null, message: 'You don\'t have a product id!' };
     }
@@ -48,8 +48,8 @@ export const removeProductRepository: productRepository = async (productId) => {
     }
 }
 
-/*---> Update Product Repository <---*/
-export const updateProductRepository: productRepository = async (product) => {
+/*---> Update product repository <---*/
+export const updateProductRepository: functionRepository = async (product) => {
     const { id, name, description, price, categoryId } = product as productTypes
     if (!name || !description || !price || !categoryId) {
         return { data: null, message: "You don't have all information" }

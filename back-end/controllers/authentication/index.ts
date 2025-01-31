@@ -1,7 +1,7 @@
 import { functionControllers, userData } from "../../dto/auth";
 import { SignInRepository, SignUpRepository } from "../../repositories/authentication";
 
-/*---> Sign Up Controller <---*/
+/*---> SignUp controller <---*/
 export const SignUpController: functionControllers = async (req, res) => {
     // Destructuring
     const { id, fullName, email, password, profile, subscribe, admin } = req.body as userData
@@ -21,7 +21,7 @@ export const SignUpController: functionControllers = async (req, res) => {
     }
 }
 
-/*---> Sign In Controller <---*/
+/*---> SignIn controller <---*/
 export const SignInController: functionControllers = async (req, res) => {
     const { email, password } = req.body as userData;
     if (!email || !password) {

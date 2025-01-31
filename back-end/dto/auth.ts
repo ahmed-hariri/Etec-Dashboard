@@ -20,9 +20,9 @@ export interface productTypes {
     categoryId: string
 }
 
-/*---> Type for Function <---*/
+/*---> Type for function <---*/
 export type accountRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
-export type productRepository = (product?: Partial<productTypes>) => Promise<{ data: any | string | null, message: string }>
+export type functionRepository = (product?: Partial<productTypes>) => Promise<{ data: any | string | null, message: string }>
 export type functionControllers = (req: Request, res: Response) => Promise<Response | any>
 
 // Expanding the Request interface of Express to include the `data` property
