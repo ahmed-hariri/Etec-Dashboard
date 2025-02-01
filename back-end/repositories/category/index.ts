@@ -54,3 +54,20 @@ export const updateCategoryRepository: functionRepository = async (newCategory) 
         return { data: null, message: "Error updating category!" }
     }
 }
+
+/*---> Remove category repository <---*/
+export const removeCategoryRepository: functionRepository = async (categoryId) => {
+    if (!categoryId) {
+        return { data: null, message: "You don't have all information" }
+    }
+    try {
+        const findCategory = await categoryModel.deleteOne({ id: categoryId.id });
+        if (findCategory.deletedCount === 1) {
+            return { data: categoryId.id, message: 'Category deleted successfully!' }
+        }
+        return { data: null, message: "Category not found!" }
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        return { data: null, message: "An error occurred while deleting the category." }
+    }
+}
