@@ -7,13 +7,16 @@ import { accountRepository, userData } from '../../dto/auth';
 export const SignUpRepository: accountRepository = async (userData) => {
     const { id, fullName, email, password, profile, subscribe, admin } = userData as userData;
     try {
-        const existingAccount: null = await accountModel.findOne({ email });
+        const existingAccount = await accountModel.findOne({ email });
         if (existingAccount) {
             return { token: null, message: "Email already exists" }
         }
         /*---> Hash password for better security <---*/
-        const hashedPassword: string = await bcrypt.hash(password ?? '', 10);
-        const userData: userData = {
+        if (!password) {
+            return { token: null, message: "Password is required" };
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser: userData = {
             id: id,
             fullName: fullName,
             email: email,
@@ -26,9 +29,9 @@ export const SignUpRepository: accountRepository = async (userData) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token: string = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign(newUser, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
-            const newAccount = new accountModel(userData);
+            const newAccount = new accountModel(newUser);
             await newAccount.save();
             return { token: token, message: "Account has been created!" }
         }
@@ -51,19 +54,20 @@ export const SignInRepository: accountRepository = async (userData) => {
             return { token: null, message: 'Account not found!' }
         }
         /*---> Compare the provided password with the password in the database <---*/
-        const isPasswordValid: boolean = await bcrypt.compare(password, existingAccount.password);
+        const isPasswordValid = await bcrypt.compare(password, existingAccount.password);
         if (!isPasswordValid) {
             return { token: null, message: 'Invalid credentials!' }
         }
-        const userData: Partial<userData> = {
+        const oldUser: Partial<userData> = {
             id: existingAccount.id,
-            email: existingAccount.email
+            email: existingAccount.email,
+            admin: existingAccount.admin
         }
         /*---> Generate a new token <---*/
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token: string | null = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign(oldUser, process.env.JWT_SECRET, { expiresIn: '12h' });
         if (token) {
             return { token: token, message: 'Login successful!' }
         }

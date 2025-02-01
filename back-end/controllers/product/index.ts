@@ -2,7 +2,7 @@ import { functionControllers, productTypes } from "../../dto/auth";
 import { addProductRepository, getProductRepository, removeProductRepository, updateProductRepository } from "../../repositories/product";
 
 /*---> Get all products controller <---*/
-export const getProductController: functionControllers = async (req, res) => {
+export const getProductController: functionControllers = async (req, res, next) => {
     try {
         const { data, message } = await getProductRepository();
         if (data) {
@@ -10,19 +10,18 @@ export const getProductController: functionControllers = async (req, res) => {
         }
         return res.status(400).type("json").json({ message });
     } catch (error) {
-        console.error(error);
-        return res.status(500).type("json").json({ message: "Error geting products" });
+        next(error)
     }
 }
 
 /*---> Add newProduct controller <---*/
-export const addProductController: functionControllers = async (req, res) => {
+export const addProductController: functionControllers = async (req, res, next) => {
     const { id, name, description, price, categoryId } = req.body as productTypes
     if (!name || !description || !price || !categoryId) {
         return res.status(400).type("json").json({ data: null, message: "You don't have all information" })
     }
-    if (isNaN(price)) {
-        return res.status(400).type("json").json({ data: null, message: "Price must be a valid number" })
+    if (typeof price !== "number" || price <= 0) {
+        return res.status(400).json({ message: "Price must be a positive number" });
     }
     try {
         const product: Partial<productTypes> = { id, name, description, price, categoryId }
@@ -32,13 +31,12 @@ export const addProductController: functionControllers = async (req, res) => {
         }
         return res.status(400).type("json").json({ message });
     } catch (error) {
-        console.error(error);
-        return res.status(500).type("json").json({ message: "Error creating product" });
+        next(error)
     }
 }
 
 /*---> Remove product controller <---*/
-export const removeProductController: functionControllers = async (req, res) => {
+export const removeProductController: functionControllers = async (req, res, next) => {
     const { id } = req.params;
     if (!id) {
         return res.status(400).type("json").json({ data: null, message: "You don't have Id!" })
@@ -50,13 +48,12 @@ export const removeProductController: functionControllers = async (req, res) => 
         }
         return res.status(404).type("json").json({ message });
     } catch (error) {
-        console.error(error);
-        return res.status(500).type("json").json({ message: "Error removing product" });
+        next(error)
     }
 }
 
 /*---> Update product controller <---*/
-export const updateProductController: functionControllers = async (req, res) => {
+export const updateProductController: functionControllers = async (req, res, next) => {
     const { id } = req.params
     const { name, description, price, categoryId } = req.body as productTypes
     if (!id) {
@@ -68,9 +65,8 @@ export const updateProductController: functionControllers = async (req, res) => 
         if (data) {
             return res.status(201).type("json").json({ data, message });
         }
-        return res.status(400).type("json").json({ message });
+        return res.status(404).type("json").json({ message });
     } catch (error) {
-        console.error(error);
-        return res.status(500).type("json").json({ message: "Error updating product" });
+        next(error)
     }
 }

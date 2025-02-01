@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 
 /*---> Structure of data <---*/
@@ -20,10 +20,16 @@ export interface productTypes {
     categoryId: string
 }
 
+export interface categoryTypes {
+    id: string,
+    categoryName: string
+}
+
 /*---> Type for function <---*/
 export type accountRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
 export type functionRepository = (product?: Partial<productTypes>) => Promise<{ data: any | string | null, message: string }>
-export type functionControllers = (req: Request, res: Response) => Promise<Response | any>
+export type categoryRepository = (category?: Partial<categoryTypes>) => Promise<{ data: any | string | null, message: string }>
+export type functionControllers = (req: Request, res: Response, next: NextFunction) => Promise<Response | any>
 
 // Expanding the Request interface of Express to include the `data` property
 declare global {

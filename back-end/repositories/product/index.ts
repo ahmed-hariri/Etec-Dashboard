@@ -1,4 +1,5 @@
 import { functionRepository, productTypes } from "../../dto/auth";
+import categoryModel from "../../models/category";
 import productModel from "../../models/product";
 
 /*---> Get all products repository <---*/
@@ -22,6 +23,10 @@ export const addProductRepository: functionRepository = async (product) => {
         return { data: null, message: "You don't have all information" }
     }
     try {
+        const findCategory = await categoryModel.findOne({ id: categoryId });
+        if (!findCategory) {
+            return { data: null, message: "Category not found!" }
+        }
         const newProduct = new productModel(product);
         await newProduct.save();
         return { data: newProduct.id, message: "Product has been created!" }
@@ -55,7 +60,11 @@ export const updateProductRepository: functionRepository = async (product) => {
         return { data: null, message: "You don't have all information" }
     }
     try {
-        const findProduct: any = await productModel.findOne({ id });
+        const findCategory = await categoryModel.findOne({ id: categoryId });
+        if (!findCategory) {
+            return { data: null, message: "Category not found!" }
+        }
+        const findProduct = await productModel.findOne({ id });
         if (findProduct) {
             findProduct.name = name
             findProduct.description = description
