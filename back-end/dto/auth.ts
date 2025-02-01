@@ -27,7 +27,7 @@ export interface categoryTypes {
 
 /*---> Type for function <---*/
 export type accountRepository = (userData: Partial<userData>) => Promise<{ token: string | null, message: string }>
-export type functionRepository = (product?: Partial<productTypes>) => Promise<{ data: any | string | null, message: string }>
+export type functionRepository = (product?: Partial<productTypes | categoryTypes>) => Promise<{ data: any | string | null, message: string }>
 export type categoryRepository = (category?: Partial<categoryTypes>) => Promise<{ data: any | string | null, message: string }>
 export type functionControllers = (req: Request, res: Response, next: NextFunction) => Promise<Response | any>
 

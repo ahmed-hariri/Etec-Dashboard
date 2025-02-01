@@ -34,3 +34,23 @@ export const addCategoryRepository: functionRepository = async (category) => {
         return { data: null, message: "Error creating category!" }
     }
 }
+
+/*---> Update category repository <---*/
+export const updateCategoryRepository: functionRepository = async (newCategory) => {
+    const { id, categoryName } = newCategory as categoryTypes;
+    if (!id || !categoryName) {
+        return { data: null, message: "You don't have all information" }
+    }
+    try {
+        const findCategory = await categoryModel.findOne({ id });
+        if (findCategory) {
+            findCategory.categoryName = categoryName;
+            await findCategory.save();
+            return { data: findCategory.id, message: 'Category Update!' }
+        }
+        return { data: null, message: "Category not found!" }
+    } catch (error) {
+        console.error("Error updating category:", error);
+        return { data: null, message: "Error updating category!" }
+    }
+}
