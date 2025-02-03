@@ -10,7 +10,7 @@ const account = new Schema({
     profile: { type: String, required: false },
     subscribe: { type: Boolean, required: false, default: false },
     admin: { type: Boolean, required: false, default: false },
-}, { timestamps: true });
+});
 
 const accountModel = mongoose.model("user", account);
 export default accountModel

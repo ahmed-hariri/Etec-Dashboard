@@ -57,3 +57,26 @@ export const addOrderRepository: functionRepository<orderTypes> = async (order) 
         return { data: null, message: "Error creating order!" }
     }
 }
+
+/*---> Change status order repository <---*/
+export const statusOrderRepository: functionRepository<orderTypes> = async (order) => {
+    const { id, status } = order as orderTypes
+    if (!id || !status) {
+        return { data: null, message: "You dont have all information!" }
+    }
+    if (!["Processing", "Shipped", "Delivered"].includes(status)) {
+        return { data: null, message: "This status not found!" }
+    }
+    try {
+        const findOrder = await orderModel.findOne({ id: id });
+        if (findOrder) {
+            findOrder.status = status
+            await findOrder.save();
+            return { data: findOrder.id, message: "Order state changed!" }
+        }
+        return { data: null, message: "Order not found!" }
+    } catch (error) {
+        console.error("Error changed order state:", error);
+        return { data: null, message: "Error changed order state" }
+    }
+}

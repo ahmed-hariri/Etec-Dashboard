@@ -9,7 +9,7 @@ const product = new Schema({
     price: { type: Number, required: true },
     pictures: { type: String, required: false },
     categoryId: { type: String, required: true }
-}, { timestamps: true });
+});
 
 const productModel = mongoose.model("product", product);
 export default productModel;

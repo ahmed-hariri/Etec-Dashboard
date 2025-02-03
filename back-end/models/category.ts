@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const category = new Schema({
     id: { type: String, required: true, unique: true },
     categoryName: { type: String, required: true, unique: true }
-}, { timestamps: true });
+});
 
 const categoryModel = mongoose.model("category", category);
 export default categoryModel

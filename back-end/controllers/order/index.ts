@@ -1,5 +1,5 @@
 import { functionControllers, orderTypes } from "../../dto";
-import { addOrderRepository, getOrdersRepository } from "../../repositories/order";
+import { addOrderRepository, getOrdersRepository, statusOrderRepository } from "../../repositories/order";
 
 /*---> Get all orders controller <---*/
 export const getOrdersController: functionControllers = async (req, res, next) => {
@@ -30,4 +30,22 @@ export const addOrderController: functionControllers = async (req, res, next) =>
     } catch (error) {
         next(error);
     }
-} 
+}
+
+export const statusOrderController: functionControllers = async (req, res, next) => {
+    const { id } = req.params
+    const { status } = req.body
+    if (!id || !status) {
+        return res.status(400).type("json").json({ message: "You dont have all information!" })
+    }
+    try {
+        const orderStatus = { id, status };
+        const { data, message } = await statusOrderRepository(orderStatus);
+        if (data) {
+            return res.status(201).type("json").json({ data, message })
+        }
+        return res.status(400).type("json").json({ message });
+    } catch (error) {
+        next(error);
+    }
+}
