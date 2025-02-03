@@ -2,7 +2,7 @@ import { functionControllers, productTypes } from "../../dto";
 import { addProductRepository, getProductRepository, removeProductRepository, updateProductRepository } from "../../repositories/product";
 
 /*---> Get all products controller <---*/
-export const getProductController: functionControllers = async (req, res, next) => {
+export const getProductsController: functionControllers = async (req, res, next) => {
     try {
         const { data, message } = await getProductRepository();
         if (data) {

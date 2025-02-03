@@ -1,5 +1,18 @@
 import { functionControllers, orderTypes } from "../../dto";
-import { addOrderRepository } from "../../repositories/order";
+import { addOrderRepository, getOrdersRepository } from "../../repositories/order";
+
+/*---> Get all orders controller <---*/
+export const getOrdersController: functionControllers = async (req, res, next) => {
+    try {
+        const { data, message } = await getOrdersRepository();
+        if (data) {
+            return res.status(200).type("json").json({ data, message });
+        }
+        return res.status(400).type("json").json({ message });
+    } catch (error) {
+        next(error)
+    }
+}
 
 /*---> Add order controller <---*/
 export const addOrderController: functionControllers = async (req, res, next) => {

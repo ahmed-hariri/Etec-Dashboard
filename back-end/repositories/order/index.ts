@@ -3,6 +3,20 @@ import orderModel from "../../models/order";
 import productModel from "../../models/product";
 import accountModel from "../../models/user";
 
+/*---> Get all orders repository <---*/
+export const getOrdersRepository: functionRepository<orderTypes> = async () => {
+    try {
+        const orders = await orderModel.find();
+        if (orders.length > 0) {
+            return { data: orders, message: 'Get All orders!' }
+        }
+        return { data: [], message: 'You dont have any orders' }
+    } catch (error) {
+        console.error("Error get orders:", error);
+        return { data: [], message: "Error get orders!" }
+    }
+}
+
 /*---> Add newOrder repository <---*/
 export const addOrderRepository: functionRepository<orderTypes> = async (order) => {
     const { id, userId, products, status, totalPrice } = order as orderTypes;
