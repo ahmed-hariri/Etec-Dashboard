@@ -1,9 +1,9 @@
-import { functionRepository, productTypes } from "../../dto/auth";
+import { functionRepository, productTypes } from "../../dto";
 import categoryModel from "../../models/category";
 import productModel from "../../models/product";
 
 /*---> Get all products repository <---*/
-export const getProductRepository: functionRepository = async () => {
+export const getProductRepository: functionRepository<productTypes> = async () => {
     try {
         const products = await productModel.find();
         if (products.length > 0) {
@@ -17,7 +17,7 @@ export const getProductRepository: functionRepository = async () => {
 }
 
 /*---> Add product repository <---*/
-export const addProductRepository: functionRepository = async (product) => {
+export const addProductRepository: functionRepository<productTypes> = async (product) => {
     const { name, description, price, categoryId } = product as productTypes;
     if (!name || !description || !price || !categoryId) {
         return { data: null, message: "You don't have all information" }
@@ -37,7 +37,7 @@ export const addProductRepository: functionRepository = async (product) => {
 }
 
 /*---> Remove product repository <---*/
-export const removeProductRepository: functionRepository = async (productId) => {
+export const removeProductRepository: functionRepository<productTypes> = async (productId) => {
     if (!productId) {
         return { data: null, message: 'You don\'t have a product id!' };
     }
@@ -54,7 +54,7 @@ export const removeProductRepository: functionRepository = async (productId) => 
 }
 
 /*---> Update product repository <---*/
-export const updateProductRepository: functionRepository = async (product) => {
+export const updateProductRepository: functionRepository<productTypes> = async (product) => {
     const { id, name, description, price, categoryId } = product as productTypes
     if (!name || !description || !price || !categoryId) {
         return { data: null, message: "You don't have all information" }

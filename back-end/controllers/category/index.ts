@@ -1,4 +1,4 @@
-import { categoryTypes, functionControllers } from "../../dto/auth";
+import { categoryTypes, functionControllers } from "../../dto";
 import { addCategoryRepository, getCategoryRepository, removeCategoryRepository, updateCategoryRepository } from "../../repositories/category"
 
 /*---> Get all categorys controller <---*/
@@ -18,7 +18,7 @@ export const getCategoryController: functionControllers = async (req, res, next)
 export const addCategoryController: functionControllers = async (req, res, next) => {
     const { id, categoryName } = req.body as categoryTypes;
     if (!id || !categoryName) {
-        return { data: null, message: "You don't have all information" }
+        return { message: "You don't have all information" }
     }
     try {
         const newCategory: categoryTypes = { id, categoryName }
@@ -37,7 +37,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
     const { id } = req.params
     const { categoryName } = req.body as categoryTypes
     if (!id || !categoryName) {
-        return { data: null, message: "You don't have all information" }
+        return { message: "You don't have all information" }
     }
     try {
         const newCategory: categoryTypes = { id, categoryName }
@@ -55,7 +55,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
 export const removeCategoryController: functionControllers = async (req, res, next) => {
     const { id } = req.params
     if (!id) {
-        return { data: null, message: "You don't have all information" }
+        return { message: "You don't have all information" }
     }
     try {
         const newCategory: Partial<categoryTypes> = { id }

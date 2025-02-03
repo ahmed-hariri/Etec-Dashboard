@@ -1,8 +1,8 @@
-import { categoryRepository, categoryTypes, functionRepository } from "../../dto/auth";
+import { categoryTypes, functionRepository } from "../../dto";
 import categoryModel from "../../models/category"
 
 /*---> Get all categorys repository <---*/
-export const getCategoryRepository: functionRepository = async () => {
+export const getCategoryRepository: functionRepository<categoryTypes> = async () => {
     try {
         const categorys = await categoryModel.find();
         if (categorys.length > 0) {
@@ -16,7 +16,7 @@ export const getCategoryRepository: functionRepository = async () => {
 }
 
 /*---> Add newCategory repository <---*/
-export const addCategoryRepository: functionRepository = async (category) => {
+export const addCategoryRepository: functionRepository<categoryTypes> = async (category) => {
     const { id, categoryName } = category as categoryTypes;
     if (!id || !categoryName) {
         return { data: null, message: "You don't have all information" }
@@ -36,7 +36,7 @@ export const addCategoryRepository: functionRepository = async (category) => {
 }
 
 /*---> Update category repository <---*/
-export const updateCategoryRepository: functionRepository = async (newCategory) => {
+export const updateCategoryRepository: functionRepository<categoryTypes> = async (newCategory) => {
     const { id, categoryName } = newCategory as categoryTypes;
     if (!id || !categoryName) {
         return { data: null, message: "You don't have all information" }
@@ -56,7 +56,7 @@ export const updateCategoryRepository: functionRepository = async (newCategory) 
 }
 
 /*---> Remove category repository <---*/
-export const removeCategoryRepository: functionRepository = async (categoryId) => {
+export const removeCategoryRepository: functionRepository<categoryTypes> = async (categoryId) => {
     if (!categoryId) {
         return { data: null, message: "You don't have all information" }
     }

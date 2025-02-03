@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import accountModel from '../../models/user';
-import { accountRepository, userData } from '../../dto/auth';
+import { accountRepository, accountTypes } from '../../dto';
 
 /*---> Function to handle user registration (SignUp) <---*/
 export const SignUpRepository: accountRepository = async (userData) => {
-    const { id, fullName, email, password, profile, subscribe, admin } = userData as userData;
+    const { id, fullName, email, password, profile, subscribe, admin } = userData as accountTypes;
     try {
         const existingAccount = await accountModel.findOne({ email });
         if (existingAccount) {
@@ -16,7 +16,7 @@ export const SignUpRepository: accountRepository = async (userData) => {
             return { token: null, message: "Password is required" };
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser: userData = {
+        const newUser: accountTypes = {
             id: id,
             fullName: fullName,
             email: email,
@@ -44,7 +44,7 @@ export const SignUpRepository: accountRepository = async (userData) => {
 
 /*---> Function to handle user login (SignIn) <---*/
 export const SignInRepository: accountRepository = async (userData) => {
-    const { email, password } = userData as Partial<userData>
+    const { email, password } = userData as Partial<accountTypes>
     if (!email || !password) {
         return { token: null, message: 'You dont have all information' }
     }
@@ -58,7 +58,7 @@ export const SignInRepository: accountRepository = async (userData) => {
         if (!isPasswordValid) {
             return { token: null, message: 'Invalid credentials!' }
         }
-        const oldUser: Partial<userData> = {
+        const oldUser: Partial<accountTypes> = {
             id: existingAccount.id,
             email: existingAccount.email,
             admin: existingAccount.admin

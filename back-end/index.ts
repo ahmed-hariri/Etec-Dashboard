@@ -6,6 +6,7 @@ import cors from 'cors';
 import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
 import { categoryRoutes } from './routes/category/index';
+import { orderRoutes } from './routes/order';
 
 const app: express.Application = express();
 app.use(express.json());
@@ -19,6 +20,9 @@ app.use("/api", productRoutes);
 
 /*---> Mounting the category routes on the "/api" path <---*/
 app.use("/api", categoryRoutes);
+
+/*---> Mounting the order routes on the "/api" path <---*/
+app.use("/api", orderRoutes);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(error.stack); // Display the error in the console

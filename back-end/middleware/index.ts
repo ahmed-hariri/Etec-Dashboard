@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
-import { userData } from '../dto/auth';
+import { accountTypes } from '../dto';
 
 /*---> Middleware to check if the token is valid <---*/
 export const authenticateToken = (req: Request, res: Response, next: NextFunction): Response | any => {
@@ -12,14 +12,14 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         if (error) {
             return res.status(403).json({ message: "Invalid token" });
         }
-        req.data = data as userData
+        req.data = data as accountTypes
         next();
     })
 }
 
 /*---> Middleware to check if the user is an admin <---*/
 export const checkAdmin = (req: Request, res: Response, next: NextFunction): Response | any => {
-    const userData = req.data as userData
+    const userData = req.data as accountTypes
     if (userData?.admin) {
         next();
     }
