@@ -7,7 +7,7 @@ export const getProductRepository: functionRepository<productTypes> = async () =
     try {
         const products = await productModel.find();
         if (products.length > 0) {
-            return { data: products, message: 'Get All products' }
+            return { data: products, message: 'Get all products' }
         }
         return { data: [], message: 'You dont have any products' }
     } catch (error) {
