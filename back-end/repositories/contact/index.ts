@@ -13,3 +13,18 @@ export const addContactRepository: functionRepository<contactTypes> = async (con
         return { data: [], message: "Error add conatct!" }
     }
 }
+
+/*---> Remove contact repository <---*/
+export const removeContactRepository: functionRepository<contactTypes> = async (contact) => {
+    const { id } = contact as contactTypes;
+    try {
+        const findContact = await contactModel.deleteOne({ _id: id });
+        if (findContact.deletedCount === 1) {
+            return { data: findContact.deletedCount, message: 'Contact deleted successfully!' }
+        }
+        return { data: null, message: 'Contact not found!' };
+    } catch (error) {
+        console.error('Error deleting contact:', error);
+        return { data: null, message: 'Error deleting the contact.' };
+    }
+}
