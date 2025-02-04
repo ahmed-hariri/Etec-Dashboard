@@ -1,5 +1,19 @@
-import { contactTypes, functionRepository } from './../../dto/index';
+import { functionRepository, contactTypes } from './../../dto/index';
 import contactModel from "../../models/contact";
+
+/*---> Get all contacts repository <---*/
+export const getContactRepository: functionRepository<contactTypes> = async () => {
+    try {
+        const contacts = await contactModel.find()
+        if (contacts.length > 0) {
+            return { data: contacts, message: 'Get all contacts' }
+        }
+        return { data: [], message: 'You dont have any contacts' }
+    } catch (error) {
+        console.error("Error get contacts:", error);
+        return { data: [], message: "Error get contacts!" }
+    }
+}
 
 /*---> Add newContact repository <---*/
 export const addContactRepository: functionRepository<contactTypes> = async (contact) => {
