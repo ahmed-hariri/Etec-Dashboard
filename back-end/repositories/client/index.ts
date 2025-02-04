@@ -13,3 +13,17 @@ export const getClientRepository = async () => {
         return { data: [], message: "Error get clients!" }
     }
 }
+
+/*---> Get all clients subscribe repository <---*/
+export const getClientsSubscribeRepository = async () => {
+    try {
+        const clientsSubscribe = await accountModel.find({ subscribe: true });
+        if (clientsSubscribe.length > 0) {
+            return { data: clientsSubscribe, message: "Gel all clients subscribe!" }
+        }
+        return { data: [], message: "You don't have clients subscribe" }
+    } catch (error) {
+        console.error("Error get clients subscribe:", error);
+        return { data: [], message: "Error get clients subscribe!" }
+    }
+}

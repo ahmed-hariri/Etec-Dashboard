@@ -5,7 +5,7 @@ import productModel from "../../models/product";
 /*---> Get all products repository <---*/
 export const getProductRepository: functionRepository<productTypes> = async () => {
     try {
-        const products = await productModel.find();
+        const products = await productModel.find().populate("categoryId");
         if (products.length > 0) {
             return { data: products, message: 'Get all products' }
         }
