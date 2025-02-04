@@ -3,10 +3,9 @@ const { Schema } = mongoose;
 
 /*---> Define data structure <---*/
 const order = new Schema({
-    id: { type: String, required: true, unique: true },
-    userId: { type: String, required: true },
+    userId: { type: String, required: true, ref: "user" },
     products: [{
-        productId: { type: String, required: true },
+        productId: { type: String, required: true , ref : "product"},
         quantity: { type: Number, required: true },
     }],
     status: {

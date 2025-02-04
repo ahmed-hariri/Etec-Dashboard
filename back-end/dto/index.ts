@@ -3,7 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 /*---> Structure of data <---*/
 export interface accountTypes {
-    id: string
+    id?: string
     fullName: string
     email: string
     password: string
@@ -12,7 +12,7 @@ export interface accountTypes {
     admin: boolean | null
 }
 export interface productTypes {
-    id: string
+    id?: string
     name: string
     description: string
     price: number
@@ -21,12 +21,12 @@ export interface productTypes {
 }
 
 export interface categoryTypes {
-    id: string
+    id?: string
     categoryName: string
 }
 
 export interface orderTypes {
-    id: string
+    id?: string
     userId: string
     products: [
         { productId: string, quantity: number }

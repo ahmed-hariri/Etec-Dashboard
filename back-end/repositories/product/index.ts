@@ -19,11 +19,8 @@ export const getProductRepository: functionRepository<productTypes> = async () =
 /*---> Add product repository <---*/
 export const addProductRepository: functionRepository<productTypes> = async (product) => {
     const { name, description, price, categoryId } = product as productTypes;
-    if (!name || !description || !price || !categoryId) {
-        return { data: null, message: "You don't have all information" }
-    }
     try {
-        const findCategory = await categoryModel.findOne({ id: categoryId });
+        const findCategory = await categoryModel.findOne({ _id: categoryId });
         if (!findCategory) {
             return { data: null, message: "Category not found!" }
         }
@@ -38,13 +35,11 @@ export const addProductRepository: functionRepository<productTypes> = async (pro
 
 /*---> Remove product repository <---*/
 export const removeProductRepository: functionRepository<productTypes> = async (productId) => {
-    if (!productId) {
-        return { data: null, message: 'You don\'t have a product id!' };
-    }
+    const { id } = productId as productTypes
     try {
-        const removeProduct = await productModel.deleteOne({ id: productId.id });
+        const removeProduct = await productModel.deleteOne({ _id: id });
         if (removeProduct.deletedCount === 1) {
-            return { data: productId.id, message: 'Product deleted successfully!' }
+            return { data: removeProduct.deletedCount, message: 'Product deleted successfully!' }
         }
         return { data: null, message: 'Product not found!' };
     } catch (error) {
@@ -56,15 +51,12 @@ export const removeProductRepository: functionRepository<productTypes> = async (
 /*---> Update product repository <---*/
 export const updateProductRepository: functionRepository<productTypes> = async (product) => {
     const { id, name, description, price, categoryId } = product as productTypes
-    if (!name || !description || !price || !categoryId) {
-        return { data: null, message: "You don't have all information" }
-    }
     try {
-        const findCategory = await categoryModel.findOne({ id: categoryId });
+        const findCategory = await categoryModel.findOne({ _id: categoryId });
         if (!findCategory) {
             return { data: null, message: "Category not found!" }
         }
-        const findProduct = await productModel.findOne({ id });
+        const findProduct = await productModel.findOne({ _id: id });
         if (findProduct) {
             findProduct.name = name
             findProduct.description = description

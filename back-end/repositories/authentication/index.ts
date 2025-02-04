@@ -5,19 +5,15 @@ import { accountRepository, accountTypes } from '../../dto';
 
 /*---> Function to handle user registration (SignUp) <---*/
 export const SignUpRepository: accountRepository = async (userData) => {
-    const { id, fullName, email, password, profile, subscribe, admin } = userData as accountTypes;
+    const { fullName, email, password, profile, subscribe, admin } = userData as accountTypes;
     try {
         const existingAccount = await accountModel.findOne({ email });
         if (existingAccount) {
             return { token: null, message: "Email already exists" }
         }
         /*---> Hash password for better security <---*/
-        if (!password) {
-            return { token: null, message: "Password is required" };
-        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser: accountTypes = {
-            id: id,
             fullName: fullName,
             email: email,
             profile: profile,
@@ -45,16 +41,13 @@ export const SignUpRepository: accountRepository = async (userData) => {
 /*---> Function to handle user login (SignIn) <---*/
 export const SignInRepository: accountRepository = async (userData) => {
     const { email, password } = userData as Partial<accountTypes>
-    if (!email || !password) {
-        return { token: null, message: 'You dont have all information' }
-    }
     try {
         const existingAccount = await accountModel.findOne({ email });
         if (!existingAccount) {
             return { token: null, message: 'Account not found!' }
         }
         /*---> Compare the provided password with the password in the database <---*/
-        const isPasswordValid = await bcrypt.compare(password, existingAccount.password);
+        const isPasswordValid = await bcrypt.compare(password ?? '', existingAccount.password);
         if (!isPasswordValid) {
             return { token: null, message: 'Invalid credentials!' }
         }

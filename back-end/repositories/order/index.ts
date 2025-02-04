@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { functionRepository, orderTypes, productTypes } from "../../dto";
 import orderModel from "../../models/order";
 import productModel from "../../models/product";
@@ -6,7 +7,7 @@ import accountModel from "../../models/user";
 /*---> Get all orders repository <---*/
 export const getOrdersRepository: functionRepository<orderTypes> = async () => {
     try {
-        const orders = await orderModel.find();
+        const orders = await orderModel.find().populate("userId");
         if (orders.length > 0) {
             return { data: orders, message: 'Get All orders!' }
         }
@@ -19,25 +20,26 @@ export const getOrdersRepository: functionRepository<orderTypes> = async () => {
 
 /*---> Add newOrder repository <---*/
 export const addOrderRepository: functionRepository<orderTypes> = async (order) => {
-    const { id, userId, products, status, totalPrice } = order as orderTypes;
-    if (!id || !userId || !products || products.length < 1 || !status || !totalPrice) {
-        return { data: null, message: "You dont have all information!" }
-    }
+    const { userId, products, status, totalPrice } = order as orderTypes;
     try {
-        /*---> Check if the order already exists <---*/
-        const findOrder = await orderModel.findOne({ id: id });
-        if (findOrder) {
-            return { data: null, message: "This order already exists!" }
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return { data: null, message: "Invalid userId format!" };
         }
+        const userIdObject = new mongoose.Types.ObjectId(userId);
         /*---> Check if the user exists in the database <---*/
-        const findUser = await accountModel.find({ id: userId });
+        const findUser = await accountModel.findOne({ _id: userIdObject });
         if (!findUser) {
             return { data: null, message: "User not found!" }
+        }
+        /*---> Check if the order already exists <---*/
+        const findOrder = await orderModel.findOne({ userId: userIdObject, status: status });
+        if (findOrder) {
+            return { data: null, message: "This order already exists!" }
         }
         /*---> Extract product IDs from the order <---*/
         const productIds: string[] = products.map((item) => item.productId);
         /*---> Check if the products exist in the database and store them in a variable (returns an array) <---*/
-        const findProducts = await productModel.find({ id: { $in: productIds } });
+        const findProducts = await productModel.find({ _id: { $in: productIds } });
         if (findProducts.length !== products.length) {
             return { data: null, message: "One or more products were not found!" };
         }
@@ -48,6 +50,10 @@ export const addOrderRepository: functionRepository<orderTypes> = async (order) 
         }, 0)
         if (validateTotalPrice !== totalPrice) {
             return { data: null, message: "Total price calculation is incorrect!" };
+        }
+        /*---> Check if the status exist in the table <---*/
+        if (!["Processing", "Shipped", "Delivered"].includes(status)) {
+            return { data: null, message: "This state not valide!" };
         }
         const newOrder = new orderModel(order);
         await newOrder.save();
@@ -61,18 +67,12 @@ export const addOrderRepository: functionRepository<orderTypes> = async (order) 
 /*---> Change status order repository <---*/
 export const statusOrderRepository: functionRepository<orderTypes> = async (order) => {
     const { id, status } = order as orderTypes
-    if (!id || !status) {
-        return { data: null, message: "You dont have all information!" }
-    }
-    if (!["Processing", "Shipped", "Delivered"].includes(status)) {
-        return { data: null, message: "This status not found!" }
-    }
     try {
-        const findOrder = await orderModel.findOne({ id: id });
+        const findOrder = await orderModel.findOne({ _id: id });
         if (findOrder) {
             findOrder.status = status
             await findOrder.save();
-            return { data: findOrder.id, message: "Order state changed!" }
+            return { data: findOrder._id, message: "Order state changed!" }
         }
         return { data: null, message: "Order not found!" }
     } catch (error) {

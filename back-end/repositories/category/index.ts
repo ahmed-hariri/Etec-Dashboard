@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { categoryTypes, functionRepository } from "../../dto";
 import categoryModel from "../../models/category"
 
@@ -17,10 +18,7 @@ export const getCategoryRepository: functionRepository<categoryTypes> = async ()
 
 /*---> Add newCategory repository <---*/
 export const addCategoryRepository: functionRepository<categoryTypes> = async (category) => {
-    const { id, categoryName } = category as categoryTypes;
-    if (!id || !categoryName) {
-        return { data: null, message: "You don't have all information" }
-    }
+    const { categoryName } = category as categoryTypes;
     try {
         const findCategory = await categoryModel.findOne({ categoryName });
         if (findCategory) {
@@ -28,7 +26,7 @@ export const addCategoryRepository: functionRepository<categoryTypes> = async (c
         }
         const newCategory = new categoryModel(category);
         await newCategory.save();
-        return { data: newCategory.id, message: "Category has been created!" }
+        return { data: newCategory._id, message: "Category has been created!" }
     } catch (error) {
         console.error("Error creating product:", error);
         return { data: null, message: "Error creating category!" }
@@ -38,15 +36,16 @@ export const addCategoryRepository: functionRepository<categoryTypes> = async (c
 /*---> Update category repository <---*/
 export const updateCategoryRepository: functionRepository<categoryTypes> = async (newCategory) => {
     const { id, categoryName } = newCategory as categoryTypes;
-    if (!id || !categoryName) {
-        return { data: null, message: "You don't have all information" }
-    }
     try {
-        const findCategory = await categoryModel.findOne({ id });
+        if (!mongoose.Types.ObjectId.isValid(id ?? '')) {
+            return { data: null, message: "Invalid categoryId format!" };
+        }
+        const categoryIdObject = new mongoose.Types.ObjectId(id);
+        const findCategory = await categoryModel.findOne({ _id: categoryIdObject });
         if (findCategory) {
             findCategory.categoryName = categoryName;
             await findCategory.save();
-            return { data: findCategory.id, message: 'Category Update!' }
+            return { data: findCategory._id, message: 'Category Update!' }
         }
         return { data: null, message: "Category not found!" }
     } catch (error) {
@@ -57,13 +56,15 @@ export const updateCategoryRepository: functionRepository<categoryTypes> = async
 
 /*---> Remove category repository <---*/
 export const removeCategoryRepository: functionRepository<categoryTypes> = async (categoryId) => {
-    if (!categoryId) {
-        return { data: null, message: "You don't have all information" }
-    }
+    const { id } = categoryId as categoryTypes
     try {
-        const findCategory = await categoryModel.deleteOne({ id: categoryId.id });
+        if (!mongoose.Types.ObjectId.isValid(id ?? '')) {
+            return { data: null, message: "Invalid categoryId format!" };
+        }
+        const categoryIdObject = new mongoose.Types.ObjectId(id);
+        const findCategory = await categoryModel.deleteOne({ _id: categoryIdObject });
         if (findCategory.deletedCount === 1) {
-            return { data: categoryId.id, message: 'Category deleted successfully!' }
+            return { data: findCategory.deletedCount, message: 'Category deleted successfully!' }
         }
         return { data: null, message: "Category not found!" }
     } catch (error) {

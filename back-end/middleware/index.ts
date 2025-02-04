@@ -3,8 +3,8 @@ import { NextFunction, Request, Response } from "express";
 import { accountTypes } from '../dto';
 
 /*---> Middleware to check if the token is valid <---*/
-export const authenticateToken = (req: Request, res: Response, next: NextFunction): Response | any => {
-    const token: string | undefined = req.headers['authorization']?.split(" ")[1];
+export const authenticateToken = (req: Request, res: Response, next: NextFunction):any => {
+    const token = req.headers['authorization']?.split(" ")[1];
     if (!token) {
         return res.status(401).json({ message: "Token not provided!" });
     }
@@ -18,7 +18,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 }
 
 /*---> Middleware to check if the user is an admin <---*/
-export const checkAdmin = (req: Request, res: Response, next: NextFunction): Response | any => {
+export const checkAdmin = (req: Request, res: Response, next: NextFunction):any => {
     const userData = req.data as accountTypes
     if (userData?.admin) {
         next();

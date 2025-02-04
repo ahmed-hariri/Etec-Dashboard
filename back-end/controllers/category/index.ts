@@ -16,12 +16,12 @@ export const getCategoryController: functionControllers = async (req, res, next)
 
 /*---> Add newCategory controller <---*/
 export const addCategoryController: functionControllers = async (req, res, next) => {
-    const { id, categoryName } = req.body as categoryTypes;
-    if (!id || !categoryName) {
-        return { message: "You don't have all information" }
+    const { categoryName } = req.body as categoryTypes;
+    if (!categoryName) {
+        return res.status(400).type("json").json({ message: `You dont have : ${!categoryName ? "categoryName" : ''}` });
     }
     try {
-        const newCategory: categoryTypes = { id, categoryName }
+        const newCategory: categoryTypes = { categoryName }
         const { data, message } = await addCategoryRepository(newCategory);
         if (data) {
             return res.status(201).type("json").json({ data, message });
@@ -37,7 +37,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
     const { id } = req.params
     const { categoryName } = req.body as categoryTypes
     if (!id || !categoryName) {
-        return { message: "You don't have all information" }
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "id" : ''}${!categoryName ? "categoryName" : ''}` });
     }
     try {
         const newCategory: categoryTypes = { id, categoryName }
@@ -55,7 +55,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
 export const removeCategoryController: functionControllers = async (req, res, next) => {
     const { id } = req.params
     if (!id) {
-        return { message: "You don't have all information" }
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "id" : ''}` });
     }
     try {
         const newCategory: Partial<categoryTypes> = { id }

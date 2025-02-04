@@ -12,6 +12,7 @@ import { clientRoutes } from './routes/client';
 const app: express.Application = express();
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
 /*---> Mounting the authentication routes on the "/auth" path <---*/
 app.use("/auth", authRoutes);
@@ -22,14 +23,13 @@ app.use("/api", categoryRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", clientRoutes);
 
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error, req: Request, res: Response) => {
     console.error(error.stack); // Display the error in the console
     res.status(500).json({
         message: 'An error occurred on the server!',
         error: error.message
     })
 })
-dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL ?? '')
     .then(() => {
