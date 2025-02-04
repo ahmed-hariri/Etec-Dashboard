@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { authenticateToken, checkAdmin } from "../../middleware";
-import { getClientsController, getClientsSubscribeController } from "../../controllers/client";
+import { clientSubscribeController, getClientsController, getClientsSubscribeController } from "../../controllers/client";
 
 /*---> Define client routes <---*/
 export const clientRoutes: Router = Router();
 
 clientRoutes.get("/client", authenticateToken, checkAdmin, getClientsController)
-clientRoutes.get("/subscribers", authenticateToken, checkAdmin, getClientsSubscribeController)
+clientRoutes.get("/subscriber", authenticateToken, checkAdmin, getClientsSubscribeController)
+clientRoutes.post("/subscriber", clientSubscribeController)
