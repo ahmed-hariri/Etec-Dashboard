@@ -25,6 +25,13 @@ export interface categoryTypes {
     categoryName: string
 }
 
+export interface contactTypes {
+    id? : string
+    name : string
+    email : string
+    description : string
+} 
+
 export interface orderTypes {
     id?: string
     userId: string
