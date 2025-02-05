@@ -1,4 +1,6 @@
 import { accountTypes, functionRepository } from "../../dto";
+import orderModel from "../../models/order";
+import purchesedModel from "../../models/purchesed";
 import accountModel from "../../models/user"
 
 /*---> Get all clients repository <---*/
@@ -43,5 +45,25 @@ export const clientSubscribeRepository: functionRepository<accountTypes> = async
     } catch (error) {
         console.error("Error client subscribe:", error);
         return { data: [], message: "Error client subscribe!" }
+    }
+}
+
+/*---> Get all client information repository <---*/
+export const clientInformationRepository: functionRepository<accountTypes> = async (clientId) => {
+    const { id } = clientId as accountTypes;
+    try {
+        const findUser = await accountModel.findOne({ _id: id })
+        if (!findUser) {
+            return { data: null, message: "Client not found" }
+        }
+        const findOrder = await orderModel.find({ userId: id });
+        const findPurchesedProduct = await purchesedModel.find({ userId: id });
+        return {
+            data: { user: findUser, orders: findOrder, purchesed: findPurchesedProduct },
+            message: "Get all information Success!"
+        }
+    } catch (error) {
+        console.error("Error client information:", error);
+        return { data: [], message: "Error client information!" }
     }
 }

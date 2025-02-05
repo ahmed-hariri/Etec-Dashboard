@@ -53,7 +53,7 @@ export const addOrderRepository: functionRepository<orderTypes> = async (order) 
             return { data: null, message: "Total price calculation is incorrect!" };
         }
         /*---> Check if the status exist in the table <---*/
-        if (!["Processing", "Shipped", "Delivered"].includes(status)) {
+        if ("Processing" !== status) {
             return { data: null, message: "This state not valide!" };
         }
         const newOrder = new orderModel(order);

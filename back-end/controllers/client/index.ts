@@ -1,4 +1,4 @@
-import { clientSubscribeRepository } from './../../repositories/client/index';
+import { clientInformationRepository, clientSubscribeRepository } from './../../repositories/client/index';
 import { accountTypes, functionControllers } from "../../dto";
 import { getClientRepository, getClientsSubscribeRepository } from "../../repositories/client";
 
@@ -37,6 +37,24 @@ export const clientSubscribeController: functionControllers = async (req, res, n
     try {
         const client: Partial<accountTypes> = { email, subscribe }
         const { data, message } = await clientSubscribeRepository(client)
+        if (data) {
+            return res.status(200).type("json").json({ data, message });
+        }
+        return res.status(400).type("json").json({ message });
+    } catch (error) {
+        next(error)
+    }
+}
+
+/*---> Get all client information controller <---*/
+export const clientInformationController: functionControllers = async (req, res, next) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "id " : ''}` });
+    }
+    try {
+        const client: Partial<accountTypes> = { id }
+        const { data, message } = await clientInformationRepository(client)
         if (data) {
             return res.status(200).type("json").json({ data, message });
         }

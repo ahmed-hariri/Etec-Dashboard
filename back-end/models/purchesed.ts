@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const purchesed = new Schema({
     userId: { type: String, required: true, ref: "user" },
     products: [{
-        productId: { type: String, required: true },
+        productId: { type: String, required: true , ref : "product"},
         quantity: { type: Number, required: true }
     }],
     totalPrice: { type: Number, required: true }
