@@ -48,7 +48,7 @@ export const clientSubscribeController: functionControllers = async (req, res, n
 
 /*---> Get all client information controller <---*/
 export const clientInformationController: functionControllers = async (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.data;
     if (!id) {
         return res.status(400).type("json").json({ message: `You dont have : ${!id ? "id " : ''}` });
     }

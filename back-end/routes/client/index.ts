@@ -5,7 +5,7 @@ import { clientInformationController, clientSubscribeController, getClientsContr
 /*---> Define client routes <---*/
 export const clientRoutes: Router = Router();
 
-clientRoutes.get("/client", authenticateToken, checkAdmin, getClientsController)
-clientRoutes.get("/client/:id", clientInformationController)
+clientRoutes.get("/clients", authenticateToken, checkAdmin, getClientsController)
+clientRoutes.get("/client", authenticateToken, clientInformationController)
 clientRoutes.get("/subscriber", authenticateToken, checkAdmin, getClientsSubscribeController)
 clientRoutes.post("/subscriber", clientSubscribeController)

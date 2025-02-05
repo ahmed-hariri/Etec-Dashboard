@@ -53,7 +53,7 @@ declare global {
         // Adding a `data` property to the `Request` interface
         interface Request {
             // `data` can be a string, a decoded JWT payload, or undefined
-            data?: string | JwtPayload | undefined;
+            data?: any;
         }
     }
 }
