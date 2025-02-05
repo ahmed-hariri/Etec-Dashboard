@@ -9,6 +9,7 @@ import { categoryRoutes } from './routes/category/index';
 import { orderRoutes } from './routes/order';
 import { clientRoutes } from './routes/client';
 import { contactRoute } from './routes/contact';
+import { purchesedRoutes } from './routes/purchesed';
 
 const app: express.Application = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use("/api", categoryRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", clientRoutes);
 app.use("/api", contactRoute);
+app.use("/api", purchesedRoutes);
 
 app.use((error: Error, req: Request, res: Response) => {
     console.error(error.stack); // Display the error in the console

@@ -3,6 +3,7 @@ import { functionRepository, orderTypes, productTypes } from "../../dto";
 import orderModel from "../../models/order";
 import productModel from "../../models/product";
 import accountModel from "../../models/user";
+import purchesedModel from "../../models/purchesed";
 
 /*---> Get all orders repository <---*/
 export const getOrdersRepository: functionRepository<orderTypes> = async () => {
@@ -71,6 +72,12 @@ export const statusOrderRepository: functionRepository<orderTypes> = async (orde
         const findOrder = await orderModel.findOne({ _id: id });
         if (findOrder) {
             findOrder.status = status
+            if (findOrder?.status === 'Delivered') {
+                const orderData = findOrder.toObject();
+                await new purchesedModel(orderData).save();
+                await orderModel.deleteOne({ _id: id });
+                return { data: findOrder._id, message: "Order delivered and moved to purchased products!" };
+            }
             await findOrder.save();
             return { data: findOrder._id, message: "Order state changed!" }
         }
