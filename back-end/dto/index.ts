@@ -26,11 +26,11 @@ export interface categoryTypes {
 }
 
 export interface contactTypes {
-    id? : string
-    name : string
-    email : string
-    description : string
-} 
+    id?: string
+    name: string
+    email: string
+    description: string
+}
 
 export interface orderTypes {
     id?: string
@@ -43,7 +43,7 @@ export interface orderTypes {
 }
 
 /*---> Type for function <---*/
-export type accountRepository = (userData: Partial<accountTypes>) => Promise<{ token: string | null, message: string }>
+export type accountRepository = (userData: Partial<accountTypes>) => Promise<{ token: string | null, data?: any, message: string }>
 export type functionRepository<T> = (parameter?: Partial<T>) => Promise<{ data: any, message: string }>
 export type functionControllers = (req: Request, res: Response, next: NextFunction) => Promise<any>
 

@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import "../styles/index.css";
 
 export const metadata: Metadata = {
-  title: "Etec || E-commerce",
+  title: {
+    template : "%s || E-commerce",
+    default : "Etec || E-commerce"
+  },
   description: "E-commerce web site",
 };
 
