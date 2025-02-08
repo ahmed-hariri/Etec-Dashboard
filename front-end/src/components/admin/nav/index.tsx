@@ -13,11 +13,10 @@ import { RiContactsFill } from "react-icons/ri";
 import { useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { useRouter } from "next/navigation";
-import { MdKeyboardReturn } from "react-icons/md";
 import { GrMenu } from "react-icons/gr";
 
 export default function Navbar() {
-    const [links, setLinks] = useState<{ href: string, context: string, icon: React.ElementType }[]>([
+    const [links] = useState<{ href: string, context: string, icon: React.ElementType }[]>([
         { href: "/", context: "Dashboard", icon: MdOutlineDashboard },
         { href: "products", context: "Products", icon: MdOutlineProductionQuantityLimits },
         { href: "categories", context: "Categories", icon: PiTreeStructureBold },

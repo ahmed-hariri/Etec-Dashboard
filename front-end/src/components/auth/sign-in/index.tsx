@@ -84,7 +84,7 @@ export default function SignInComponents() {
                     <Loader2 className={`animate-spin ${loading ? "flex" : "hidden"}`} />
                 </Button>
                 <div className="flex items-start gap-[5.8px] text-sm">
-                    <h1 className="text-gray-700">Don't have an account?</h1>
+                    <h1 className="text-gray-700">Dont have an account?</h1>
                     <Link href="/auth/sign-up" className="font-[600] underline">Sign Up</Link>
                 </div>
             </div>
