@@ -20,7 +20,6 @@ export default function SignInComponents() {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useRouter();
 
-
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
@@ -42,18 +41,14 @@ export default function SignInComponents() {
         try {
             const response = await accountSignIn(account);
             if (response?.message === "Login successful!") {
-                Cookies.set("Token", response?.token);
+                Cookies.set("Token", response?.token, { expires: 7 });
                 toast.success(response?.message)
+                navigate.push("/admin")
                 setAccount({ email: '', password: '' });
-                if (response?.data?.admin) {
-                    navigate.push("/admin/dashboard")
-                } else {
-                    navigate.push("/")
-                }
                 return
             }
             else {
-                toast.error(response?.message)
+                toast.error(response?.message ?? "Something went wrong, please try again later.")
                 return
             }
         }

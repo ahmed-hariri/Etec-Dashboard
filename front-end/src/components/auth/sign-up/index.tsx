@@ -44,15 +44,13 @@ export default function SignUpComponents() {
         try {
             const response = await accountSignUp(account);
             if (response?.message === "Account has been created!") {
-                Cookies.set("Token", response?.token);
+                Cookies.set("Token", response?.token, { expires: 7 });
                 toast.success(response?.message)
                 setAccount({ fullName: '', email: '', password: '', passwordConfirmation: '' });
                 return
             }
-            else {
-                toast.error(response?.message)
-                return
-            }
+            toast.error(response?.message ?? "Something went wrong, please try again later.")
+            return
         }
         catch (error) { console.error("Error Register:", error) }
         finally { setLoading(false) }

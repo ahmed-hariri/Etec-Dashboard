@@ -10,9 +10,10 @@ export async function middleware(req: NextRequest) {
         const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET));
         if (payload?.admin) {
             return NextResponse.next();
-        } else {
-            return NextResponse.redirect(new URL("/404", req.nextUrl));
+        } else if (req.nextUrl.pathname === "/admin" && !payload.admin) {
+            return NextResponse.redirect(new URL("/account", req.nextUrl));
         }
+        return NextResponse.redirect(new URL("/404", req.nextUrl));
     } catch (error) {
         console.log(error);
         return NextResponse.redirect(new URL("/", req.nextUrl));
