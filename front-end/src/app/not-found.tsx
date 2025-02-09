@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/chadcn/ui/button"
 import { redirect } from "next/navigation"
 
 export default function NotFound() {

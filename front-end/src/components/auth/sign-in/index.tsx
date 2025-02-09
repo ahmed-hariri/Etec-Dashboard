@@ -1,9 +1,9 @@
 'use client'
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/chadcn/ui/input"
+import { Label } from "@/components/chadcn/ui/label"
+import { Button } from "@/components/chadcn/ui/button"
+import { Checkbox } from "@/components/chadcn/ui/checkbox"
 import { useState } from "react"
 import Link from "next/link"
 import { accountTypes } from "@/types"
