@@ -12,6 +12,7 @@ import { accountSignIn } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Cookies from 'js-cookie';
+import { jwtVerify } from "jose"
 
 export default function SignInComponents() {
     /*---> States <---*/
@@ -43,7 +44,12 @@ export default function SignInComponents() {
             if (response?.message === "Login successful!") {
                 Cookies.set("Token", response?.token, { expires: 7 });
                 toast.success(response?.message)
-                navigate.push("/admin")
+                const { payload } = await jwtVerify(response?.token, new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET));
+                if (payload?.admin) {
+                    navigate.push("/admin");
+                } else {
+                    navigate.push("/");
+                }
                 setAccount({ email: '', password: '' });
                 return
             }

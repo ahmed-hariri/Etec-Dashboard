@@ -11,12 +11,14 @@ import { accountTypes } from "@/types"
 import { accountSignUp } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation"
 
 export default function SignUpComponents() {
     /*---> States <---*/
     const [account, setAccount] = useState<accountTypes>({ fullName: '', email: '', password: '', passwordConfirmation: '', profile: null, subsribe: false });
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
+     const navigate = useRouter();
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -46,6 +48,7 @@ export default function SignUpComponents() {
             if (response?.message === "Account has been created!") {
                 Cookies.set("Token", response?.token, { expires: 7 });
                 toast.success(response?.message)
+                navigate.push("/admin")
                 setAccount({ fullName: '', email: '', password: '', passwordConfirmation: '' });
                 return
             }
