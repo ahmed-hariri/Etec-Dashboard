@@ -28,21 +28,21 @@ export default function Navbar() {
     const [showAllContent, setShowAllContent] = useState<boolean>(false)
     const navigate = useRouter();
 
-    const Toggle = () => setShowAllContent((prevState) => !prevState)
-    const logOut = () => { Cookies.remove("Token"); navigate.push("/") }
+    const toggle = () => setShowAllContent((prevState) => !prevState)
+    const logOut = () => { Cookies.remove("token"); navigate.push("/") }
 
     return <>
-        <div className="w-full lg:w-auto h-screen flex fixed sm:absolute lg:relative">
+        <div className="w-full lg:w-auto flex fixed sm:absolute lg:relative">
             <div className="w-full h-full relative flex justify-center lg:justify-start">
-                <div className="w-auto flex lg:hidden justify-between items-center px-[18px] py-[13px] mb-7 text-[25px] shadow-[#00000050] shadow-md text-black rounded-full bg-white gap-5 bottom-0 absolute z-50">
+                <div className="w-auto flex lg:hidden absolute justify-between items-center px-[18px] py-[13px] bottom-0 mb-7 text-[25px] shadow-[#00000050] shadow-md text-black rounded-full bg-white gap-5 z-50">
                     <button onClick={logOut}>
                         <CiLogout />
                     </button>
-                    <button onClick={Toggle}>
+                    <button onClick={toggle}>
                         <GrMenu />
                     </button>
                 </div>
-                <div className={`w-full py-8 px-[37px] lg:p-6 lg:pl-[35px] lg:pr-[120px] bg-white ${showAllContent ? "flex" : "hidden lg:flex"} flex-col justify-between border-r border-gray-200`}>
+                <div className={`w-full h-screen lg:h-auto py-8 px-[37px] lg:p-6 lg:pl-[35px] lg:pr-[120px] bg-white ${showAllContent ? "flex" : "hidden lg:flex"} flex-col justify-between border-r border-gray-200`}>
                     <div className="flex flex-col gap-3">
                         <h1 className="text-2xl lg:text-[22px] font-[700]">Navigation</h1>
                         <ul className="flex flex-col gap-3 font-[600]">
@@ -54,7 +54,7 @@ export default function Navbar() {
                             ))}
                         </ul>
                     </div>
-                    <div className='lg:flex hidden'>
+                    <div className='lg:flex hidden fixed bottom-0 mb-8'>
                         <button className='p-[11px] text-[25px] rounded-full shadow-[#00000050] shadow-md text-black' onClick={logOut}>
                             <CiLogout />
                         </button>
