@@ -17,7 +17,7 @@ import { GrMenu } from "react-icons/gr";
 
 export default function Navbar() {
     const [links] = useState<{ href: string, context: string, icon: React.ElementType }[]>([
-        { href: "/", context: "Dashboard", icon: MdOutlineDashboard },
+        { href: "dashboard", context: "Dashboard", icon: MdOutlineDashboard },
         { href: "products", context: "Products", icon: MdOutlineProductionQuantityLimits },
         { href: "categories", context: "Categories", icon: PiTreeStructureBold },
         { href: "purchased", context: "Purchased", icon: BiSolidPurchaseTag },
@@ -49,7 +49,7 @@ export default function Navbar() {
                             {links && links?.map((link, index) => (
                                 <li key={index} className="flex items-center gap-[4px] lg:gap-[5px]">
                                     <link.icon />
-                                    <Link href={`${link.href}`} className="text-lg lg:text-base">{link.context}</Link>
+                                    <Link href={`/admin/${link.href}`} className="text-lg lg:text-base">{link.context}</Link>
                                 </li>
                             ))}
                         </ul>

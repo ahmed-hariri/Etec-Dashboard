@@ -19,3 +19,15 @@ export interface ordersTypes {
     totalPrice: number
     createdAt: string
 }
+
+export interface productsTypes {
+    _id: string
+    name: string
+    description: string
+    price: number
+    picture: string
+    categoryId: {
+        _id: string
+        categoryName: string
+    }
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../../styles/index.css";
+import "@/styles/index.css";
 import Navbar from "@/components/admin/nav";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
