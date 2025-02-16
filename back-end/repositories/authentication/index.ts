@@ -25,7 +25,7 @@ export const SignUpRepository: accountRepository = async (userData) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token = jwt.sign(newUser, process.env.JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign(newUser, process.env.JWT_SECRET);
         if (token) {
             const newAccount = new accountModel(newUser);
             await newAccount.save();
@@ -60,7 +60,7 @@ export const SignInRepository: accountRepository = async (userData) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token = jwt.sign(oldUser, process.env.JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign(oldUser, process.env.JWT_SECRET);
         if (token) {
             return { token: token, message: 'Login successful!' }
         }

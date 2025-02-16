@@ -94,7 +94,7 @@ export default function SignInComponents() {
                     <Link href="/auth/sign-up" className="font-[600] underline">Sign Up</Link>
                 </div>
             </div>
-            <div className='w-full flex justify-center bottom-0 absolute bg-yellow-600'>
+            <div className='w-full flex justify-center bottom-0 absolute'>
                 <Toaster position="bottom-right" expand={true} />
             </div>
         </section>

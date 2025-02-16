@@ -21,13 +21,25 @@ export interface ordersTypes {
 }
 
 export interface productsTypes {
-    _id: string
+    _id?: string
     name: string
     description: string
     price: number
     picture: string
     categoryId: {
-        _id: string
+        _id?: string
         categoryName: string
     }
+}
+
+export interface CategorysTypes {
+    _id: string,
+    categoryName: string
+}
+
+export interface inputsTypes {
+    type: string,
+    inputName: string,
+    inputLabel: string,
+    placeHolder: string
 }
