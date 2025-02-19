@@ -8,17 +8,18 @@ import { GrDeliver } from "react-icons/gr";
 import { FaStore } from "react-icons/fa";
 import { Component } from "@/components/chadcn/chart";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
-import { ordersTypes } from "@/types";
+import { cardsTypes, chartTypes, ordersTypes } from "@/types";
 import TableAdmin from "../table";
 
 export default function DashboardComponents() {
-    const [cards] = useState<{ title: string, number: number, icon: React.ElementType }[]>([
+    /*---> States <---*/
+    const [cards] = useState<cardsTypes[]>([
         { title: "Orders", number: 12, icon: PiPackageBold },
         { title: "Progress", number: 8, icon: GrDeliver },
         { title: "Delivered", number: 45, icon: FaStore },
         { title: "Clients", number: 2, icon: FaUsersLine }
     ])
-    const chartData: { month: string, order: number }[] = [
+    const chartData: chartTypes[] = [
         { month: "January", order: 100 },
         { month: "February", order: 305 },
         { month: "March", order: 237 },
@@ -30,7 +31,8 @@ export default function DashboardComponents() {
         { _id: "0", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "0", quantity: 5 }], status: 'Processing', createdAt: '2025-10-30', totalPrice: 23 },
         { _id: "1", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "1", quantity: 5 }], status: 'Processing', createdAt: '2025-04-03', totalPrice: 45 },
         { _id: "2", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "2", quantity: 5 }], status: 'Shipped', createdAt: '2025-01-28', totalPrice: 203 }
-    ])
+    ]);
+
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">

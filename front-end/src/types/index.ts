@@ -31,15 +31,29 @@ export interface productsTypes {
         categoryName: string
     }
 }
-
-export interface CategorysTypes {
-    _id: string,
+export interface categorieTypes {
+    _id?: string
     categoryName: string
 }
-
 export interface inputsTypes {
-    type: string,
-    inputName: string,
-    inputLabel: string,
+    type: string
+    inputName: string
+    inputLabel: string
     placeHolder: string
+}
+export interface linksTypes {
+    href: string
+    context: string
+    icon: React.ElementType
+}
+
+export interface cardsTypes {
+    title: string
+    number: number
+    icon: React.ElementType
+}
+
+export interface chartTypes {
+    month: string
+    order: number 
 }

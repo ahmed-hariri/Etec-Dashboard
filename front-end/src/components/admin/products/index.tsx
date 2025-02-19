@@ -3,7 +3,7 @@
 import { useState } from "react";
 import TableAdmin from "../table";
 import Title from "../title";
-import { CategorysTypes, inputsTypes, productsTypes } from "@/types";
+import { categorieTypes, inputsTypes, productsTypes } from "@/types";
 import { Input } from "@/components/chadcn/ui/input"
 import { Label } from "@/components/chadcn/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/chadcn/ui/select"
@@ -22,25 +22,25 @@ export default function ProductsComponents() {
         { type: "text", inputName: "picture", inputLabel: "Picture", placeHolder: "picture" },
         { type: "text", inputName: "description", inputLabel: "Description", placeHolder: "description" }
     ])
-    const [categorys] = useState<CategorysTypes[]>([
+    const [categorys] = useState<categorieTypes[]>([
         { _id: '0', categoryName: 'mobile' },
         { _id: '1', categoryName: 'pc' }
     ])
     const [product, setProduct] = useState<productsTypes>({ name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' } })
 
     /*---> Functions <---*/
-    const handelChanges = (e: any) => {
-        const { name, value } = e.target;
+    const handelChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e?.target;
         setProduct((prevState) => ({ ...prevState, [name]: value }));
     }
     const handelValues = () => {
         /*---> Verification <---*/
-        const validationName: boolean = product.name?.trim() !== "";
-        const validationDescription: boolean = product.description?.trim() !== "";
-        const validationPrice: boolean = product.price !== 0;
+        const validationName: boolean = product?.name?.trim() !== "";
+        const validationDescription: boolean = product?.description?.trim() !== "";
+        const validationPrice: boolean = product?.price !== 0;
         const validationCategory: boolean = product?.categoryId?.categoryName !== '';
         if (!validationName || !validationDescription || !validationPrice || !validationCategory) {
-            toast.warning("Please fill in all the fields.");
+            toast?.warning("Please fill in all the fields.");
             return
         }
     }
@@ -64,7 +64,7 @@ export default function ProductsComponents() {
                             <div key={index} className="w-full lg:w-1/2 flex flex-col gap-2">
                                 <Label htmlFor={item?.inputName} className="text-[16px]">{item?.inputLabel}</Label>
                                 {item?.inputName !== 'description' && <Input type={item?.type} id={item?.inputName} placeholder={item?.placeHolder} name={item?.inputName} onChange={handelChanges} />}
-                                {item?.inputName === 'description' && <Textarea placeholder="Type your description here." rows={4} className="resize-none" name="description" onChange={handelChanges}/>}
+                                {item?.inputName === 'description' && <Textarea placeholder="Type your description here." rows={4} className="resize-none" name="description" onChange={handelChanges} />}
                             </div>
                         ))}
                         <div className="w-full lg:w-1/2 flex flex-col justify-between gap-3 lg:gap-0">

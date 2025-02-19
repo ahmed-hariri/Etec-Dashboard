@@ -18,24 +18,24 @@ export default function SignUpComponents() {
     const [account, setAccount] = useState<accountTypes>({ fullName: '', email: '', password: '', passwordConfirmation: '', profile: null, subsribe: false });
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-     const navigate = useRouter();
+    const navigate = useRouter();
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = e.target;
+        const { name, value } = e?.target;
         setAccount((prevState) => ({ ...prevState, [name]: value }));
     }
     const handleSubmit = async () => {
         /*---> Verification <---*/
-        const validationFullName: boolean = account.fullName?.trim() !== "";
-        const validationEmail: boolean = account.email?.trim() !== "";
-        const validationPassword: boolean = account.password?.trim() !== "";
-        const validationPasswordConfirmation: boolean = account.passwordConfirmation?.trim() !== "";
+        const validationFullName: boolean = account?.fullName?.trim() !== "";
+        const validationEmail: boolean = account?.email?.trim() !== "";
+        const validationPassword: boolean = account?.password?.trim() !== "";
+        const validationPasswordConfirmation: boolean = account?.passwordConfirmation?.trim() !== "";
         if (!validationFullName || !validationEmail || !validationPassword || !validationPasswordConfirmation) {
-            toast.warning("Please fill in all the fields.");
+            toast?.warning("Please fill in all the fields.");
             return
-        } else if (account.password !== account.passwordConfirmation) {
-            toast.warning("Password and password confirmation not match.");
+        } else if (account?.password !== account?.passwordConfirmation) {
+            toast?.warning("Password and password confirmation not match.");
             return
         }
         /*---> Create newAccount <---*/
@@ -52,7 +52,7 @@ export default function SignUpComponents() {
                 setAccount({ fullName: '', email: '', password: '', passwordConfirmation: '' });
                 return
             }
-            toast.error(response?.message ?? "Something went wrong, please try again later.")
+            toast?.error(response?.message ?? "Something went wrong, please try again later.")
             return
         }
         catch (error) { console.error("Error Register:", error) }

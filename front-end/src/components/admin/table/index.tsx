@@ -54,7 +54,21 @@ export default function TableAdmin(props: { tableHead: string[], contents?: any[
                                 Modify
                             </Button>
                             <Button className="bg-red-500 px-[12px] py-[6px]">
-                               Remove
+                                Remove
+                            </Button>
+                        </TableCell>
+                    </TableRow>
+                ))}
+                {type === "categorie" && contents?.map((content) => (
+                    <TableRow key={content?._id} className="text-center">
+                        <TableCell className="font-medium">{content?._id}</TableCell>
+                        <TableCell>{content?.categoryName}</TableCell>
+                        <TableCell className="flex justify-center gap-3">
+                            <Button className="bg-green-500 px-[12px] py-[6px]">
+                                Modify
+                            </Button>
+                            <Button className="bg-red-500 px-[12px] py-[6px]">
+                                Remove
                             </Button>
                         </TableCell>
                     </TableRow>

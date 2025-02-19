@@ -14,9 +14,11 @@ import { useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { GrMenu } from "react-icons/gr";
+import { linksTypes } from "@/types";
 
 export default function Navbar() {
-    const [links] = useState<{ href: string, context: string, icon: React.ElementType }[]>([
+    /*---> States <---*/
+    const [links] = useState<linksTypes[]>([
         { href: "dashboard", context: "Dashboard", icon: MdOutlineDashboard },
         { href: "products", context: "Products", icon: MdOutlineProductionQuantityLimits },
         { href: "categories", context: "Categories", icon: PiTreeStructureBold },
@@ -25,11 +27,12 @@ export default function Navbar() {
         { href: "users", context: "Users", icon: FaUsersLine },
         { href: "contact", context: "Contact", icon: RiContactsFill }
     ]);
-    const [showAllContent, setShowAllContent] = useState<boolean>(false)
+    const [showAllContent, setShowAllContent] = useState<boolean>(false);
     const navigate = useRouter();
 
-    const toggle = () => setShowAllContent((prevState) => !prevState)
-    const logOut = () => { Cookies.remove("token"); navigate.push("/") }
+    /*---> Functions <---*/
+    const toggle = (): void => setShowAllContent((prevState) => !prevState);
+    const logOut = (): void => { Cookies.remove("token"); navigate?.push("/") }
 
     return <>
         <div className="w-full lg:w-auto flex fixed sm:absolute lg:relative">

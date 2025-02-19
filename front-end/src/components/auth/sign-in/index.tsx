@@ -23,15 +23,15 @@ export default function SignInComponents() {
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = e.target;
+        const { name, value } = e?.target;
         setAccount((prevState) => ({ ...prevState, [name]: value }));
     }
     const handleSubmit = async () => {
         /*---> Verification <---*/
-        const validationEmail: boolean = account.email?.trim() !== "";
-        const validationPassword: boolean = account.password?.trim() !== "";
+        const validationEmail: boolean = account?.email?.trim() !== "";
+        const validationPassword: boolean = account?.password?.trim() !== "";
         if (!validationEmail || !validationPassword) {
-            toast.warning("Please fill in all the fields.");
+            toast?.warning("Please fill in all the fields.");
             return
         }
         /*---> Login account <---*/
@@ -44,7 +44,7 @@ export default function SignInComponents() {
             if (response?.message === "Login successful!") {
                 Cookies.set("Token", response?.token, { expires: 7 });
                 toast.success(response?.message)
-                const { payload } = await jwtVerify(response?.token, new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET));
+                const { payload } = await jwtVerify(response?.token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
                 if (payload?.admin) {
                     navigate.push("/admin");
                 } else {
