@@ -12,9 +12,7 @@ export interface accountTypes {
 export interface ordersTypes {
     _id?: string
     userId: Partial<accountTypes>
-    products: [
-        { productId: string, quantity: number }
-    ]
+    products: { productId: string, quantity: number }[]
     status: "Processing" | "Shipped" | "Delivered"
     totalPrice: number
     createdAt: string
@@ -55,5 +53,12 @@ export interface cardsTypes {
 
 export interface chartTypes {
     month: string
-    order: number 
+    order: number
+}
+export interface contextTyes {
+    cards: cardsTypes[]
+    chartData: chartTypes[]
+    orders: ordersTypes[]
+    links: linksTypes[]
+    inputs: inputsTypes[]
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import TableAdmin from "../table";
 import Title from "../title";
 import { categorieTypes, inputsTypes, productsTypes } from "@/types";
@@ -10,23 +10,21 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Button } from "@/components/chadcn/ui/button"
 import { Textarea } from "@/components/chadcn/ui/textarea"
 import { toast, Toaster } from "sonner";
+import { shareStates } from "@/context";
 
 export default function ProductsComponents() {
     /*---> States <---*/
-    const [products] = useState<productsTypes[]>([
+    const [products, setProducts] = useState<productsTypes[]>([
         { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
     ]);
-    const [inputs] = useState<inputsTypes[]>([
-        { type: "text", inputName: "name", inputLabel: "Name", placeHolder: "name" },
-        { type: "number", inputName: "price", inputLabel: "Price", placeHolder: "price" },
-        { type: "text", inputName: "picture", inputLabel: "Picture", placeHolder: "picture" },
-        { type: "text", inputName: "description", inputLabel: "Description", placeHolder: "description" }
-    ])
-    const [categorys] = useState<categorieTypes[]>([
+    const [categorys, setCategorys] = useState<categorieTypes[]>([
         { _id: '0', categoryName: 'mobile' },
         { _id: '1', categoryName: 'pc' }
     ])
-    const [product, setProduct] = useState<productsTypes>({ name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' } })
+    const [product, setProduct] = useState<productsTypes>({
+        name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' }
+    });
+    const { inputs } = useContext(shareStates);
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -44,6 +42,7 @@ export default function ProductsComponents() {
             return
         }
     }
+
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">

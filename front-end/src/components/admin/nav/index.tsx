@@ -10,23 +10,16 @@ import { BiSolidPurchaseTag } from "react-icons/bi";
 import { GoListUnordered } from "react-icons/go";
 import { FaUsersLine } from "react-icons/fa6";
 import { RiContactsFill } from "react-icons/ri";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { GrMenu } from "react-icons/gr";
 import { linksTypes } from "@/types";
+import { shareStates } from "@/context";
 
 export default function Navbar() {
     /*---> States <---*/
-    const [links] = useState<linksTypes[]>([
-        { href: "dashboard", context: "Dashboard", icon: MdOutlineDashboard },
-        { href: "products", context: "Products", icon: MdOutlineProductionQuantityLimits },
-        { href: "categories", context: "Categories", icon: PiTreeStructureBold },
-        { href: "purchased", context: "Purchased", icon: BiSolidPurchaseTag },
-        { href: "orders", context: "Orders", icon: GoListUnordered },
-        { href: "users", context: "Users", icon: FaUsersLine },
-        { href: "contact", context: "Contact", icon: RiContactsFill }
-    ]);
+    const { links } = useContext(shareStates);
     const [showAllContent, setShowAllContent] = useState<boolean>(false);
     const navigate = useRouter();
 
