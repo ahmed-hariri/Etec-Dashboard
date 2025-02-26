@@ -29,7 +29,7 @@ export default function CategoriesComponents() {
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
-                <Title title="Products" paragraphe="Welcome back, here’s an overview of your products." />
+                <Title title="Categories" paragraphe="Welcome back, here’s an overview of your categories." />
                 <div className="w-full flex items-center gap-3">
                     {/* <!-- Inputs --> */}
                     <div className="w-full lg:w-1/2 flex flex-col gap-2">

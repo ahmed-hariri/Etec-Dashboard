@@ -23,7 +23,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function Component(props: any) {
+export function Component(props: { chartTitle: string, chartData: any[] }) {
   const { chartTitle, chartData } = props
   return (
     <Card className="w-full sm:w-1/2">

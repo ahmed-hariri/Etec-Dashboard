@@ -1,24 +1,16 @@
-"use client"
-
-import { useContext, useState } from "react";
 import Title from "../title";
-import { FaUsersLine } from "react-icons/fa6";
-import { PiPackageBold } from "react-icons/pi";
-import { GrDeliver } from "react-icons/gr";
-import { FaStore } from "react-icons/fa";
 import { Component } from "@/components/chadcn/chart";
-import { cardsTypes, chartTypes, ordersTypes } from "@/types";
+import { ordersTypes } from "@/types";
 import TableAdmin from "../table";
-import { shareStates } from "@/context";
+import { cards, chartData } from "@/data";
 
 export default function DashboardComponents() {
     /*---> States <---*/
-    const [orders, setOrders] = useState<ordersTypes[]>([
+    const orders: ordersTypes[] = [
         { _id: "0", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "0", quantity: 5 }], status: 'Processing', createdAt: '2025-10-30', totalPrice: 23 },
         { _id: "1", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "1", quantity: 5 }], status: 'Processing', createdAt: '2025-04-03', totalPrice: 45 },
         { _id: "2", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "2", quantity: 5 }], status: 'Shipped', createdAt: '2025-01-28', totalPrice: 203 }
-    ]);
-    const { cards, chartData } = useContext(shareStates);
+    ];
 
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">

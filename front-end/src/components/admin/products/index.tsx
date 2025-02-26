@@ -1,30 +1,29 @@
 "use client"
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import TableAdmin from "../table";
 import Title from "../title";
-import { categorieTypes, inputsTypes, productsTypes } from "@/types";
+import { categorieTypes, productsTypes } from "@/types";
 import { Input } from "@/components/chadcn/ui/input"
 import { Label } from "@/components/chadcn/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/chadcn/ui/select"
 import { Button } from "@/components/chadcn/ui/button"
 import { Textarea } from "@/components/chadcn/ui/textarea"
 import { toast, Toaster } from "sonner";
-import { shareStates } from "@/context";
+import { inputs } from "@/data";
 
 export default function ProductsComponents() {
     /*---> States <---*/
-    const [products, setProducts] = useState<productsTypes[]>([
+    const products: productsTypes[] = [
         { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
-    ]);
-    const [categorys, setCategorys] = useState<categorieTypes[]>([
+    ];
+    const categorys: categorieTypes[] = [
         { _id: '0', categoryName: 'mobile' },
         { _id: '1', categoryName: 'pc' }
-    ])
+    ];
     const [product, setProduct] = useState<productsTypes>({
         name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' }
     });
-    const { inputs } = useContext(shareStates);
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

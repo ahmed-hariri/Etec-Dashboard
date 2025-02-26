@@ -29,6 +29,10 @@ export interface productsTypes {
         categoryName: string
     }
 }
+
+export interface purchasedTypes extends productsTypes {
+    date: string
+}
 export interface categorieTypes {
     _id?: string
     categoryName: string

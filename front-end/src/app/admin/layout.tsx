@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "@/styles/index.css";
-import ShareProvider from "@/context";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -15,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ShareProvider>
           {children}
-        </ShareProvider>
       </body>
     </html>
   );
