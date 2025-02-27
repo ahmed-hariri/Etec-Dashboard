@@ -14,7 +14,7 @@ export default function TableAdmin(props: { tableHead: string[], contents?: any[
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {type === "dashboard" && contents?.map((content) => (
+                {type === "orders" && contents?.map((content) => (
                     <TableRow key={content?._id} className="text-center">
                         <TableCell className="font-medium">{content?._id}</TableCell>
                         <TableCell>{content?.userId?.fullName}</TableCell>
@@ -39,6 +39,14 @@ export default function TableAdmin(props: { tableHead: string[], contents?: any[
                         </TableCell>
                         <TableCell>{content?.createdAt ?? ''}</TableCell>
                         <TableCell>${content?.totalPrice}.00</TableCell>
+                        <TableCell className="flex justify-center items-center gap-2">
+                            <Button className="bg-green-500 px-[12px] py-[6px]">
+                                Shipped
+                            </Button>
+                            <Button className="bg-green-500 px-[12px] py-[6px]">
+                                Delivered
+                            </Button>
+                        </TableCell>
                     </TableRow>
                 ))}
                 {(type === "products" || type === "purchased") && contents?.map((content) => (

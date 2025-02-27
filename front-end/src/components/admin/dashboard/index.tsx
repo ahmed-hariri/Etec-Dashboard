@@ -34,9 +34,9 @@ export default function DashboardComponents() {
                 <div className="flex flex-col gap-3">
                     <h1 className="text-2xl font-[600]">Recent Orders</h1>
                     <TableAdmin
-                        tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total"]}
+                        tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
                         contents={orders}
-                        type="dashboard"
+                        type="orders"
                     />
                 </div>
             </div>

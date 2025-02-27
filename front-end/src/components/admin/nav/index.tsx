@@ -36,6 +36,9 @@ export default function Navbar() {
             case "/admin/purchased":
                 setDisplayState('purchased')
                 break;
+            case "/admin/orders":
+                setDisplayState('orders')
+                break;
             default:
                 return;
         }
