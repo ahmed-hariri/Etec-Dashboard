@@ -7,6 +7,7 @@ export interface accountTypes {
     profile?: null | string
     subsribe?: boolean
     admin?: boolean
+    description? : string
 }
 
 export interface ordersTypes {
@@ -37,6 +38,7 @@ export interface categorieTypes {
     _id?: string
     categoryName: string
 }
+
 export interface inputsTypes {
     type: string
     inputName: string

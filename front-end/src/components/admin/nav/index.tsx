@@ -41,6 +41,9 @@ export default function Navbar() {
             case "/admin/clients":
                 setDisplayState('clients')
                 break;
+            case "/admin/contacts":
+                setDisplayState('contacts')
+                break;
             default:
                 return;
         }

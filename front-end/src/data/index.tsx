@@ -36,7 +36,7 @@ export const links = [
     { href: "purchased", context: "Purchased", icon: BiSolidPurchaseTag },
     { href: "orders", context: "Orders", icon: GoListUnordered },
     { href: "clients", context: "Clients", icon: FaUsersLine },
-    { href: "contact", context: "Contact", icon: RiContactsFill }
+    { href: "contacts", context: "Contacts", icon: RiContactsFill }
 ];
 export const inputs = [
     { type: "text", inputName: "name", inputLabel: "Name", placeHolder: "name" },
