@@ -4,7 +4,7 @@ export interface accountTypes {
     email: string
     password: string
     passwordConfirmation: string
-    profile?: null
+    profile?: null | string
     subsribe?: boolean
     admin?: boolean
 }

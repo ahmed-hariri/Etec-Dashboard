@@ -1,29 +1,32 @@
 "use client"
 
 import { useState } from "react";
-import TableAdmin from "../table";
 import Title from "../title";
 import { categorieTypes, productsTypes } from "@/types";
 import { Input } from "@/components/chadcn/ui/input"
 import { Label } from "@/components/chadcn/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/chadcn/ui/select"
-import { Button } from "@/components/chadcn/ui/button"
 import { Textarea } from "@/components/chadcn/ui/textarea"
 import { toast, Toaster } from "sonner";
 import { inputs } from "@/data";
+import { Button } from "@/components/chadcn/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
+import TableMessage from "../table/message";
+
 
 export default function ProductsComponents() {
     /*---> States <---*/
     const products: productsTypes[] = [
         { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
     ];
-    const categorys: categorieTypes[] = [
-        { _id: '0', categoryName: 'mobile' },
-        { _id: '1', categoryName: 'pc' }
-    ];
     const [product, setProduct] = useState<productsTypes>({
         name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' }
     });
+    const categories: categorieTypes[] = [
+        { _id: '0', categoryName: 'mobile' },
+        { _id: '1', categoryName: 'pc' }
+    ];
+    const tableHead: string[] = ['Product ID', 'Name', 'Description', 'Price', 'Picture', 'Category', 'Action']
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -69,13 +72,13 @@ export default function ProductsComponents() {
                             {/* <!-- Options --> */}
                             <div className="w-full flex flex-col gap-2">
                                 <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                                <Select disabled={!categorys || categorys?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: { ...prevState.categoryId, categoryName: value } }))}>
+                                <Select disabled={!categories || categories?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: { ...prevState.categoryId, categoryName: value } }))}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder={categorys?.length ? "Select a Category" : "No Categories Available"} />
+                                        <SelectValue placeholder={categories?.length ? "Select a Category" : "No Categories Available"} />
                                     </SelectTrigger>
                                     <SelectContent aria-disabled>
                                         <SelectGroup>
-                                            {categorys?.map((category, index) => (
+                                            {categories?.map((category, index) => (
                                                 <SelectItem key={index} value={`${category?._id}`}>
                                                     {category?.categoryName}
                                                 </SelectItem>
@@ -94,11 +97,38 @@ export default function ProductsComponents() {
                     </div>
                 </div>
                 {/* <!-- Table Products --> */}
-                <TableAdmin
-                    tableHead={['Product ID', 'Name', 'Description', 'Price', 'Picture', 'Category', 'Action']}
-                    contents={products}
-                    type="products"
-                />
+                <Table className="rounded-lg overflow-hidden">
+                    <TableHeader className="bg-gray-100">
+                        <TableRow className="border-b border-gray-300">
+                            {tableHead && tableHead?.map((head, index) => (
+                                <TableHead key={index} className="text-center">{head}</TableHead>
+                            ))}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {products && products?.length > 0 ? (
+                            products?.map((content) => (
+                                <TableRow key={content?._id} className="text-center">
+                                    <TableCell className="font-medium">{content?._id}</TableCell>
+                                    <TableCell>{content?.name}</TableCell>
+                                    <TableCell>{content?.description}</TableCell>
+                                    <TableCell>${content?.price}.00</TableCell>
+                                    <TableCell>{content?.picture}</TableCell>
+                                    <TableCell>{content?.categoryId?.categoryName}</TableCell>
+                                    <TableCell className="flex justify-center items-center gap-3">
+                                        {['Modify', 'Remove']?.map((item, index) => (
+                                            <Button key={index} className="px-[12px] py-[6px]">
+                                                {item}
+                                            </Button>
+                                        ))}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableMessage colSpan={8} content="You dont have products!" />
+                        )}
+                    </TableBody>
+                </Table>
             </div>
         </section>
         <div className='w-full py-5 flex justify-center bottom-0 absolute'>

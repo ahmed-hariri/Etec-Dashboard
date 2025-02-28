@@ -11,9 +11,9 @@ import { RiContactsFill } from "react-icons/ri";
 import { ordersTypes } from "@/types";
 
 export const cards = [
-    { title: "Orders", number: 12, icon: PiPackageBold },
-    { title: "Progress", number: 8, icon: GrDeliver },
-    { title: "Delivered", number: 45, icon: FaStore },
+    { title: "Products", number: 8, icon: PiPackageBold },
+    { title: "Orders", number: 12, icon: GrDeliver },
+    { title: "Purchased", number: 45, icon: FaStore },
     { title: "Clients", number: 2, icon: FaUsersLine }
 ]
 export const chartData = [
@@ -35,7 +35,7 @@ export const links = [
     { href: "categories", context: "Categories", icon: PiTreeStructureBold },
     { href: "purchased", context: "Purchased", icon: BiSolidPurchaseTag },
     { href: "orders", context: "Orders", icon: GoListUnordered },
-    { href: "users", context: "Users", icon: FaUsersLine },
+    { href: "clients", context: "Clients", icon: FaUsersLine },
     { href: "contact", context: "Contact", icon: RiContactsFill }
 ];
 export const inputs = [

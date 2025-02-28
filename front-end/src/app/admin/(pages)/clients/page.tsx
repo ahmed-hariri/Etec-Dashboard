@@ -1,13 +1,13 @@
-import PurchasedComponents from "@/components/admin/purchased";
+import ClientsComponents from "@/components/admin/clients";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Purchased",
+    title: "Clients",
     description: "Access your admin panel to manage and monitor system activities efficiently.",
 };
 
-export default function Purchased() {
+export default function Clients() {
     return <>
-        <PurchasedComponents />
+        <ClientsComponents />
     </>
 }

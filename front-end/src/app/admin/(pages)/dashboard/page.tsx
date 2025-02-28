@@ -6,7 +6,6 @@ export const metadata: Metadata = {
     description: "Access your admin panel to manage and monitor system activities efficiently.",
 };
 
-
 export default function Dashboard() {
     return <>
         <DashboardComponents />

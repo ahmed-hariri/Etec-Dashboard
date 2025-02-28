@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Cookies from 'js-cookie';
-
 import { useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { usePathname, useRouter } from "next/navigation";
@@ -38,6 +37,9 @@ export default function Navbar() {
                 break;
             case "/admin/orders":
                 setDisplayState('orders')
+                break;
+            case "/admin/clients":
+                setDisplayState('clients')
                 break;
             default:
                 return;

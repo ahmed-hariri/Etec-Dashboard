@@ -1,7 +1,7 @@
-import TableAdmin from "../table";
 import Title from "../title";
 import { ordersTypes } from "@/types";
 import { Toaster } from "sonner";
+import TableOrders from "../table/orders";
 
 export default function OrdersComponents() {
     /*---> States <---*/
@@ -16,10 +16,9 @@ export default function OrdersComponents() {
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
                 <Title title="Orders" paragraphe="Welcome back, here’s an overview of your orders." />
                 {/* <!-- Table Products --> */}
-                <TableAdmin
+                <TableOrders
                     tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
-                    contents={orders}
-                    type="orders"
+                    orders={orders}
                 />
             </div>
         </section>

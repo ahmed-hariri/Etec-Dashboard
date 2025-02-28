@@ -1,8 +1,9 @@
 import Title from "../title";
 import { Component } from "@/components/chadcn/chart";
 import { ordersTypes } from "@/types";
-import TableAdmin from "../table";
 import { cards, chartData } from "@/data";
+import Link from "next/link";
+import TableOrders from "../table/orders";
 
 export default function DashboardComponents() {
     /*---> States <---*/
@@ -13,18 +14,18 @@ export default function DashboardComponents() {
     ];
 
     return <>
-        <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
+        <section className="w-full lg:w-[80%] px-8 pt-5 flex justify-center">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
                 <Title title="Dashboard" paragraphe="Welcome back, here's your order overview." />
                 <div className="w-full flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-5">
-                    {cards && cards?.map((item, index) => (
-                        <div key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
+                    {cards && cards?.map((card, index) => (
+                        <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
                             <div className="flex flex-col justify-center gap-1">
-                                <h1 className="text-gray-600 text-[15px] font-[600]">{item?.title}</h1>
-                                <h1 className="text-[25px] font-[700]">{item?.number}</h1>
+                                <h1 className="text-gray-600 text-[15px] font-[600]">{card?.title}</h1>
+                                <h1 className="text-[25px] font-[700]">{card?.number}</h1>
                             </div>
-                            <item.icon className="text-2xl text-gray-600" />
-                        </div>
+                            <card.icon className="text-2xl text-gray-600" />
+                        </Link>
                     ))}
                 </div>
                 <div className="w-full flex flex-wrap sm:flex-nowrap gap-5">
@@ -33,10 +34,9 @@ export default function DashboardComponents() {
                 </div>
                 <div className="flex flex-col gap-3">
                     <h1 className="text-2xl font-[600]">Recent Orders</h1>
-                    <TableAdmin
+                    <TableOrders
                         tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
-                        contents={orders}
-                        type="orders"
+                        orders={orders}
                     />
                 </div>
             </div>
