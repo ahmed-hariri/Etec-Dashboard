@@ -1,4 +1,4 @@
-# E-commerce MERN Stack Project
+# E-commerce MENN Stack Project
 
 ## Description
 This project is a full-stack e-commerce application built with the MENN stack (MongoDB, Express.js, Next.js, Node.js).
