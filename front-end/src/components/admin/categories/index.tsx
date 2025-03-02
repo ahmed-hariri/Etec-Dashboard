@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 export default function CategoriesComponents() {
     /*---> States <---*/
     const [categorie, setCategorie] = useState<string>('');
-    const [categories] = useState<categorieTypes[]>([{ _id: '0', categoryName: "mobile" }]);
+    const [categories] = useState<categorieTypes>({ data: [{ _id: '0', categoryName: "mobile" }] });
     const tableHead: string[] = ['Categorie ID', 'Name', 'Action'];
 
     /*---> Functions <---*/
@@ -54,7 +54,7 @@ export default function CategoriesComponents() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {categories?.map((categorie) => (
+                        {categories?.data?.map((categorie) => (
                             <TableRow key={categorie?._id} className="text-center">
                                 <TableCell className="font-medium">{categorie?._id}</TableCell>
                                 <TableCell>{categorie?.categoryName}</TableCell>

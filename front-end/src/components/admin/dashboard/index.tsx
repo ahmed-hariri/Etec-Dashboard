@@ -67,7 +67,7 @@ export default function DashboardComponents() {
     /*---> Effects <---*/
     useEffect(() => {
         Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
-            .finally(() => setLoading(false))
+            .finally(() => setTimeout(() => { setLoading(false) }, 2000))
             .catch((error) => console.error("Error fetching data:", error));
     }, [])
 

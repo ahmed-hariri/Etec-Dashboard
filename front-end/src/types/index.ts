@@ -54,8 +54,10 @@ export interface productsTypes {
 
 }
 export interface categorieTypes {
-    _id?: string
-    categoryName: string
+    data: {
+        _id?: string
+        categoryName: string
+    }[]
 }
 
 export interface contactsTypes {

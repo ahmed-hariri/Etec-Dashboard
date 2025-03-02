@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "../title";
 import { categorieTypes, productsTypes } from "@/types";
 import { Input } from "@/components/chadcn/ui/input"
@@ -12,40 +12,107 @@ import { inputs } from "@/data";
 import { Button } from "@/components/chadcn/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
 import TableMessage from "../table/message";
+import { createNewProduct, fetchAllProducts, removeProduct, updateProduct } from "@/api/product";
+import { fetchAllCategories } from "@/api/category";
 
 
 export default function ProductsComponents() {
     /*---> States <---*/
-    const products: productsTypes = {
-        data: [
-            { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
-        ]
-    }
-    const [product, setProduct] = useState<{ name: string, description: string, price: number, picture: string, categoryId: { categoryName: string } }>({
-        name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' }
-    });
-    const categories: categorieTypes[] = [
-        { _id: '0', categoryName: 'mobile' },
-        { _id: '1', categoryName: 'pc' }
-    ];
+    const [products, setProducts] = useState<productsTypes>({ data: [] })
+    const [product, setProduct] = useState<{ name: string, description: string, price: number, picture: string, categoryId: string, [key: string]: string | number; }>(
+        { name: '', description: '', price: 0, picture: '', categoryId: '' }
+    );
+    const [categories, setCategories] = useState<categorieTypes>({ data: [] });
     const tableHead: string[] = ['Product ID', 'Name', 'Description', 'Price', 'Picture', 'Category', 'Action']
+    const [loading, setLoading] = useState<boolean>(true)
+    const [popUp, setPopUp] = useState<{ modify: boolean, remove: boolean, productId: string | null }>({ modify: false, remove: false, productId: "" })
 
     /*---> Functions <---*/
     const handelChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e?.target;
-        setProduct((prevState) => ({ ...prevState, [name]: value }));
+        const updateValue = name === 'price' ? parseFloat(value) : value
+        setProduct((prevState) => ({ ...prevState, [name]: updateValue }));
     }
-    const handelValues = () => {
+    const handelValues = async () => {
         /*---> Verification <---*/
         const validationName: boolean = product?.name?.trim() !== "";
         const validationDescription: boolean = product?.description?.trim() !== "";
         const validationPrice: boolean = product?.price !== 0;
-        const validationCategory: boolean = product?.categoryId?.categoryName !== '';
+        const validationCategory: boolean = product?.categoryId?.trim() !== '';
         if (!validationName || !validationDescription || !validationPrice || !validationCategory) {
             toast?.warning("Please fill in all the fields.");
             return
         }
+        await addProduct()
     }
+    const getAllProducts = async (): Promise<void> => {
+        try {
+            const response = await fetchAllProducts();
+            setProducts(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all products : ", error)
+        }
+    }
+    const addProduct = async (): Promise<void> => {
+        try {
+            const response = await createNewProduct(product)
+            if (response?.message === 'Product has been created!') {
+                toast?.success(response?.message);
+                await getAllProducts();
+            }
+        } catch (error) {
+            console?.error("Error create newProduct : ", error)
+        }
+    }
+    const handelProduct = (id: string | null): void => {
+        const findProduct = products?.data?.find((product) => product?._id === id);
+        if (findProduct) {
+            setPopUp((prevState) => ({ ...prevState, modify: true, productId: id ?? null }))
+            setProduct({
+                name: findProduct?.name, price: findProduct?.price, picture: findProduct?.picture,
+                description: findProduct?.description, categoryId: findProduct?.categoryId?._id ?? ''
+            })
+        }
+    }
+    const modifyProduct = async (id: string | null): Promise<void> => {
+        try {
+            const response = await updateProduct(id, product);
+            if (response?.message === 'Product Update!') {
+                toast?.success(response?.message);
+                setPopUp({ modify: false, remove: false, productId: '' });
+                await getAllProducts();
+            }
+        } catch (error) {
+            console?.error("Error remove product : ", error)
+        }
+    }
+    const deleteProduct = async (id: string | null): Promise<void> => {
+        try {
+            const response = await removeProduct(id);
+            if (response?.message === 'Product deleted successfully!') {
+                toast?.success(response?.message);
+                setPopUp({ modify: false, remove: false, productId: '' });
+                await getAllProducts();
+            }
+        } catch (error) {
+            console?.error("Error remove product : ", error)
+        }
+    }
+    const getAllCategories = async (): Promise<void> => {
+        try {
+            const response = await fetchAllCategories();
+            setCategories(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all products : ", error)
+        }
+    }
+
+    /*---> Effects <---*/
+    useEffect(() => {
+        Promise?.allSettled([getAllProducts(), getAllCategories()])
+            .finally(() => setLoading(false))
+            .catch((error) => console.error("Error fetching data:", error));
+    }, [])
 
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
@@ -74,13 +141,17 @@ export default function ProductsComponents() {
                             {/* <!-- Options --> */}
                             <div className="w-full flex flex-col gap-2">
                                 <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                                <Select disabled={!categories || categories?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: { ...prevState.categoryId, categoryName: value } }))}>
+                                <Select disabled={loading || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder={categories?.length ? "Select a Category" : "No Categories Available"} />
+                                        {loading ? (
+                                            <SelectValue placeholder="Loading Categories..." />
+                                        ) : (
+                                            <SelectValue placeholder={categories?.data?.length ? "Select a Category" : "No Categories Available"} />
+                                        )}
                                     </SelectTrigger>
                                     <SelectContent aria-disabled>
                                         <SelectGroup>
-                                            {categories?.map((category, index) => (
+                                            {categories?.data?.map((category, index) => (
                                                 <SelectItem key={index} value={`${category?._id}`}>
                                                     {category?.categoryName}
                                                 </SelectItem>
@@ -99,42 +170,143 @@ export default function ProductsComponents() {
                     </div>
                 </div>
                 {/* <!-- Table Products --> */}
-                <Table className="rounded-lg overflow-hidden">
-                    <TableHeader className="bg-gray-100">
-                        <TableRow className="border-b border-gray-300">
-                            {tableHead && tableHead?.map((head, index) => (
-                                <TableHead key={index} className="text-center">{head}</TableHead>
-                            ))}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {products && products?.data?.length > 0 ? (
-                            products?.data?.map((content) => (
-                                <TableRow key={content?._id} className="text-center">
-                                    <TableCell className="font-medium">{content?._id}</TableCell>
-                                    <TableCell>{content?.name}</TableCell>
-                                    <TableCell>{content?.description}</TableCell>
-                                    <TableCell>${content?.price}.00</TableCell>
-                                    <TableCell>{content?.picture}</TableCell>
-                                    <TableCell>{content?.categoryId?.categoryName}</TableCell>
-                                    <TableCell className="flex justify-center items-center gap-3">
-                                        {['Modify', 'Remove']?.map((item, index) => (
-                                            <Button key={index} className="px-[12px] py-[6px]">
-                                                {item}
-                                            </Button>
-                                        ))}
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableMessage colSpan={8} content="You dont have products!" />
-                        )}
-                    </TableBody>
-                </Table>
+                {loading ? (
+                    <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
+                ) : (
+                    <Table className="rounded-lg overflow-hidden">
+                        <TableHeader className="bg-gray-100">
+                            <TableRow className="border-b border-gray-300">
+                                {tableHead && tableHead?.map((head, index) => (
+                                    <TableHead key={index} className="text-center">{head}</TableHead>
+                                ))}
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {products && products?.data?.length > 0 ? (
+                                products?.data?.map((content) => (
+                                    <TableRow key={content?._id} className="text-center">
+                                        <TableCell className="font-medium">{content?._id}</TableCell>
+                                        <TableCell>{content?.name}</TableCell>
+                                        <TableCell>{content?.description}</TableCell>
+                                        <TableCell>${content?.price}.00</TableCell>
+                                        <TableCell>{content?.picture}</TableCell>
+                                        <TableCell>{content?.categoryId?.categoryName}</TableCell>
+                                        <TableCell className="flex justify-center items-center gap-3">
+                                            {['Modify', 'Remove']?.map((item, index) => (
+                                                <Button key={index} className="px-[12px] py-[6px]" onClick={() => {
+                                                    if (item === 'Modify') {
+                                                        handelProduct(content?._id ?? null)
+                                                    } else {
+                                                        setPopUp((prevState) => ({ ...prevState, remove: true, productId: content?._id ?? null }))
+                                                    }
+                                                }}>
+                                                    {item}
+                                                </Button>
+                                            ))}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableMessage colSpan={8} content="You dont have products!" />
+                            )}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
         </section>
         <div className='w-full py-5 flex justify-center bottom-0 absolute'>
             <Toaster position="bottom-right" expand={true} />
         </div>
+        {popUp?.remove && (
+            <div className="w-full h-screen backdrop-blur-sm absolute flex justify-center items-center">
+                <div className="p-4 rounded-lg bg-black flex flex-col gap-5 text-white shadow-lg">
+                    <h1 className="text-lg font-[600]">You want remove this products!</h1>
+                    <div className="ml-40 flex gap-3">
+                        {[
+                            { name: 'Remove', style: 'text-[17px] bg-red-500 text-white' },
+                            { name: 'Cancel', style: 'text-[17px] bg-white text-black hover:text-white' }
+                        ]?.map((item, index) => (
+                            <Button key={index} className={`${item?.style}`} onClick={() => {
+                                if (item?.name === 'Cancel') {
+                                    setPopUp((prevState) => ({ ...prevState, remove: false, productId: null }))
+                                } else {
+                                    deleteProduct(popUp?.productId ?? null)
+                                }
+                            }}>
+                                {item?.name}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )}
+        {popUp?.modify && (
+            <div className="w-full h-screen backdrop-blur-sm absolute flex justify-center items-center px-5 lg:px-0 z-50">
+                <div className="w-full lg:max-w-[700px]">
+                    <div className="w-full p-5 rounded-lg bg-black flex flex-col gap-5 text-white shadow-lg">
+                        <h1 className="text-lg font-[600]">You want update this products!</h1>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex flex-col lg:flex-row gap-3">
+                                {/* <!-- Inputs --> */}
+                                {inputs && inputs?.slice(0, 3)?.map((item, index) => (
+                                    <div key={index} className="w-full lg:w-1/3 flex flex-col gap-2">
+                                        <Label htmlFor={item?.inputName} className="text-[16px]">{item?.inputLabel}</Label>
+                                        <Input type={item?.type} id={item?.inputName} placeholder={item?.placeHolder} name={item?.inputName} onChange={handelChanges} value={product?.[item?.inputName]} />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex flex-col lg:flex-row gap-3">
+                                {/* <!-- Inputs --> */}
+                                {inputs && inputs?.slice(3, 6)?.map((item, index) => (
+                                    <div key={index} className="w-full lg:w-1/2 flex flex-col gap-2">
+                                        <Label htmlFor={item?.inputName} className="text-[16px]">{item?.inputLabel}</Label>
+                                        {item?.inputName !== 'description' && <Input type={item?.type} id={item?.inputName} placeholder={item?.placeHolder} name={item?.inputName} onChange={handelChanges} value={product?.[item?.inputName]} />}
+                                        {item?.inputName === 'description' && <Textarea placeholder="Type your description here." rows={4} className="resize-none" name="description" onChange={handelChanges} value={product?.[item?.inputName]} />}
+                                    </div>
+                                ))}
+                                <div className="w-full lg:w-1/2 flex flex-col justify-between gap-3 lg:gap-0">
+                                    {/* <!-- Options --> */}
+                                    <div className="w-full flex flex-col gap-2">
+                                        <Label htmlFor="categorys" className="text-[16px]">Category</Label>
+                                        <Select disabled={loading || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
+                                            <SelectTrigger className="w-full">
+                                                {loading ? (
+                                                    <SelectValue placeholder="Loading Categories..." />
+                                                ) : (
+                                                    <SelectValue placeholder={categories?.data?.length ? "Select a Category" : "No Categories Available"} />
+                                                )}
+                                            </SelectTrigger>
+                                            <SelectContent aria-disabled>
+                                                <SelectGroup>
+                                                    {categories?.data?.map((category, index) => (
+                                                        <SelectItem key={index} value={`${category?._id}`}>
+                                                            {category?.categoryName}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    {/* <!-- Button --> */}
+                                    <div className="w-full flex flex-col lg:flex-row justify-between gap-2">
+                                        {['Modify', 'Cancel']?.map((item, index) => (
+                                            <Button key={index} className={`w-full lg:w-1/2 py-[24px] text-[18px] bg-white ${item === "Modify" ? "bg-green-600" : "text-black"} hover:text-white`} onClick={() => {
+                                                if (item === 'Cancel') {
+                                                    setPopUp((prevState) => ({ ...prevState, modify: false, productId: null }))
+                                                } else {
+                                                    modifyProduct(popUp?.productId ?? null)
+                                                }
+                                            }}>
+                                                {item}
+                                            </Button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
     </>
 }
