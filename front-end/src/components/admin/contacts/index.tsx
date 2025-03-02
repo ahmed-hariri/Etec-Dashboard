@@ -1,5 +1,5 @@
 import Title from "../title";
-import { accountTypes } from "@/types";
+import { contactsTypes } from "@/types";
 import { Toaster } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
 import { Button } from "@/components/chadcn/ui/button"
@@ -7,11 +7,13 @@ import TableMessage from "../table/message";
 
 export default function ContactsComponents() {
     /*---> States <---*/
-    const contacts: Partial<Partial<accountTypes>[]> = [
-        { _id: '0', fullName: 'Ahmed Hariri', email: "AhmedHariri@gmail", description: '---' },
-        { _id: '1', fullName: 'Ahmed Hrr', email: "AhmedHariri90@gmail", description: '---' },
-        { _id: '2', fullName: 'Ahmed Harrr', email: "AhmedHariri123@gmail", description: '---' }
-    ];
+    const contacts: contactsTypes = {
+        data: [
+            { _id: '0', fullName: 'Ahmed Hariri', email: "AhmedHariri@gmail", description: '---' },
+            { _id: '1', fullName: 'Ahmed Hrr', email: "AhmedHariri90@gmail", description: '---' },
+            { _id: '2', fullName: 'Ahmed Harrr', email: "AhmedHariri123@gmail", description: '---' }
+        ]
+    }
     const tableHead: string[] = ['Contacts ID', 'FullName', 'Email', 'Description', 'Action']
 
     return <>
@@ -28,8 +30,8 @@ export default function ContactsComponents() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {contacts && contacts?.length > 0 ? (
-                            contacts?.map((client) => (
+                        {contacts && contacts?.data?.length > 0 ? (
+                            contacts?.data?.map((client) => (
                                 <TableRow key={client?._id} className="text-center">
                                     <TableCell className="font-medium">{client?._id}</TableCell>
                                     <TableCell>{client?.fullName}</TableCell>

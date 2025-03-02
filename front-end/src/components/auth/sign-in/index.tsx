@@ -6,7 +6,7 @@ import { Button } from "@/components/chadcn/ui/button"
 import { Checkbox } from "@/components/chadcn/ui/checkbox"
 import { useState } from "react"
 import Link from "next/link"
-import { accountTypes } from "@/types"
+import { authenticationTypes } from "@/types"
 import { Toaster, toast } from 'sonner';
 import { accountSignIn } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
@@ -16,7 +16,7 @@ import { jwtVerify } from "jose"
 
 export default function SignInComponents() {
     /*---> States <---*/
-    const [account, setAccount] = useState<Partial<accountTypes>>({ email: '', password: '' });
+    const [account, setAccount] = useState<Partial<authenticationTypes>>({ email: '', password: '' });
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useRouter();

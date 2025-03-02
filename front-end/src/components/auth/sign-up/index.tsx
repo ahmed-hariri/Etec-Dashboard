@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/chadcn/ui/checkbox"
 import { useState } from "react"
 import Link from "next/link"
 import { Toaster, toast } from 'sonner';
-import { accountTypes } from "@/types"
+import { authenticationTypes } from "@/types"
 import { accountSignUp } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import Cookies from 'js-cookie';
@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation"
 
 export default function SignUpComponents() {
     /*---> States <---*/
-    const [account, setAccount] = useState<accountTypes>({ fullName: '', email: '', password: '', passwordConfirmation: '', profile: null, subsribe: false });
+    const [account, setAccount] = useState<authenticationTypes>({ fullName: '', email: '', password: '', passwordConfirmation: '', profile: null, subsribe: false });
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useRouter();

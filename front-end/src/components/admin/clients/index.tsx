@@ -1,5 +1,4 @@
 import Title from "../title";
-import { accountTypes } from "@/types";
 import { Toaster } from "sonner";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
 import { Button } from "@/components/chadcn/ui/button"
@@ -7,11 +6,11 @@ import TableMessage from "../table/message";
 
 export default function ClientsComponents() {
     /*---> States <---*/
-    const clients: Partial<accountTypes>[] = [
+    const clients = [
         { _id: '0', fullName: 'Ahmed Hariri', email: "AhmedHariri@gmail", profile: '---', subsribe: true },
         { _id: '1', fullName: 'Ahmed Hrr', email: "AhmedHariri90@gmail", profile: '---', subsribe: false },
         { _id: '2', fullName: 'Ahmed Harrr', email: "AhmedHariri123@gmail", profile: '---', subsribe: true }
-    ];
+    ]
     const tableHead: string[] = ['Clients ID', 'FullName', 'Email', 'profile', 'subscribe', 'Action']
 
     return <>

@@ -1,16 +1,18 @@
 import Title from "../title";
-import { purchasedTypes } from "@/types";
 import { Toaster } from "sonner";
 import { Button } from "@/components/chadcn/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
 import TableMessage from "../table/message";
+import { productsTypes } from "@/types";
 
 
 export default function PurchasedComponents() {
     /*---> States <---*/
-    const purchasedProducts: purchasedTypes[] = [
-        { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" }, date: '2025-02-22' }
-    ];
+    const purchasedProducts: productsTypes = {
+        data: [
+            { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" }, createAt: '2025-02-22' }
+        ]
+    }
     const tableHead: string[] = ['Product ID', 'Name', 'Description', 'Price', 'Picture', 'Category', 'Date', 'Action']
 
     return <>
@@ -27,8 +29,8 @@ export default function PurchasedComponents() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {purchasedProducts && purchasedProducts?.length > 0 ? (
-                            purchasedProducts?.map((content) => (
+                        {purchasedProducts && purchasedProducts?.data?.length > 0 ? (
+                            purchasedProducts?.data?.map((content) => (
                                 <TableRow key={content?._id} className="text-center">
                                     <TableCell className="font-medium">{content?._id}</TableCell>
                                     <TableCell>{content?.name}</TableCell>
@@ -36,7 +38,7 @@ export default function PurchasedComponents() {
                                     <TableCell>${content?.price}.00</TableCell>
                                     <TableCell>{content?.picture}</TableCell>
                                     <TableCell>{content?.categoryId?.categoryName}</TableCell>
-                                    <TableCell>{content?.date}</TableCell>
+                                    <TableCell>{content?.createAt}</TableCell>
                                     <TableCell className="flex justify-center gap-3">
                                         <Button className="px-[12px] py-[6px]">
                                             Remove

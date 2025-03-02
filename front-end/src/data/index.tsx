@@ -1,6 +1,3 @@
-import { PiPackageBold } from "react-icons/pi";
-import { GrDeliver } from "react-icons/gr";
-import { FaStore } from "react-icons/fa";
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { PiTreeStructureBold } from "react-icons/pi";
@@ -8,14 +5,7 @@ import { BiSolidPurchaseTag } from "react-icons/bi";
 import { GoListUnordered } from "react-icons/go";
 import { FaUsersLine } from "react-icons/fa6";
 import { RiContactsFill } from "react-icons/ri";
-import { ordersTypes } from "@/types";
 
-export const cards = [
-    { title: "Products", number: 8, icon: PiPackageBold },
-    { title: "Orders", number: 12, icon: GrDeliver },
-    { title: "Purchased", number: 45, icon: FaStore },
-    { title: "Clients", number: 2, icon: FaUsersLine }
-]
 export const chartData = [
     { month: "January", order: 100 },
     { month: "February", order: 305 },
@@ -24,7 +14,7 @@ export const chartData = [
     { month: "May", order: 209 },
     { month: "June", order: 214 }
 ]
-export const orders: ordersTypes[] = [
+export const orders = [
     { _id: "0", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "0", quantity: 5 }], status: "Processing", createdAt: '2025-10-30', totalPrice: 23 },
     { _id: "1", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "1", quantity: 5 }], status: "Processing", createdAt: '2025-04-03', totalPrice: 45 },
     { _id: "2", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "2", quantity: 5 }], status: "Shipped", createdAt: '2025-01-28', totalPrice: 203 }

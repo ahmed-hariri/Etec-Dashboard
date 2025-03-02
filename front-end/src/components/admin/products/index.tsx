@@ -16,10 +16,12 @@ import TableMessage from "../table/message";
 
 export default function ProductsComponents() {
     /*---> States <---*/
-    const products: productsTypes[] = [
-        { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
-    ];
-    const [product, setProduct] = useState<productsTypes>({
+    const products: productsTypes = {
+        data: [
+            { _id: '0', name: "phone", description: "nice phone!", price: 100, picture: "http...", categoryId: { _id: '123444', categoryName: "mobile" } }
+        ]
+    }
+    const [product, setProduct] = useState<{ name: string, description: string, price: number, picture: string, categoryId: { categoryName: string } }>({
         name: '', description: '', price: 0, picture: '', categoryId: { categoryName: '' }
     });
     const categories: categorieTypes[] = [
@@ -106,8 +108,8 @@ export default function ProductsComponents() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {products && products?.length > 0 ? (
-                            products?.map((content) => (
+                        {products && products?.data?.length > 0 ? (
+                            products?.data?.map((content) => (
                                 <TableRow key={content?._id} className="text-center">
                                     <TableCell className="font-medium">{content?._id}</TableCell>
                                     <TableCell>{content?.name}</TableCell>

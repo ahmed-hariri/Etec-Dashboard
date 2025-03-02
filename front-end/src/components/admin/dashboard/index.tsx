@@ -1,32 +1,102 @@
+"use client"
+
 import Title from "../title";
 import { Component } from "@/components/chadcn/chart";
-import { ordersTypes } from "@/types";
-import { cards, chartData } from "@/data";
+import { accountTypes, ordersTypes, productsTypes } from "@/types";
+import { chartData } from "@/data";
 import Link from "next/link";
 import TableOrders from "../table/orders";
+import { PiPackageBold } from "react-icons/pi";
+import { GrDeliver } from "react-icons/gr";
+import { FaStore } from "react-icons/fa";
+import { FaUsersLine } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { fetchAllProducts } from "@/api/product";
+import { fetchAllOrders } from "@/api/orders";
+import { fetchAllPurchased } from "@/api/purchased";
+import { fetchAllClients } from "@/api/clients";
 
 export default function DashboardComponents() {
     /*---> States <---*/
-    const orders: ordersTypes[] = [
-        { _id: "0", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "0", quantity: 5 }], status: 'Processing', createdAt: '2025-10-30', totalPrice: 23 },
-        { _id: "1", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "1", quantity: 5 }], status: 'Processing', createdAt: '2025-04-03', totalPrice: 45 },
-        { _id: "2", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "2", quantity: 5 }], status: 'Shipped', createdAt: '2025-01-28', totalPrice: 203 }
-    ];
+    const [products, setProducts] = useState<productsTypes>({ data: [] });
+    const [orders, setOrders] = useState<ordersTypes>({ data: [] });
+    const [purchased, setPurchased] = useState<productsTypes>({ data: [] });
+    const [clients, setClients] = useState<accountTypes>({ data: [] });
+    const cards: { title: string, number: number, icon: React.ElementType }[] = [
+        { title: "Products", number: products?.data?.length, icon: PiPackageBold },
+        { title: "Orders", number: orders?.data?.length, icon: GrDeliver },
+        { title: "Purchased", number: purchased?.data?.length, icon: FaStore },
+        { title: "Clients", number: clients?.data?.length, icon: FaUsersLine }
+    ]
+    const [loading, setLoading] = useState<boolean>(true);
+
+    /*---> Functions <---*/
+    const getAllProducts = async (): Promise<void> => {
+        try {
+            const response = await fetchAllProducts();
+            setProducts(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all products : ", error)
+        }
+    }
+    const getAllOrders = async (): Promise<void> => {
+        try {
+            const response = await fetchAllOrders();
+            setOrders(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all orders : ", error)
+        }
+    }
+    const getAllPurchesed = async (): Promise<void> => {
+        try {
+            const response = await fetchAllPurchased();
+            setPurchased(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all purchased : ", error)
+        }
+    }
+    const getAllClients = async (): Promise<void> => {
+        try {
+            const response = await fetchAllClients();
+            setClients(response ?? []);
+        } catch (error) {
+            console?.error("Error gel all clients : ", error)
+        }
+    }
+
+    /*---> Effects <---*/
+    useEffect(() => {
+        Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
+            .finally(() => setLoading(false))
+            .catch((error) => console.error("Error fetching data:", error));
+    }, [])
 
     return <>
-        <section className="w-full lg:w-[80%] px-8 pt-5 flex justify-center">
+        <section className="w-full lg:w-[80%] px-8 pt-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
                 <Title title="Dashboard" paragraphe="Welcome back, here's your order overview." />
                 <div className="w-full flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-5">
-                    {cards && cards?.map((card, index) => (
-                        <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
-                            <div className="flex flex-col justify-center gap-1">
-                                <h1 className="text-gray-600 text-[15px] font-[600]">{card?.title}</h1>
-                                <h1 className="text-[25px] font-[700]">{card?.number}</h1>
+                    {loading ? (
+                        new Array(4).fill(0).map((v, index) => (
+                            <div key={index} className="w-full sm:w-[49%] lg:w-[25%] animate-pulse duration-600 flex justify-between items-center cursor-pointer gap-[80px] py-[21px] px-[24px] rounded-xl hover:shadow-xl border border-[#e3e2e2]">
+                                <div className="flex flex-col justify-center items-start gap-[32px]">
+                                    <div className="px-[54px] py-2 rounded-full bg-gray-400"></div>
+                                    <div className="px-4 py-2 rounded-full bg-gray-400"></div>
+                                </div>
+                                <div className="p-4 rounded-full bg-gray-400"></div>
                             </div>
-                            <card.icon className="text-2xl text-gray-600" />
-                        </Link>
-                    ))}
+                        ))
+                    ) : (
+                        cards && cards?.map((card, index) => (
+                            <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
+                                <div className="flex flex-col justify-center gap-1">
+                                    <h1 className="text-gray-600 text-[15px] font-[600]">{card?.title}</h1>
+                                    <h1 className="text-[25px] font-[700]">{card?.number}</h1>
+                                </div>
+                                <card.icon className="text-2xl text-gray-600" />
+                            </Link>
+                        ))
+                    )}
                 </div>
                 <div className="w-full flex flex-wrap sm:flex-nowrap gap-5">
                     <Component chartTitle="Oders" chartData={chartData} />
@@ -34,10 +104,14 @@ export default function DashboardComponents() {
                 </div>
                 <div className="flex flex-col gap-3">
                     <h1 className="text-2xl font-[600]">Recent Orders</h1>
-                    <TableOrders
-                        tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
-                        orders={orders}
-                    />
+                    {loading ? (
+                        <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
+                    ) : (
+                        <TableOrders
+                            tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
+                            orders={orders}
+                        />
+                    )}
                 </div>
             </div>
         </section>

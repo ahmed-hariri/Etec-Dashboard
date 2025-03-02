@@ -1,42 +1,70 @@
-export interface accountTypes {
-    _id?: string
+export interface authenticationTypes {
     fullName: string
     email: string
-    password: string
-    passwordConfirmation: string
+    password?: string
+    passwordConfirmation?: string
     profile?: null | string
     subsribe?: boolean
     admin?: boolean
-    description? : string
+}
+export interface accountTypes {
+    data: {
+        _id?: string
+        fullName: string
+        email: string
+        password: string
+        passwordConfirmation: string
+        profile?: null | string
+        subsribe?: boolean
+        admin?: boolean
+        description?: string
+    }[]
 }
 
 export interface ordersTypes {
-    _id?: string
-    userId: Partial<accountTypes>
-    products: { productId: string, quantity: number }[]
-    status: "Processing" | "Shipped" | "Delivered"
-    totalPrice: number
-    createdAt: string
+    data: {
+        _id?: string
+        userId: {
+            fullName: string
+            email: string
+            profile?: null | string
+            subsribe?: boolean
+            admin?: boolean
+        }
+        products: { productId: string, quantity: number }[]
+        status: "Processing" | "Shipped" | "Delivered"
+        totalPrice: number
+        createdAt: string
+    }[]
 }
 
 export interface productsTypes {
-    _id?: string
-    name: string
-    description: string
-    price: number
-    picture: string
-    categoryId: {
+    data: {
         _id?: string
-        categoryName: string
-    }
-}
+        name: string
+        description: string
+        price: number
+        picture: string
+        categoryId: {
+            _id?: string
+            categoryName: string
+        }
+        createAt?: string
+    }[]
 
-export interface purchasedTypes extends productsTypes {
-    date: string
 }
 export interface categorieTypes {
     _id?: string
     categoryName: string
+}
+
+export interface contactsTypes {
+    data: {
+        _id: string,
+        fullName: string,
+        email: string,
+        description: string
+    }[]
 }
 
 export interface inputsTypes {
