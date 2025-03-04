@@ -7,9 +7,9 @@ import { changeOrderState } from "@/api/orders";
 export default function TableOrders(props: { tableHead: string[], orders: ordersTypes }) {
     const { tableHead, orders } = props;
 
-    const changeOrder = async (id: string | null, status: string) => {
+    const changeOrder = async (id: string | null, newStatus: { status: string }) => {
         try {
-            const repsonse = await changeOrderState(id, status)
+            const repsonse = await changeOrderState(id, newStatus)
             console?.log(repsonse)
         } catch (error) {
             console?.error("Error change order : ", error)
@@ -54,7 +54,7 @@ export default function TableOrders(props: { tableHead: string[], orders: orders
                             <TableCell>${order?.totalPrice}.00</TableCell>
                             <TableCell className="flex justify-center items-center gap-3">
                                 {['Processing', 'Shipped', 'Delivered']?.map((item, index) => (
-                                    <Button key={index} className="px-[12px] py-[6px]" onClick={() => changeOrder(order?._id ?? null, item)}>
+                                    <Button key={index} className="px-[12px] py-[6px]" onClick={() => changeOrder(order?._id ?? null, { status: item })}>
                                         {item}
                                     </Button>
                                 ))}

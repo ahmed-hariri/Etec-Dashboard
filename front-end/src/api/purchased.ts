@@ -9,5 +9,5 @@ export const fetchAllPurchased = async (): Promise<productsTypes> => {
             'content-type': 'application/json',
              'Authorization': `Bearer ${cookies?.get("Token")}`
         }
-    }).then((response) => response?.data)?.catch((err) => console?.error("Error fetch all products", err))
+    })?.then((response) => response?.data)?.catch((err) => console?.error("Error fetch all products", err))
 }

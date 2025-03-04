@@ -8,7 +8,7 @@ export const fetchAllProducts = async (): Promise<productsTypes> => {
         headers: {
             'content-type': 'application/json'
         }
-    }).then((response) => response?.data)?.catch((err) => console?.error("Error fetch all products", err))
+    })?.then((response) => response?.data)?.catch((err) => console?.error("Error fetch all products:", err))
 }
 
 /*---> Create newProduct <---*/
@@ -18,7 +18,7 @@ export const createNewProduct = async (newProduct: { name: string, description: 
             'content-type': 'application/json',
             'Authorization': `Bearer ${cookies?.get("Token")}`
         }
-    }).then((response) => response?.data)?.catch((err) => console?.error("Error create newProduct", err))
+    })?.then((response) => response?.data)?.catch((err) => console?.error("Error create newProduct:", err))
 }
 
 /*---> Update product <---*/
@@ -28,7 +28,7 @@ export const updateProduct = async (id: string | null, product: { name: string, 
             'content-type': 'application/json',
             'Authorization': `Bearer ${cookies?.get("Token")}`
         }
-    }).then((response) => response?.data)?.catch((err) => console?.error("Error update product", err))
+    })?.then((response) => response?.data)?.catch((err) => console?.error("Error update product:", err))
 }
 
 /*---> Remove product <---*/
@@ -38,5 +38,5 @@ export const removeProduct = async (id: string | null) => {
             'content-type': 'application/json',
             'Authorization': `Bearer ${cookies?.get("Token")}`
         }
-    }).then((response) => response?.data)?.catch((err) => console?.error("Error delete product", err))
+    })?.then((response) => response?.data)?.catch((err) => console?.error("Error delete product:", err))
 }
