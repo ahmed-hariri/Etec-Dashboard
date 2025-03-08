@@ -1,6 +1,6 @@
 import { functionRepository, productTypes } from "../../dto";
-import categoryModel from "../../models/category";
-import productModel from "../../models/product";
+import categoryModel from "../../models/categorys";
+import productModel from "../../models/products";
 
 /*---> Get all products repository <---*/
 export const getProductRepository: functionRepository<productTypes> = async () => {
@@ -9,16 +9,31 @@ export const getProductRepository: functionRepository<productTypes> = async () =
         if (products.length > 0) {
             return { data: products, message: 'Get all products' }
         }
-        return { data: [], message: 'You dont have any products' }
+        return { data: [], message: 'Not found any products' }
     } catch (error) {
         console.error("Error get products:", error);
         return { data: [], message: "Error get products!" }
     }
 }
 
+/*---> Get product by productId repository <---*/
+export const getProductByIdRepository: functionRepository<productTypes> = async (productId) => {
+    const { id } = productId as productTypes
+    try {
+        const findProduct = await productModel.findOne({ _id: id }).populate("categoryId");
+        if (findProduct) {
+            return { data: findProduct, message: 'Get product successfully!' }
+        }
+        return { data: null, message: 'Not found this product' }
+    } catch (error) {
+        console.error("Error get product:", error);
+        return { data: [], message: "Error get product!" }
+    }
+}
+
 /*---> Add product repository <---*/
 export const addProductRepository: functionRepository<productTypes> = async (product) => {
-    const { name, description, price, categoryId } = product as productTypes;
+    const { categoryId } = product as productTypes;
     try {
         const findCategory = await categoryModel.findOne({ _id: categoryId });
         if (!findCategory) {

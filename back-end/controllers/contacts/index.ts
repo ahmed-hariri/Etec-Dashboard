@@ -1,4 +1,4 @@
-import { addContactRepository, getContactRepository, removeContactRepository } from '../../repositories/contact';
+import { addContactRepository, getContactRepository, removeContactRepository } from '../../repositories/contacts';
 import { contactTypes, functionControllers } from './../../dto/index';
 
 /*---> Get all contacts controller <---*/
@@ -18,7 +18,7 @@ export const getContactsController: functionControllers = async (req, res, next)
 export const addContactController: functionControllers = async (req, res, next) => {
     const { name, email, description } = req.body as contactTypes;
     if (!name || !email || !description) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ''}${!email ? "email" : ''}${!description ? "description" : ''}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : !email ? "email" : !description ? "description" : ""}` });
     }
     try {
         const contact: contactTypes = { name, email, description }
@@ -36,7 +36,7 @@ export const addContactController: functionControllers = async (req, res, next) 
 export const removeContactController: functionControllers = async (req, res, next) => {
     const { id } = req.params;
     if (!id) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "id" : ''}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "contactId" : ""}` });
     }
     try {
         const contact: Partial<contactTypes> = { id }

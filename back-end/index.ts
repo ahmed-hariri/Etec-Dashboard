@@ -1,14 +1,14 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
-import { categoryRoutes } from './routes/category/index';
-import { orderRoutes } from './routes/order';
-import { clientRoutes } from './routes/client';
-import { contactRoute } from './routes/contact';
+import { categoryRoutes } from './routes/categorys/index';
+import { orderRoutes } from './routes/orders';
+import { clientRoutes } from './routes/clients';
+import { contactRoute } from './routes/contacts';
 import { purchesedRoutes } from './routes/purchesed';
 
 const app: express.Application = express();

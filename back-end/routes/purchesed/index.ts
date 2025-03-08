@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { authenticateToken, checkAdmin } from "../../middleware";
-import { purchesedController } from "../../controllers/purchesed";
+import { getAllPurchesedController , removePurchesedController} from "../../controllers/purchesed";
 
 /*---> Define purchesed product routes <---*/
 export const purchesedRoutes: Router = Router();
 
-purchesedRoutes.get("/purchesed", authenticateToken, checkAdmin, purchesedController)
+purchesedRoutes.get("/purcheseds", authenticateToken, checkAdmin, getAllPurchesedController)
+purchesedRoutes.delete("/purchesed/:id", authenticateToken, checkAdmin, removePurchesedController)

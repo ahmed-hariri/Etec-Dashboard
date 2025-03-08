@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { categoryTypes, functionRepository } from "../../dto";
-import categoryModel from "../../models/category"
+import categoryModel from "../../models/categorys"
 
 /*---> Get all categorys repository <---*/
 export const getCategoryRepository: functionRepository<categoryTypes> = async () => {
@@ -37,11 +37,7 @@ export const addCategoryRepository: functionRepository<categoryTypes> = async (c
 export const updateCategoryRepository: functionRepository<categoryTypes> = async (newCategory) => {
     const { id, categoryName } = newCategory as categoryTypes;
     try {
-        if (!mongoose.Types.ObjectId.isValid(id ?? '')) {
-            return { data: null, message: "Invalid categoryId format!" };
-        }
-        const categoryIdObject = new mongoose.Types.ObjectId(id);
-        const findCategory = await categoryModel.findOne({ _id: categoryIdObject });
+        const findCategory = await categoryModel.findOne({ _id: id });
         if (findCategory) {
             findCategory.categoryName = categoryName;
             await findCategory.save();
@@ -58,11 +54,7 @@ export const updateCategoryRepository: functionRepository<categoryTypes> = async
 export const removeCategoryRepository: functionRepository<categoryTypes> = async (categoryId) => {
     const { id } = categoryId as categoryTypes
     try {
-        if (!mongoose.Types.ObjectId.isValid(id ?? '')) {
-            return { data: null, message: "Invalid categoryId format!" };
-        }
-        const categoryIdObject = new mongoose.Types.ObjectId(id);
-        const findCategory = await categoryModel.deleteOne({ _id: categoryIdObject });
+        const findCategory = await categoryModel.deleteOne({ _id: id });
         if (findCategory.deletedCount === 1) {
             return { data: findCategory.deletedCount, message: 'Category deleted successfully!' }
         }

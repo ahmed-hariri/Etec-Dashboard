@@ -12,8 +12,8 @@ const order = new Schema({
         type: String, required: true,
         enum: ["Processing", "Shipped", "Delivered"]
     },
-    totalPrice: { type: Number, required: true }
-}, { timestamps: true });
+    totalPrice: { type: Number, required: true },
+}, {timestamps : true});
 
 const orderModel = mongoose.model("order", order);
 export default orderModel

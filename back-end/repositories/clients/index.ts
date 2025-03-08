@@ -1,16 +1,16 @@
 import { accountTypes, functionRepository } from "../../dto";
-import orderModel from "../../models/order";
+import orderModel from "../../models/orders";
 import purchesedModel from "../../models/purchesed";
-import accountModel from "../../models/user"
+import accountModel from "../../models/clients"
 
 /*---> Get all clients repository <---*/
 export const getClientRepository: functionRepository<accountTypes> = async () => {
     try {
-        const clients = await accountModel.find({ admin: false });
+        const clients = await accountModel.find({ role: "client" });
         if (clients.length > 0) {
             return { data: clients, message: "Gel all clients!" }
         }
-        return { data: [], message: "You don't have clients" }
+        return { data: [], message: "You don't have any clients" }
     } catch (error) {
         console.error("Error get clients:", error);
         return { data: [], message: "Error get clients!" }
@@ -24,7 +24,7 @@ export const getClientsSubscribeRepository: functionRepository<accountTypes> = a
         if (clientsSubscribe.length > 0) {
             return { data: clientsSubscribe, message: "Gel all clients subscribe!" }
         }
-        return { data: [], message: "You don't have clients subscribe" }
+        return { data: [], message: "You don't have any client subscribed" }
     } catch (error) {
         console.error("Error get clients subscribe:", error);
         return { data: [], message: "Error get clients subscribe!" }

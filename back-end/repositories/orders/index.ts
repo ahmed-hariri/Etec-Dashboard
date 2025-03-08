@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import { functionRepository, orderTypes, productTypes } from "../../dto";
-import orderModel from "../../models/order";
-import productModel from "../../models/product";
-import accountModel from "../../models/user";
+import orderModel from "../../models/orders";
+import productModel from "../../models/products";
+import accountModel from "../../models/clients";
 import purchesedModel from "../../models/purchesed";
 
 /*---> Get all orders repository <---*/
 export const getOrdersRepository: functionRepository<orderTypes> = async () => {
     try {
-        const orders = await orderModel.find().populate("userId");
+        const orders = await orderModel.find().populate("userId").populate("products.productId");
         if (orders.length > 0) {
             return { data: orders, message: 'Get All orders!' }
         }
@@ -23,17 +23,11 @@ export const getOrdersRepository: functionRepository<orderTypes> = async () => {
 export const addOrderRepository: functionRepository<orderTypes> = async (order) => {
     const { userId, products, status, totalPrice } = order as orderTypes;
     try {
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            return { data: null, message: "Invalid userId format!" };
-        }
-        const userIdObject = new mongoose.Types.ObjectId(userId);
-        /*---> Check if the user exists in the database <---*/
-        const findUser = await accountModel.findOne({ _id: userIdObject });
+        const findUser = await accountModel.findOne({ _id: userId });
         if (!findUser) {
             return { data: null, message: "User not found!" }
         }
-        /*---> Check if the order already exists <---*/
-        const findOrder = await orderModel.findOne({ userId: userIdObject, status: status });
+        const findOrder = await orderModel.findOne({ userId: userId, status: status });
         if (findOrder) {
             return { data: null, message: "This order already exists!" }
         }

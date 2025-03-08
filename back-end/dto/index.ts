@@ -7,16 +7,16 @@ export interface accountTypes {
     fullName: string
     email: string
     password: string
-    profile: Buffer | null
+    profile: string | null
     subscribe: boolean | null
-    admin: boolean | null
+    role?: "admin" | "client" | null
 }
 export interface productTypes {
     id?: string
     name: string
     description: string
     price: number
-    pictures: Buffer | null
+    pictures: string | null
     categoryId: string
 }
 
