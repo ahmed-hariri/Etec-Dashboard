@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import morgan from "morgan"
+import helmet from "helmet"
 
 import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
@@ -12,8 +14,16 @@ import { contactRoute } from './routes/contacts';
 import { purchesedRoutes } from './routes/purchesed';
 
 const app: express.Application = express();
+
+/*---> Middlewares <---*/
 app.use(express.json());
-app.use(cors());
+app.use(morgan('dev'));
+app.use(helmet())
+app.use(cors({
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ['Content-Type']
+}));
 dotenv.config();
 
 /*---> Mounting the authentication routes on the "/auth" path <---*/
