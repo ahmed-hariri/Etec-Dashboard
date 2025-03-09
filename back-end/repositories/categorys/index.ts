@@ -37,6 +37,10 @@ export const addCategoryRepository: functionRepository<categoryTypes> = async (c
 export const updateCategoryRepository: functionRepository<categoryTypes> = async (newCategory) => {
     const { id, categoryName } = newCategory as categoryTypes;
     try {
+        const existingCategory = await categoryModel.findOne({ categoryName: categoryName });
+        if (existingCategory) {
+            return { data: null, message: "Category already exists" }
+        }
         const findCategory = await categoryModel.findOne({ _id: id });
         if (findCategory) {
             findCategory.categoryName = categoryName;
