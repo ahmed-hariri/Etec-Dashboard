@@ -4,11 +4,11 @@ import { accountTypes } from '../dto';
 
 /*---> Middleware to check if the token is valid <---*/
 export const authenticateToken = (req: Request, res: Response, next: NextFunction): any => {
-    const token = req.headers['authorization']?.split(" ")[1];
+    const token = req?.cookies?.token;
     if (!token) {
         return res.status(401).json({ message: "Token not provided!" });
     }
-    jwt.verify(token, process.env.JWT_SECRET ?? '', (error, data) => {
+    jwt.verify(token, process.env.JWT_SECRET ?? '', (error: jwt.VerifyErrors | null, data: string | jwt.JwtPayload | undefined) => {
         if (error) {
             return res.status(403).json({ message: "Invalid token" });
         }
@@ -20,6 +20,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 /*---> Middleware to check if the user is an admin <---*/
 export const checkAdmin = (req: Request, res: Response, next: NextFunction): any => {
     const userData = req.data as accountTypes
+    console?.log(userData.role)
     if (userData?.role === "admin") {
         next();
     }

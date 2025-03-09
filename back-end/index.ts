@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from "morgan"
 import helmet from "helmet"
+import cookieParser from 'cookie-parser';
 
 import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
@@ -22,8 +23,10 @@ app.use(helmet())
 app.use(cors({
     origin: "http://localhost:3001",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type'],
+    credentials: true
 }));
+app.use(cookieParser());
 dotenv.config();
 
 /*---> Mounting the authentication routes on the "/auth" path <---*/

@@ -2,13 +2,13 @@ import { jwtVerify } from 'jose';
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-    const token = req?.cookies?.get("Token")?.value;
+    const token = req?.cookies?.get("token")?.value;
     if (!token) {
         return NextResponse.error();
     }
     try {
         const { payload } = await jwtVerify(token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
-        if (payload?.admin) {
+        if (payload?.role === "admin") {
             return NextResponse.next();
         }
         else {

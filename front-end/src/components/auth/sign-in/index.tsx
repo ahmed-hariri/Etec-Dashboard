@@ -42,10 +42,10 @@ export default function SignInComponents() {
         try {
             const response = await accountSignIn(account);
             if (response?.message === "Login successful!") {
-                Cookies.set("Token", response?.token, { expires: 7 });
+                Cookies.set("token", response?.token, { expires: 7 });
                 toast.success(response?.message)
                 const { payload } = await jwtVerify(response?.token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
-                if (payload?.admin) {
+                if (payload?.role === "admin") {
                     navigate.push("/admin");
                 } else {
                     navigate.push("/");

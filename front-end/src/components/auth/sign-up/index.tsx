@@ -46,7 +46,7 @@ export default function SignUpComponents() {
         try {
             const response = await accountSignUp(account);
             if (response?.message === "Account has been created!") {
-                Cookies.set("Token", response?.token, { expires: 7 });
+                Cookies.set("token", response?.token, { expires: 7 });
                 toast.success(response?.message)
                 navigate.push("/admin")
                 setAccount({ fullName: '', email: '', password: '', passwordConfirmation: '' });
