@@ -18,7 +18,7 @@ export const getOrdersController: functionControllers = async (req, res, next) =
 export const addOrderController: functionControllers = async (req, res, next) => {
     const { userId, products, status, totalPrice } = req.body as orderTypes;
     if (!userId || !products || !status || !totalPrice) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!userId ? "userId" : !products ? "products" : !status ? "status" : !totalPrice ? "totalPrice" : ""}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!userId ? "userId" : ""} ${!products ? "products" : ""} ${!status ? "status" : ""} ${!totalPrice ? "totalPrice" : ""}` });
     }
     if (products.length < 1) { return res.status(404).type("json").json({ message: "You don't have any products to order" }) }
     try {
@@ -37,7 +37,7 @@ export const statusOrderController: functionControllers = async (req, res, next)
     const { id } = req.params
     const { status } = req.body
     if (!id || !status) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "orderId" : !status ? "status" : ""}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "orderId" : ""} ${!status ? "status" : ""}` });
     }
     if (!["Processing", "Shipped", "Delivered"].includes(status)) {
         return res.status(400).type("json").json({ message: "This status not respect Processing or Shipped or Delivered" });

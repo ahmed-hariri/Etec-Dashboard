@@ -32,7 +32,7 @@ export const getClientsSubscribeController: functionControllers = async (req, re
 export const clientSubscribeController: functionControllers = async (req, res, next) => {
     const { email, subscribe } = req.body;
     if (!email || subscribe === undefined) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!email ? "email" : !subscribe ? "subscribe" : ""}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!email ? "email" : ""} ${!subscribe ? "subscribe" : ""}` });
     }
     try {
         const client: Partial<accountTypes> = { email, subscribe }
@@ -50,7 +50,7 @@ export const clientSubscribeController: functionControllers = async (req, res, n
 export const clientInformationController: functionControllers = async (req, res, next) => {
     const { id } = req.data;
     if (!id) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!id && "clientId"}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "clientId" : ""}` });
     }
     try {
         const client: Partial<accountTypes> = { id }

@@ -18,7 +18,7 @@ export const getCategoryController: functionControllers = async (req, res, next)
 export const addCategoryController: functionControllers = async (req, res, next) => {
     const { categoryName } = req.body as categoryTypes;
     if (!categoryName) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!categoryName && "categoryName"}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!categoryName ? "categoryName" : ""}` });
     }
     try {
         const newCategory: categoryTypes = { categoryName }
@@ -37,7 +37,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
     const { id } = req.params
     const { categoryName } = req.body as categoryTypes
     if (!id || !categoryName) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!id && "categoryId"} ${!categoryName && "categoryName"}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "categoryId" : ""} ${!categoryName ? "categoryName" : ""}` });
     }
     try {
         const newCategory: categoryTypes = { id, categoryName }
@@ -55,7 +55,7 @@ export const updateCategoryController: functionControllers = async (req, res, ne
 export const removeCategoryController: functionControllers = async (req, res, next) => {
     const { id } = req.params
     if (!id) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!id && "categoryId"}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!id ? "categoryId" : ""}` });
     }
     try {
         const newCategory: Partial<categoryTypes> = { id }
