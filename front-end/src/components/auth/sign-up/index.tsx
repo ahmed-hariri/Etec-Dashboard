@@ -1,9 +1,9 @@
 'use client'
 
-import { Input } from "@/components/chadcn/ui/input"
-import { Label } from "@/components/chadcn/ui/label"
-import { Button } from "@/components/chadcn/ui/button"
-import { Checkbox } from "@/components/chadcn/ui/checkbox"
+import { Input } from "@/components/shared/chadcn/ui/input"
+import { Label } from "@/components/shared/chadcn/ui/label"
+import { Button } from "@/components/shared/chadcn/ui/button"
+import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
 import { useState } from "react"
 import Link from "next/link"
 import { Toaster, toast } from 'sonner';

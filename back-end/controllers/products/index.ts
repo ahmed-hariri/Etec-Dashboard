@@ -33,15 +33,15 @@ export const getProductByIdController: functionControllers = async (req, res, ne
 
 /*---> Add newProduct controller <---*/
 export const addProductController: functionControllers = async (req, res, next) => {
-    const { name, description, price, categoryId } = req.body as productTypes
-    if (!name || !description || !price || !categoryId) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!categoryId ? "categoryId" : ""}` });
+    const { name, description, price, picture, categoryId } = req.body as productTypes
+    if (!name || !description || !price || !picture || !categoryId) {
+        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!picture ? "picture" : ""} ${!categoryId ? "categoryId" : ""}` });
     }
     if (typeof price !== "number" || price <= 0) {
         return res.status(400).json({ message: "Price must be a positive number" });
     }
     try {
-        const product: Partial<productTypes> = { name, description, price, categoryId }
+        const product: Partial<productTypes> = { name, description, price, picture, categoryId }
         const { data, message } = await addProductRepository(product);
         if (data) {
             return res.status(201).type("json").json({ data, message });

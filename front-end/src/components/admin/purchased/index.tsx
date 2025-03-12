@@ -1,8 +1,8 @@
-import Title from "../title";
+import Title from "../../shared/title";
 import { Toaster } from "sonner";
-import { Button } from "@/components/chadcn/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
-import TableMessage from "../table/message";
+import { Button } from "@/components/shared/chadcn/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
+import TableMessage from "../../shared/table/message";
 import { productsTypes } from "@/types";
 
 

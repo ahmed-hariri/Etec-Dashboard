@@ -1,7 +1,7 @@
 import { ordersTypes } from "@/types";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
 import TableMessage from "../message";
-import { Button } from "@/components/chadcn/ui/button"
+import { Button } from "@/components/shared/chadcn/ui/button"
 import { changeOrderState } from "@/api/orders";
 
 export default function TableOrders(props: { tableHead: string[], orders: ordersTypes }) {

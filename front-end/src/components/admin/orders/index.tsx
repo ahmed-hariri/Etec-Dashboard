@@ -1,9 +1,9 @@
 "use client"
 
-import Title from "../title";
+import Title from "../../shared/title";
 import { ordersTypes } from "@/types";
 import { Toaster } from "sonner";
-import TableOrders from "../table/orders";
+import TableOrders from "../../shared/table/orders";
 
 export default function OrdersComponents() {
     /*---> States <---*/

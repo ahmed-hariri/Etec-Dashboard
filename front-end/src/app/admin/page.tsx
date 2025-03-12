@@ -1,4 +1,4 @@
-import { Button } from "@/components/chadcn/ui/button";
+import { Button } from "@/components/shared/chadcn/ui/button";
 import Link from "next/link";
 
 export default function Admin() {

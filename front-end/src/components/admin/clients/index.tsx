@@ -1,8 +1,8 @@
-import Title from "../title";
+import Title from "../../shared/title";
 import { Toaster } from "sonner";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
-import { Button } from "@/components/chadcn/ui/button"
-import TableMessage from "../table/message";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
+import { Button } from "@/components/shared/chadcn/ui/button"
+import TableMessage from "../../shared/table/message";
 
 export default function ClientsComponents() {
     /*---> States <---*/

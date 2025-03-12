@@ -14,8 +14,10 @@ export const fetchAllProducts = async (): Promise<productsTypes> => {
 export const createNewProduct = async (newProduct: { name: string, description: string, price: number, picture: string, categoryId: string }) => {
     return axios?.post(`${process.env.NEXT_PUBLIC_API_URL}/api/product`, newProduct, {
         headers: {
+            Accept: "application/json",
             'content-type': 'application/json'
-        }
+        },
+        withCredentials: true
     })?.then((response) => response?.data)?.catch((err) => console?.error("Error create newProduct:", err))
 }
 
@@ -23,8 +25,10 @@ export const createNewProduct = async (newProduct: { name: string, description: 
 export const updateProduct = async (id: string | null, product: { name: string, description: string, price: number, picture: string, categoryId: string }) => {
     return axios?.put(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`, product, {
         headers: {
+            Accept: "application/json",
             'content-type': 'application/json'
-        }
+        },
+        withCredentials: true
     })?.then((response) => response?.data)?.catch((err) => console?.error("Error update product:", err))
 }
 
@@ -33,6 +37,7 @@ export const removeProduct = async (id: string | null) => {
     return axios?.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`, {
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        withCredentials: true
     })?.then((response) => response?.data)?.catch((err) => console?.error("Error delete product:", err))
 }

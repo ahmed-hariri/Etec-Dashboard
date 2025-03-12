@@ -1,8 +1,8 @@
 "use client"
 
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/chadcn/ui/card"
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/chadcn/ui/chart"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shared/chadcn/ui/card"
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/shared/chadcn/ui/chart"
 
 const chartConfig = { desktop: { label: "order", color: "black" } } satisfies ChartConfig
 

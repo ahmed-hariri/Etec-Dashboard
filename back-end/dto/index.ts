@@ -16,7 +16,7 @@ export interface productTypes {
     name: string
     description: string
     price: number
-    pictures: string | null
+    picture: string
     categoryId: string
 }
 

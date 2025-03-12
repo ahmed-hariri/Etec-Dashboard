@@ -1,15 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import Title from "../title";
-import { Input } from "@/components/chadcn/ui/input"
-import { Label } from "@/components/chadcn/ui/label"
-import { Button } from "@/components/chadcn/ui/button"
+import Title from "../../shared/title";
+import { Input } from "@/components/shared/chadcn/ui/input"
+import { Label } from "@/components/shared/chadcn/ui/label"
+import { Button } from "@/components/shared/chadcn/ui/button"
 import { toast, Toaster } from "sonner";
 import { categorieTypes } from "@/types";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
 import { createNewCategorie, fetchAllCategories, removeCategorie, updateCategorie } from "@/api/category";
-import TableMessage from "../table/message";
+import TableMessage from "../../shared/table/message";
 
 export default function CategoriesComponents() {
     /*---> States <---*/
@@ -104,7 +104,7 @@ export default function CategoriesComponents() {
                     {/* <!-- Button --> */}
                     <div className="w-full lg:w-1/2 flex flex-col gap-2 lg:mt-9">
                         <Button className="py-[19px] text-[15px]" onClick={handelValues}>
-                            Create Product
+                            Create Categorie
                         </Button>
                     </div>
                 </div>

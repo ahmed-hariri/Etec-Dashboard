@@ -1,20 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import Title from "../title";
+import Title from "../../shared/title";
 import { categorieTypes, productsTypes } from "@/types";
-import { Input } from "@/components/chadcn/ui/input"
-import { Label } from "@/components/chadcn/ui/label"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/chadcn/ui/select"
-import { Textarea } from "@/components/chadcn/ui/textarea"
+import { Input } from "@/components/shared/chadcn/ui/input"
+import { Label } from "@/components/shared/chadcn/ui/label"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/shared/chadcn/ui/select"
+import { Textarea } from "@/components/shared/chadcn/ui/textarea"
 import { toast, Toaster } from "sonner";
 import { inputs } from "@/data";
-import { Button } from "@/components/chadcn/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/chadcn/ui/table"
-import TableMessage from "../table/message";
+import { Button } from "@/components/shared/chadcn/ui/button"
 import { createNewProduct, fetchAllProducts, removeProduct, updateProduct } from "@/api/product";
 import { fetchAllCategories } from "@/api/category";
-
+import Image from "next/image";
 
 export default function ProductsComponents() {
     /*---> States <---*/
@@ -23,8 +21,7 @@ export default function ProductsComponents() {
         { name: '', description: '', price: 0, picture: '', categoryId: '' }
     );
     const [categories, setCategories] = useState<categorieTypes>({ data: [] });
-    const tableHead: string[] = ['Product ID', 'Name', 'Description', 'Price', 'Picture', 'Category', 'Action']
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<{ newProduct: boolean, showProducts: boolean }>({ newProduct: false, showProducts: true })
     const [popUp, setPopUp] = useState<{ modify: boolean, remove: boolean, productId: string | null }>({ modify: false, remove: false, productId: "" })
 
     /*---> Functions <---*/
@@ -54,14 +51,18 @@ export default function ProductsComponents() {
         }
     }
     const addProduct = async (): Promise<void> => {
+        setLoading((prevState) => ({ ...prevState, newProduct: true }))
         try {
             const response = await createNewProduct(product)
             if (response?.message === 'Product has been created!') {
                 toast?.success(response?.message);
                 await getAllProducts();
+                setProduct({ name: '', price: 0, picture: '', description: '', categoryId: '' })
             }
         } catch (error) {
             console?.error("Error create newProduct : ", error)
+        } finally {
+            setLoading((prevState) => ({ ...prevState, newProduct: false }))
         }
     }
     const handelProduct = (id: string | null): void => {
@@ -110,10 +111,9 @@ export default function ProductsComponents() {
     /*---> Effects <---*/
     useEffect(() => {
         Promise?.allSettled([getAllProducts(), getAllCategories()])
-            .finally(() => setLoading(false))
+            .finally(() => setLoading((prevState) => ({ ...prevState, showProducts: false })))
             .catch((error) => console.error("Error fetching data:", error));
     }, [])
-
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
@@ -141,9 +141,9 @@ export default function ProductsComponents() {
                             {/* <!-- Options --> */}
                             <div className="w-full flex flex-col gap-2">
                                 <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                                <Select disabled={loading || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
+                                <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
                                     <SelectTrigger className="w-full">
-                                        {loading ? (
+                                        {loading?.showProducts ? (
                                             <SelectValue placeholder="Loading Categories..." />
                                         ) : (
                                             <SelectValue placeholder={categories?.data?.length ? "Select a Category" : "No Categories Available"} />
@@ -162,63 +162,69 @@ export default function ProductsComponents() {
                             </div>
                             {/* <!-- Button --> */}
                             <div className="w-full flex flex-col gap-2">
-                                <Button className="py-[24px] text-[15px]" onClick={handelValues}>
-                                    Create Product
+                                <Button className="py-[24px] text-[15px]" onClick={handelValues} disabled={loading?.newProduct}>
+                                    {loading?.newProduct ? (
+                                        <div className="w-5 h-5 border-l rounded-full duration-700 animate-spin"></div>
+                                    ) : (
+                                        <h1>Create Product</h1>
+                                    )}
                                 </Button>
                             </div>
                         </div>
                     </div>
                 </div>
                 {/* <!-- Table Products --> */}
-                {loading ? (
+                {loading?.showProducts ? (
                     <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
                 ) : (
-                    <Table className="rounded-lg overflow-hidden">
-                        <TableHeader className="bg-gray-100">
-                            <TableRow className="border-b border-gray-300">
-                                {tableHead && tableHead?.map((head, index) => (
-                                    <TableHead key={index} className="text-center">{head}</TableHead>
-                                ))}
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {products && products?.data?.length > 0 ? (
-                                products?.data?.map((content) => (
-                                    <TableRow key={content?._id} className="text-center">
-                                        <TableCell className="font-medium">{content?._id}</TableCell>
-                                        <TableCell>{content?.name}</TableCell>
-                                        <TableCell>{content?.description}</TableCell>
-                                        <TableCell>${content?.price}.00</TableCell>
-                                        <TableCell>{content?.picture}</TableCell>
-                                        <TableCell>{content?.categoryId?.categoryName}</TableCell>
-                                        <TableCell className="flex justify-center items-center gap-3">
-                                            {['Modify', 'Remove']?.map((item, index) => (
-                                                <Button key={index} className="px-[12px] py-[6px]" onClick={() => {
-                                                    if (item === 'Modify') {
-                                                        handelProduct(content?._id ?? null)
-                                                    } else {
-                                                        setPopUp((prevState) => ({ ...prevState, remove: true, productId: content?._id ?? null }))
-                                                    }
-                                                }}>
-                                                    {item}
-                                                </Button>
-                                            ))}
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableMessage colSpan={8} content="You dont have products!" />
-                            )}
-                        </TableBody>
-                    </Table>
+                    <div className="w-full flex flex-wrap justify-between sm:gap-5 lg:gap-4">
+                        {products && products?.data?.length > 0 ? (
+                            products?.data?.map((product) => (
+                                <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">
+                                    <div className="w-full lg:w-[45%] h-96 lg:h-full">
+                                        <Image src={`${product?.picture}`} alt="product-picture" className="w-full h-full" />
+                                    </div>
+                                    <div className="w-full lg:w-[55%] h-full p-4 flex flex-col gap-3">
+                                        <div className="w-full flex justify-between items-center">
+                                            <h1 className="px-3 py-[3px] border border-black rounded-full text-sm">{product?.categoryId?.categoryName ?? "not found"}</h1>
+                                            <div className="flex items-center gap-2">
+                                                {['Modify', 'Remove']?.map((item, index) => (
+                                                    <Button key={index} className="h-auto px-[10px] py-[5px] text-[13px]" onClick={() => {
+                                                        if (item === 'Modify') {
+                                                            handelProduct(product?._id ?? null)
+                                                        } else {
+                                                            setPopUp((prevState) => ({ ...prevState, remove: true, productId: product?._id ?? null }))
+                                                        }
+                                                    }}>
+                                                        {item}
+                                                    </Button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="w-full flex justify-between items-center mt-3">
+                                            <h1 className="text-lg font-bold">{product?.name}</h1>
+                                            <h1>{product?.price} $</h1>
+                                        </div>
+                                        <div className="w-full overflow-scroll" style={{ scrollbarWidth: "none" }}>
+                                            <p className="text-[13.8px]">{product?.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="w-full text-center py-20 text-[25px] font-bold">
+                                <h1>You dont have any products</h1>
+                            </div>
+                        )}
+                    </div>
                 )}
             </div>
         </section>
-        <div className='w-full py-5 flex justify-center bottom-0 absolute'>
+        <div className='w-full py-5flex justify-center bottom-0 fixed'>
             <Toaster position="bottom-right" expand={true} />
         </div>
         {popUp?.remove && (
-            <div className="w-full h-screen backdrop-blur-sm absolute flex justify-center items-center">
+            <div className="w-full h-screen backdrop-blur-sm fixed flex justify-center items-center">
                 <div className="p-4 rounded-lg bg-black flex flex-col gap-5 text-white shadow-lg">
                     <h1 className="text-lg font-[600]">You want remove this products!</h1>
                     <div className="ml-40 flex gap-3">
@@ -241,7 +247,7 @@ export default function ProductsComponents() {
             </div>
         )}
         {popUp?.modify && (
-            <div className="w-full h-screen backdrop-blur-sm absolute flex justify-center items-center px-5 lg:px-0 z-50">
+            <div className="w-full h-screen backdrop-blur-sm fixed flex justify-center items-center px-5 lg:px-0 z-50">
                 <div className="w-full lg:max-w-[700px]">
                     <div className="w-full p-5 rounded-lg bg-black flex flex-col gap-5 text-white shadow-lg">
                         <h1 className="text-lg font-[600]">You want update this products!</h1>
@@ -268,7 +274,7 @@ export default function ProductsComponents() {
                                     {/* <!-- Options --> */}
                                     <div className="w-full flex flex-col gap-2">
                                         <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                                        <Select disabled={loading || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
+                                        <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct((prevState) => ({ ...prevState, categoryId: value }))}>
                                             <SelectTrigger className="w-full">
                                                 {loading ? (
                                                     <SelectValue placeholder="Loading Categories..." />

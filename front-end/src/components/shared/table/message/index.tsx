@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from "@/components/chadcn/ui/table";
+import { TableCell, TableRow } from "@/components/shared/chadcn/ui/table";
 
 export default function TableMessage(props: { colSpan: number, content: string }) {
     const { colSpan, content } = props;

@@ -15,8 +15,8 @@ export async function middleware(req: NextRequest) {
             return NextResponse.error();
         }
     } catch (error) {
-        console.log(error);
-        return NextResponse?.redirect(new URL("/", req?.nextUrl));
+        console.error(error);
+        return NextResponse.error();
     }
 }
 

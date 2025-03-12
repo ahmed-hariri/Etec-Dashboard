@@ -1,11 +1,11 @@
 "use client"
 
-import Title from "../title";
-import { Component } from "@/components/chadcn/chart";
+import Title from "../../shared/title";
+import { Component } from "@/components/shared/chadcn/chart";
 import { accountTypes, ordersTypes, productsTypes } from "@/types";
 import { chartData } from "@/data";
 import Link from "next/link";
-import TableOrders from "../table/orders";
+import TableOrders from "../../shared/table/orders";
 import { PiPackageBold } from "react-icons/pi";
 import { GrDeliver } from "react-icons/gr";
 import { FaStore } from "react-icons/fa";
@@ -78,22 +78,24 @@ export default function DashboardComponents() {
                 <div className="w-full flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-5">
                     {loading ? (
                         new Array(4).fill(0).map((v, index) => (
-                            <div key={index} className="w-full sm:w-[49%] lg:w-[25%] animate-pulse duration-600 flex justify-between items-center cursor-pointer gap-[80px] py-[21px] px-[24px] rounded-xl hover:shadow-xl border border-[#e3e2e2]">
+                            <div key={index} className="w-full sm:w-[49%] lg:w-[25%] animate-pulse flex justify-between items-center gap-[80px] sm:gap-0 py-[21px] px-[24px] rounded-xl border border-[#ddd]">
                                 <div className="flex flex-col justify-center items-start gap-[32px]">
-                                    <div className="px-[54px] py-2 rounded-full bg-gray-400"></div>
-                                    <div className="px-4 py-2 rounded-full bg-gray-400"></div>
+                                    <div className="px-14 lg:px-9 xl:px-14 py-2 rounded-full bg-[#ddd]"></div>
+                                    <div className="px-4 py-2 rounded-full bg-[#ddd]"></div>
                                 </div>
-                                <div className="p-4 rounded-full bg-gray-400"></div>
+                                <div className="p-4 rounded-full bg-[#ddd]"></div>
                             </div>
                         ))
                     ) : (
                         cards && cards?.map((card, index) => (
-                            <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
+                            <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] sm:gap-0 py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
                                 <div className="flex flex-col justify-center gap-1">
                                     <h1 className="text-gray-600 text-[15px] font-[600]">{card?.title}</h1>
                                     <h1 className="text-[25px] font-[700]">{card?.number}</h1>
                                 </div>
-                                <card.icon className="text-2xl text-gray-600" />
+                                <div>
+                                    <card.icon className="text-[27px] text-gray-600" />
+                                </div>
                             </Link>
                         ))
                     )}
