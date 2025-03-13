@@ -10,8 +10,8 @@ import { Toaster, toast } from 'sonner';
 import { authenticationTypes } from "@/types"
 import { accountSignUp } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
-import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation"
+import { setAuthToken } from "@/util/authCookies"
 
 export default function SignUpComponents() {
     /*---> States <---*/
@@ -46,7 +46,7 @@ export default function SignUpComponents() {
         try {
             const response = await accountSignUp(account);
             if (response?.message === "Account has been created!") {
-                Cookies.set("token", response?.token, { expires: 7 });
+                setAuthToken(response?.token ?? "")
                 toast.success(response?.message)
                 navigate.push("/admin")
                 setAccount({ fullName: '', email: '', password: '', passwordConfirmation: '' });
