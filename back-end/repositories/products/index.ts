@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { functionRepository, productTypes } from "../../dto";
 import categoryModel from "../../models/categorys";
 import productModel from "../../models/products";
@@ -76,7 +77,7 @@ export const updateProductRepository: functionRepository<productTypes> = async (
             findProduct.name = name
             findProduct.description = description
             findProduct.price = price
-            findProduct.categoryId = categoryId
+            findProduct.categoryId = new mongoose.Types.ObjectId(categoryId)
             await findProduct.save();
             return { data: findProduct.id, message: 'Product Update!' }
         }

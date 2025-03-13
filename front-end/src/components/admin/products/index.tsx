@@ -173,7 +173,7 @@ export default function ProductsComponents() {
                         </div>
                     </div>
                 </div>
-                {/* <!-- Table Products --> */}
+                {/* <!-- Product cards --> */}
                 {loading?.showProducts ? (
                     <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
                 ) : (
@@ -182,7 +182,7 @@ export default function ProductsComponents() {
                             products?.data?.map((product) => (
                                 <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">
                                     <div className="w-full lg:w-[45%] h-96 lg:h-full">
-                                        <Image src={`${product?.picture}`} alt="product-picture" className="w-full h-full" />
+                                        <Image width={500} height={500} src={`${product?.picture}`} alt="product-picture" className="w-full h-full object-cover"/>
                                     </div>
                                     <div className="w-full lg:w-[55%] h-full p-4 flex flex-col gap-3">
                                         <div className="w-full flex justify-between items-center">

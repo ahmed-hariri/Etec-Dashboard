@@ -31,7 +31,20 @@ export interface ordersTypes {
             subsribe?: boolean
             admin?: boolean
         }
-        products: { productId: string, quantity: number }[]
+        products: {
+            productId: {
+                _id?: string
+                name: string
+                description: string
+                price: number
+                picture: string
+                categoryId: {
+                    _id?: string
+                    categoryName: string
+                }
+                createAt?: string
+            }, quantity: number
+        }[]
         status: "Processing" | "Shipped" | "Delivered"
         totalPrice: number
         createdAt: string

@@ -1,6 +1,14 @@
 import { productsTypes } from "@/types"
 import axios from "axios"
 
+type newProductType = {
+    name: string,
+    description: string,
+    price: number,
+    picture: string,
+    categoryId: string
+}
+
 /*---> Fetch all products <---*/
 export const fetchAllProducts = async (): Promise<productsTypes> => {
     return axios?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, {
@@ -11,7 +19,7 @@ export const fetchAllProducts = async (): Promise<productsTypes> => {
 }
 
 /*---> Create newProduct <---*/
-export const createNewProduct = async (newProduct: { name: string, description: string, price: number, picture: string, categoryId: string }) => {
+export const createNewProduct = async (newProduct: newProductType) => {
     return axios?.post(`${process.env.NEXT_PUBLIC_API_URL}/api/product`, newProduct, {
         headers: {
             Accept: "application/json",
@@ -22,7 +30,7 @@ export const createNewProduct = async (newProduct: { name: string, description: 
 }
 
 /*---> Update product <---*/
-export const updateProduct = async (id: string | null, product: { name: string, description: string, price: number, picture: string, categoryId: string }) => {
+export const updateProduct = async (id: string | null, product: newProductType) => {
     return axios?.put(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`, product, {
         headers: {
             Accept: "application/json",

@@ -4,7 +4,10 @@ import purchesedModel from "../../models/purchesed"
 /*---> Get all purchesed product repository <---*/
 export const purchesedRepository = async () => {
     try {
-        const purchesedProduct = await purchesedModel.find().populate("userId").populate("products.productId");
+        const purchesedProduct = await purchesedModel.find().populate("userId", "email").populate({
+            path: "products.productId",
+            populate: { path: "categoryId", select: "categoryName" }
+        });
         if (purchesedProduct) {
             return { data: purchesedProduct, message: "Gel all purchesed product!" }
         }

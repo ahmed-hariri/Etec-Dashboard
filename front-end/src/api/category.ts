@@ -1,6 +1,8 @@
 import { categorieTypes } from "@/types"
 import axios from "axios"
 
+type categorie = { categoryName: string }
+
 /*---> Fetch all categories <---*/
 export const fetchAllCategories = async (): Promise<categorieTypes> => {
     return axios?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/categorys`, {
@@ -11,17 +13,17 @@ export const fetchAllCategories = async (): Promise<categorieTypes> => {
 }
 
 /*---> Create new categorie <---*/
-export const createNewCategorie = async (newCategorie: { categoryName: string }) => {
+export const createNewCategorie = async (newCategorie: categorie) => {
     return axios?.post(`${process.env.NEXT_PUBLIC_API_URL}/api/category`, newCategorie, {
         headers: {
             'content-type': 'application/json'
-        },  
+        },
         withCredentials: true
     })?.then((response) => response?.data)?.catch((err) => console?.error("Error create newCategorie:", err))
 }
 
 /*---> Update categorie <---*/
-export const updateCategorie = async (categorieId: string | null, categorie: { categoryName: string }) => {
+export const updateCategorie = async (categorieId: string | null, categorie: categorie) => {
     return axios?.put(`${process.env.NEXT_PUBLIC_API_URL}/api/category/${categorieId}`, categorie, {
         headers: {
             'content-type': 'application/json'

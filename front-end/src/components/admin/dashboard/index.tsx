@@ -20,7 +20,7 @@ export default function DashboardComponents() {
     /*---> States <---*/
     const [products, setProducts] = useState<productsTypes>({ data: [] });
     const [orders, setOrders] = useState<ordersTypes>({ data: [] });
-    const [purchased, setPurchased] = useState<productsTypes>({ data: [] });
+    const [purchased, setPurchased] = useState<ordersTypes>({ data: [] });
     const [clients, setClients] = useState<accountTypes>({ data: [] });
     const cards: { title: string, number: number, icon: React.ElementType }[] = [
         { title: "Products", number: products?.data?.length, icon: PiPackageBold },
@@ -36,7 +36,7 @@ export default function DashboardComponents() {
             const response = await fetchAllProducts();
             setProducts(response ?? []);
         } catch (error) {
-            console?.error("Error gel all products : ", error)
+            console?.error("Error get all products : ", error)
         }
     }
     const getAllOrders = async (): Promise<void> => {
@@ -44,7 +44,7 @@ export default function DashboardComponents() {
             const response = await fetchAllOrders();
             setOrders(response ?? []);
         } catch (error) {
-            console?.error("Error gel all orders : ", error)
+            console?.error("Error get all orders : ", error)
         }
     }
     const getAllPurchesed = async (): Promise<void> => {
@@ -52,7 +52,7 @@ export default function DashboardComponents() {
             const response = await fetchAllPurchased();
             setPurchased(response ?? []);
         } catch (error) {
-            console?.error("Error gel all purchased : ", error)
+            console?.error("Error get all purchased : ", error)
         }
     }
     const getAllClients = async (): Promise<void> => {
@@ -60,10 +60,10 @@ export default function DashboardComponents() {
             const response = await fetchAllClients();
             setClients(response ?? []);
         } catch (error) {
-            console?.error("Error gel all clients : ", error)
+            console?.error("Error get all clients : ", error)
         }
     }
-
+    
     /*---> Effects <---*/
     useEffect(() => {
         Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
