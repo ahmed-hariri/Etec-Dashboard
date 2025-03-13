@@ -63,7 +63,7 @@ export default function DashboardComponents() {
             console?.error("Error get all clients : ", error)
         }
     }
-    
+
     /*---> Effects <---*/
     useEffect(() => {
         Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
@@ -111,7 +111,8 @@ export default function DashboardComponents() {
                     ) : (
                         <TableOrders
                             tableHead={['Order ID', 'Customer', 'Products', 'Quantity', 'Status', 'Date', "Total", 'Action']}
-                            orders={orders}
+                            ordersData={orders}
+                            fetchData={false}
                         />
                     )}
                 </div>
