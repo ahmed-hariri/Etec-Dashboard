@@ -42,7 +42,7 @@ Before starting, make sure you have the following installed:
 
 4. Run the back-end server using `nodemon` (if you don't have `nodemon` installed, you can install it globally using `npm install -g nodemon`):
    ```bash
-   nodemon index.ts
+   npm start
    ```
 
 5. The back-end server will be running at `http://localhost:3000`.
