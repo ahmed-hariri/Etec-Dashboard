@@ -76,7 +76,7 @@ export interface categorieTypes {
 export interface contactsTypes {
     data: {
         _id: string,
-        fullName: string,
+        name: string,
         email: string,
         description: string
     }[]
