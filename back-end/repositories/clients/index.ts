@@ -17,20 +17,6 @@ export const getClientRepository: functionRepository<accountTypes> = async () =>
     }
 }
 
-/*---> Get all clients subscribe repository <---*/
-export const getClientsSubscribeRepository: functionRepository<accountTypes> = async () => {
-    try {
-        const clientsSubscribe = await accountModel.find({ subscribe: true });
-        if (clientsSubscribe.length > 0) {
-            return { data: clientsSubscribe, message: "Gel all clients subscribe!" }
-        }
-        return { data: [], message: "You don't have any client subscribed" }
-    } catch (error) {
-        console.error("Error get clients subscribe:", error);
-        return { data: [], message: "Error get clients subscribe!" }
-    }
-}
-
 /*---> Client subscribe repository <---*/
 export const clientSubscribeRepository: functionRepository<accountTypes> = async (client) => {
     const { email, subscribe } = client as accountTypes
