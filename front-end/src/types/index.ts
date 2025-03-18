@@ -51,6 +51,14 @@ export interface ordersTypes {
     }[]
 }
 
+export type newProductTypes = {
+    name: string,
+    description: string,
+    price: number,
+    picture: string,
+    categoryId: string
+}
+
 export interface productsTypes {
     data: {
         _id?: string
@@ -73,6 +81,7 @@ export interface categorieTypes {
     }[]
 }
 
+export type categorieNameTypes = { categoryName: string }
 export interface contactsTypes {
     data: {
         _id: string,

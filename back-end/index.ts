@@ -15,7 +15,6 @@ import { contactRoute } from './routes/contacts';
 import { purchesedRoutes } from './routes/purchesed';
 
 const app: express.Application = express();
-
 /*---> Middlewares <---*/
 app.use(express.json());
 app.use(morgan('dev'));

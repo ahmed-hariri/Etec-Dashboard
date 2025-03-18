@@ -67,7 +67,7 @@ export default function DashboardComponents() {
     /*---> Effects <---*/
     useEffect(() => {
         Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
-            .finally(() => setTimeout(() => { setLoading(false) }, 2000))
+            .finally(() => setLoading(false))
             .catch((error) => console.error("Error fetching data:", error));
     }, [])
 
@@ -77,7 +77,7 @@ export default function DashboardComponents() {
                 <Title title="Dashboard" paragraphe="Welcome back, here's your order overview." />
                 <div className="w-full flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-5">
                     {loading ? (
-                        new Array(4).fill(0).map((v, index) => (
+                        new Array(4)?.fill(0)?.map((v, index) => (
                             <div key={index} className="w-full sm:w-[49%] lg:w-[25%] animate-pulse flex justify-between items-center gap-[80px] sm:gap-0 py-[21px] px-[24px] rounded-xl border border-[#ddd]">
                                 <div className="flex flex-col justify-center items-start gap-[32px]">
                                     <div className="px-14 lg:px-9 xl:px-14 py-2 rounded-full bg-[#ddd]"></div>

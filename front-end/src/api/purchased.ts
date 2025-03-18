@@ -1,14 +1,24 @@
 import { ordersTypes } from "@/types"
 import axios from "axios"
+import { setupCache } from "axios-cache-adapter"
+
+const cache = setupCache({
+    maxAge: 15 * 60 * 1000, // 15 min
+    clearOnStale: true,
+})
+
+const api = axios?.create({
+    adapter: cache?.adapter
+})
 
 /*---> Fetch all purchased <---*/
 export const fetchAllPurchased = async (): Promise<ordersTypes> => {
-    return axios?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/purcheseds`, {
+    return api?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/purcheseds`, {
         headers: {
             'content-type': 'application/json'
         },
         withCredentials: true
-    })?.then((response) => response?.data)?.catch((err) => console?.error("Error fetch all products", err))
+    })?.then((response) => response?.data)?.catch((error) => console?.error("Error fetch all products", error?.response?.data?.message))
 }
 
 /*---> delete purchased product <---*/
@@ -18,5 +28,5 @@ export const removePurchasedProduct = async (productId: string | null) => {
             'content-type': 'application/json'
         },
         withCredentials: true
-    })?.then((response) => response?.data)?.catch((err) => console?.error("Error purchased product:", err))
+    })?.then((response) => response?.data)?.catch((error) => console?.error("Error purchased product:", error?.response?.data?.message))
 }

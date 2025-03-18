@@ -18,7 +18,7 @@ export default function Navbar() {
 
     /*---> Functions <---*/
     const toggle = (): void => setShowAllContent((prevState) => !prevState);
-    const logOut = (): void => { Cookies.remove("token"); navigate?.push("/") }
+    const logOut = (): void => { Cookies.remove("token"); navigate?.push("/auth/sign-in") }
 
     /*---> Effects <---*/
     useEffect(() => {

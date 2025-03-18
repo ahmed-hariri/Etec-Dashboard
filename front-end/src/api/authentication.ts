@@ -8,7 +8,7 @@ export const accountSignUp = async (account: authenticationTypes) => {
             Accept: "application/json",
             'content-type': 'application/json'
         }
-    })?.then((response) => response?.data)?.catch((error) => console?.error("Error register newAccount:", error))
+    })?.then((response) => response?.data)?.catch((error) => console?.error("Error register newAccount:", error?.response?.data?.message))
 }
 
 /*---> Login oldAccount <---*/
@@ -18,5 +18,5 @@ export const accountSignIn = async (account: Partial<authenticationTypes>) => {
             Accept: "application/json",
             'content-type': 'application/json'
         }
-    })?.then((response) => response.data)?.catch((error) => console?.error("Error login account:", error))
+    })?.then((response) => response.data)?.catch((error) => console?.error("Error login account:", error?.response?.data?.message))
 }

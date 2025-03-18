@@ -20,7 +20,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 /*---> Middleware to check if the user is an admin <---*/
 export const checkAdmin = (req: Request, res: Response, next: NextFunction): any => {
     const userData = req.data as accountTypes
-    console?.log(userData.role)
+    console?.log(userData?.role)
     if (userData?.role === "admin") {
         next();
     }
