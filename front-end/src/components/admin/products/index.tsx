@@ -182,7 +182,8 @@ export default function ProductsComponents() {
                             products?.data?.map((product) => (
                                 <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">
                                     <div className="w-full lg:w-[45%] h-96 lg:h-full">
-                                        <Image width={500} height={500} src={`${product?.picture ?? ""}`} alt="product-picture" className="w-full h-full object-cover"/>
+                                        {/* priority={true} ensures the image loads first, improving page speed for images above the fold */}
+                                        <Image width={500} height={500} priority={true} src={`${product?.picture ?? ""}`} alt="product-picture" className="w-full h-full object-cover" />
                                     </div>
                                     <div className="w-full lg:w-[55%] h-full p-4 flex flex-col gap-3">
                                         <div className="w-full flex justify-between items-center">
