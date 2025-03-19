@@ -2,7 +2,7 @@ import { ordersTypes } from "@/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
 import TableMessage from "../message";
 import { Button } from "@/components/shared/chadcn/ui/button"
-import { changeOrderState, fetchAllOrders } from "@/api/orders";
+import { changeOrderState, fetchAllOrders, refreshCache } from "@/api/orders";
 import { useEffect, useState } from "react";
 
 export default function TableOrders(props: { tableHead: string[], ordersData: ordersTypes, fetchData: boolean }) {
@@ -26,6 +26,7 @@ export default function TableOrders(props: { tableHead: string[], ordersData: or
             const response = await changeOrderState(id, newStatus)
             if (response?.message) {
                 console?.log(response?.message)
+                refreshCache()
                 await getAllOrders()
             }
         } catch (error) {

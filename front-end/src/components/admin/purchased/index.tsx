@@ -5,7 +5,7 @@ import { toast, Toaster } from "sonner";
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { fetchAllPurchased, removePurchasedProduct } from "@/api/purchased";
+import { fetchAllPurchased, refreshCache, removePurchasedProduct } from "@/api/purchased";
 import { ordersTypes } from "@/types";
 import { FaUser } from "react-icons/fa";
 
@@ -32,6 +32,7 @@ export default function PurchasedComponents() {
             if (response?.message === 'Purchesed product deleted successfully!') {
                 toast?.success(response?.message);
                 setPopUp({ remove: false, productId: '' });
+                refreshCache()
                 await getAllProducts();
             }
         } catch (error) {

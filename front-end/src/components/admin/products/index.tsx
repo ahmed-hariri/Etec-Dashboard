@@ -10,7 +10,7 @@ import { Textarea } from "@/components/shared/chadcn/ui/textarea"
 import { toast, Toaster } from "sonner";
 import { inputs } from "@/data";
 import { Button } from "@/components/shared/chadcn/ui/button"
-import { createNewProduct, fetchAllProducts, removeProduct, updateProduct } from "@/api/product";
+import { createNewProduct, fetchAllProducts, refreshCache, removeProduct, updateProduct } from "@/api/product";
 import { fetchAllCategories } from "@/api/category";
 import Image from "next/image";
 
@@ -56,8 +56,9 @@ export default function ProductsComponents() {
             const response = await createNewProduct(product)
             if (response?.message === 'Product has been created!') {
                 toast?.success(response?.message);
-                await getAllProducts();
                 setProduct({ name: '', price: 0, picture: '', description: '', categoryId: '' })
+                refreshCache()
+                await getAllProducts();
             }
         } catch (error) {
             console?.error("Error create newProduct : ", error)
@@ -81,6 +82,7 @@ export default function ProductsComponents() {
             if (response?.message === 'Product Update!') {
                 toast?.success(response?.message);
                 setPopUp({ modify: false, remove: false, productId: '' });
+                refreshCache()
                 await getAllProducts();
             }
         } catch (error) {
@@ -93,6 +95,7 @@ export default function ProductsComponents() {
             if (response?.message === 'Product deleted successfully!') {
                 toast?.success(response?.message);
                 setPopUp({ modify: false, remove: false, productId: '' });
+                refreshCache()
                 await getAllProducts();
             }
         } catch (error) {
@@ -183,7 +186,7 @@ export default function ProductsComponents() {
                                 <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">
                                     <div className="w-full lg:w-[45%] h-96 lg:h-full">
                                         {/* priority={true} ensures the image loads first, improving page speed for images above the fold */}
-                                        <Image width={500} height={500} priority={true} src={`${product?.picture ?? ""}`} alt="product-picture" className="w-full h-full object-cover" />
+                                        <Image width={500} height={500} priority={true} src={`${product?.picture}`} alt="product-picture" className="w-full h-full object-cover" />
                                     </div>
                                     <div className="w-full lg:w-[55%] h-full p-4 flex flex-col gap-3">
                                         <div className="w-full flex justify-between items-center">

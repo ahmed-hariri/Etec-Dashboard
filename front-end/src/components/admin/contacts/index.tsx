@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/shared/chadcn/ui/button"
 import TableMessage from "../../shared/table/message";
 import { useEffect, useState } from "react";
-import { fetchAllContacts, removeContact } from "@/api/contacts";
+import { fetchAllContacts, refreshCache, removeContact } from "@/api/contacts";
 
 export default function ContactsComponents() {
     /*---> States <---*/
@@ -33,6 +33,7 @@ export default function ContactsComponents() {
             if (response?.message === 'Contact deleted successfully!') {
                 toast?.success(response?.message);
                 setPopUp({ remove: false, contactId: '' });
+                refreshCache()
                 await getAllContacts();
             }
         } catch (error) {

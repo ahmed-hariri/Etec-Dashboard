@@ -11,6 +11,10 @@ const api = axios?.create({
     adapter: cache?.adapter
 })
 
+export const refreshCache = () => {
+    (cache?.store as { clear: () => void })?.clear(); // Clear the cache
+}
+
 /*---> Fetch all orders <---*/
 export const fetchAllOrders = async (): Promise<ordersTypes> => {
     return api?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {

@@ -4,12 +4,16 @@ import { setupCache } from 'axios-cache-adapter'
 
 const cache = setupCache({
     maxAge: 15 * 60 * 1000, // 15 min
-    clearOnStale: true,
+    clearOnStale: true, // Set cache expiration to 15 minutes and enable auto-clear on stale data
 })
 
 const api = axios?.create({
     adapter: cache?.adapter
 })
+
+export const refreshCache = () => {
+    (cache?.store as { clear: () => void })?.clear(); // Clear the cache
+}
 
 /*---> Fetch all products <---*/
 export const fetchAllProducts = async (): Promise<productsTypes> => {

@@ -8,7 +8,7 @@ import { Button } from "@/components/shared/chadcn/ui/button"
 import { toast, Toaster } from "sonner";
 import { categorieTypes } from "@/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
-import { createNewCategorie, fetchAllCategories, removeCategorie, updateCategorie } from "@/api/category";
+import { createNewCategorie, fetchAllCategories, refreshCache, removeCategorie, updateCategorie } from "@/api/category";
 import TableMessage from "../../shared/table/message";
 
 export default function CategoriesComponents() {
@@ -45,8 +45,9 @@ export default function CategoriesComponents() {
             const response = await createNewCategorie(newCategorie);
             if (response?.message === "Category has been created!") {
                 toast?.success(response?.message)
-                await getAllCategories();
                 setCategorie('')
+                refreshCache()
+                await getAllCategories();
             }
         } catch (error) {
             console?.error("Error create categorie : ", error)
@@ -65,6 +66,7 @@ export default function CategoriesComponents() {
             if (response?.message === "Category Update!") {
                 toast?.success(response?.message)
                 setPopUp({ modify: false, remove: false, categorieId: '' });
+                refreshCache()
                 await getAllCategories();
             }
         } catch (error) {
@@ -77,6 +79,7 @@ export default function CategoriesComponents() {
             if (response?.message === "Category deleted successfully!") {
                 toast?.success(response?.message)
                 setPopUp({ modify: false, remove: false, categorieId: '' });
+                refreshCache()
                 await getAllCategories();
             }
         } catch (error) {
