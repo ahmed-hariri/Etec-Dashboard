@@ -13,6 +13,7 @@ import { Button } from "@/components/shared/chadcn/ui/button"
 import { createNewProduct, fetchAllProducts, refreshCache, removeProduct, updateProduct } from "@/api/product";
 import { fetchAllCategories } from "@/api/category";
 import Image from "next/image";
+import notFoundPicture from "@/../public/no-photo.jpg"
 
 export default function ProductsComponents() {
     /*---> States <---*/
@@ -110,6 +111,13 @@ export default function ProductsComponents() {
             console?.error("Error gel all products : ", error)
         }
     }
+    const isUrl = (url: string) => {
+        try {
+            return new URL(url)?.protocol?.startsWith("http") ? url : notFoundPicture?.src
+        } catch {
+            return notFoundPicture?.src;
+        }
+    }
 
     /*---> Effects <---*/
     useEffect(() => {
@@ -122,7 +130,7 @@ export default function ProductsComponents() {
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
                 <Title title="Products" paragraphe="Welcome back, here’s an overview of your products." />
                 <div className="w-full flex flex-col gap-3">
-                    <div className="flex flex-col lg:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         {/* <!-- Inputs --> */}
                         {inputs && inputs?.slice(0, 3)?.map((item, index) => (
                             <div key={index} className="w-full lg:w-1/3 flex flex-col gap-2">
@@ -131,7 +139,7 @@ export default function ProductsComponents() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                         {/* <!-- Inputs --> */}
                         {inputs && inputs?.slice(3, 6)?.map((item, index) => (
                             <div key={index} className="w-full lg:w-1/2 flex flex-col gap-2">
@@ -184,9 +192,9 @@ export default function ProductsComponents() {
                         {products && products?.data?.length > 0 ? (
                             products?.data?.map((product) => (
                                 <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">
-                                    <div className="w-full lg:w-[45%] h-96 lg:h-full">
+                                    <div className="w-full lg:w-[45%] h-96 sm:h-64 lg:h-full">
                                         {/* priority={true} ensures the image loads first, improving page speed for images above the fold */}
-                                        <Image width={500} height={500} priority={true} src={`${product?.picture}`} alt="product-picture" className="w-full h-full object-cover" />
+                                        <Image width={500} height={500} priority={true} src={`${isUrl(product?.picture)}`} alt="product-picture" className="w-full h-full object-cover" />
                                     </div>
                                     <div className="w-full lg:w-[55%] h-full p-4 flex flex-col gap-3">
                                         <div className="w-full flex justify-between items-center">
