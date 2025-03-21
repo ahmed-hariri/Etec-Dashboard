@@ -41,13 +41,11 @@ export const updateCategoryRepository: functionRepository<categoryTypes> = async
         if (existingCategory) {
             return { data: null, message: "Category already exists" }
         }
-        const findCategory = await categoryModel.findOne({ _id: id });
-        if (findCategory) {
-            findCategory.categoryName = categoryName;
-            await findCategory.save();
-            return { data: findCategory._id, message: 'Category Update!' }
+        const updatedCategory = await categoryModel?.findByIdAndUpdate(id, { categoryName }, { new: true })
+        if (!updatedCategory) {
+            return { data: null, message: "Category not found!" };
         }
-        return { data: null, message: "Category not found!" }
+        return { data: updatedCategory?.id, message: "Product updated successfully!" };
     } catch (error) {
         console.error("Error updating category:", error);
         return { data: null, message: "Error updating category!" }

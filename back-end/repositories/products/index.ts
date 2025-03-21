@@ -72,16 +72,11 @@ export const updateProductRepository: functionRepository<productTypes> = async (
         if (!findCategory) {
             return { data: null, message: "Category not found!" }
         }
-        const findProduct = await productModel.findOne({ _id: id });
-        if (findProduct) {
-            findProduct.name = name
-            findProduct.description = description
-            findProduct.price = price
-            findProduct.categoryId = new mongoose.Types.ObjectId(categoryId)
-            await findProduct.save();
-            return { data: findProduct.id, message: 'Product Update!' }
+        const updatedProduct = await productModel?.findByIdAndUpdate(id, { id, name, description, price, categoryId }, { new: true })
+        if (!updatedProduct) {
+            return { data: null, message: "Product not found!" };
         }
-        return { data: null, message: "Product not found!" }
+        return { data: updatedProduct?.id, message: "Product updated successfully!" };
     } catch (error) {
         console.error("Error updating task:", error);
         return { data: null, message: "Error updating product" }

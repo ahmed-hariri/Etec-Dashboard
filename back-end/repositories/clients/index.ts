@@ -2,6 +2,7 @@ import { accountTypes, functionRepository } from "../../dto";
 import orderModel from "../../models/orders";
 import purchesedModel from "../../models/purchesed";
 import accountModel from "../../models/clients"
+import bcrypt from 'bcrypt';
 
 /*---> Get all clients repository <---*/
 export const getClientRepository: functionRepository<accountTypes> = async () => {
@@ -53,3 +54,27 @@ export const clientInformationRepository: functionRepository<accountTypes> = asy
         return { data: [], message: "Error client information!" }
     }
 }
+
+/*---> Update client information controller <---*/
+export const updateClientInformationRepository: functionRepository<accountTypes> = async (clientInformation) => {
+    const { id, fullName, email, password, profile } = clientInformation as accountTypes;
+    try {
+        const findUser = await accountModel.findById(id);
+        if (!findUser) {
+            return { data: null, message: "Client not found" };
+        }
+        const updateData: Partial<accountTypes> = { fullName, email, profile };
+        if (password) {
+            updateData.password = await bcrypt.hash(password, 10);
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const updateClientInformation = await accountModel?.findByIdAndUpdate(id, { $set: updateData }, { new: true })
+        if (!updateClientInformation) {
+            return { data: null, message: "Client not found!" };
+        }
+        return { data: updateClientInformation?.id, message: "Client information updated successfully!" };
+    } catch (error) {
+        console.error("Error client information:", error);
+        return { data: [], message: "Error client information!" };
+    }
+};

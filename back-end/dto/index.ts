@@ -16,7 +16,7 @@ export interface productTypes {
     name: string
     description: string
     price: number
-    picture: string
+    pictures: string[]
     categoryId: string
 }
 

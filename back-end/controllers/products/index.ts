@@ -33,15 +33,18 @@ export const getProductByIdController: functionControllers = async (req, res, ne
 
 /*---> Add newProduct controller <---*/
 export const addProductController: functionControllers = async (req, res, next) => {
-    const { name, description, price, picture, categoryId } = req.body as productTypes
-    if (!name || !description || !price || !picture || !categoryId) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!picture ? "picture" : ""} ${!categoryId ? "categoryId" : ""}` });
+    const { name, description, price, pictures, categoryId } = req.body as productTypes
+    if (!name || !description || !price || !pictures || !categoryId) {
+        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!pictures ? "picture" : ""} ${!categoryId ? "categoryId" : ""}` });
     }
     if (typeof price !== "number" || price <= 0) {
         return res.status(400).json({ message: "Price must be a positive number" });
     }
+    if (pictures?.length === 0) {
+        return res.status(400).json({ message: "At least one picture is required" });
+    }
     try {
-        const product: Partial<productTypes> = { name, description, price, picture, categoryId }
+        const product: Partial<productTypes> = { name, description, price, pictures, categoryId }
         const { data, message } = await addProductRepository(product);
         if (data) {
             return res.status(201).type("json").json({ data, message });
@@ -72,12 +75,12 @@ export const removeProductController: functionControllers = async (req, res, nex
 /*---> Update product controller <---*/
 export const updateProductController: functionControllers = async (req, res, next) => {
     const { id } = req.params
-    const { name, description, price, categoryId } = req.body as productTypes
+    const { name, description, price, pictures, categoryId } = req.body as productTypes
     if (!id) {
         return res.status(400).type("json").json({ message: "You don't have productId!" })
     }
     try {
-        const product: Partial<productTypes> = { id, name, description, price, categoryId }
+        const product: Partial<productTypes> = { id, name, description, price, pictures, categoryId }
         const { data, message } = await updateProductRepository(product);
         if (data) {
             return res.status(201).type("json").json({ data, message });
