@@ -1,4 +1,4 @@
-# Etec Dashboard Project
+# Etec Admin Dashboard
 
 ## Description
 This project focuses on the admin dashboard for managing products in an e-commerce system. Built with modern technologies, 
@@ -26,7 +26,7 @@ Before starting, make sure you have the following installed:
 1. Clone the project
    ```bash
    git clone https://github.com/Kodatchi-001/Etec-Dashboard.git
-   cd Etec-E-commerce
+   cd Etec-admin-dashboard
    ```
 
 2. Navigate to the back-end folder and install dependencies
