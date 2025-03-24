@@ -25,15 +25,6 @@ other administrative tasks.
 - **State Management with Zustand:** Centralized and efficient state management using Zustand.
 - **Animations with Framer Motion:** Smooth, reactive animations of interface elements for an improved user experience.
 
-## Features
-- Admin dashboard for managing products and orders
-- User authentication for secure login
-- CRUD (Create, Read, Update, Delete) operations for product management
-- Real-time updates for product and order status
-- Responsive design using Tailwind CSS
-- State management with Zustand
-- Animations with Framer Motion
-
 ## Prerequisites
 Before starting, make sure you have the following installed:
 - [Node.js](https://nodejs.org/)
