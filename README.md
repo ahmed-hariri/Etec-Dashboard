@@ -5,13 +5,13 @@ This project focuses on the admin dashboard for managing products in an e-commer
 it provides a dynamic and user-friendly interface for administrators to manage inventory, view customer orders, and perform
 other administrative tasks.
 
-# Features and Optimizations
+## Features and Optimizations
 
-## Performance Optimizations
+### Performance Optimizations
 - **Cache with Axios:** Caching the responses of requests to avoid reloading data on each call, thus improving application speed.
 - **Query Optimizations:** Reducing redundant API calls and preloading data to speed up access to information.
 
-## Main Features
+### Main Features
 - **Admin Dashboard:** Allows centralized management of products and orders.
 - **User Authentication:** Secure login for users with session management.
 - **CRUD Operations for Product Management:** Create, read, update, and delete products.
@@ -20,7 +20,7 @@ other administrative tasks.
 - **Contact Management:** Tracking and managing client contacts.
 - **Real-Time Updates:** Tracking products and order statuses in real-time.
 
-## UI/UX and State Management
+### UI/UX and State Management
 - **Responsive Design with Tailwind CSS:** A user interface optimized to fit all screen sizes.
 - **State Management with Zustand:** Centralized and efficient state management using Zustand.
 - **Animations with Framer Motion:** Smooth, reactive animations of interface elements for an improved user experience.
