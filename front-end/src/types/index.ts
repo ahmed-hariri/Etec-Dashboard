@@ -1,3 +1,5 @@
+import React, { ChangeEventHandler, MouseEventHandler } from "react"
+
 export interface authenticationTypes {
     fullName: string
     email: string
@@ -54,8 +56,8 @@ export interface ordersTypes {
 export type newProductTypes = {
     name: string,
     description: string,
-    price: number,
-    picture: string,
+    price: number | null,
+    pictures: string[],
     categoryId: string
 }
 
@@ -65,7 +67,7 @@ export interface productsTypes {
         name: string
         description: string
         price: number
-        picture: string
+        pictures: string[]
         categoryId: {
             _id?: string
             categoryName: string
@@ -74,7 +76,26 @@ export interface productsTypes {
     }[]
 
 }
-export interface categorieTypes {
+export interface inputTypes {
+    name: string
+    description: string
+    price: number | null
+    pictures: string[]
+    categoryId: string
+    [key: string]: string | number | null | string[]
+}
+
+export type loadingTypes = {
+    newProduct: boolean
+    showProducts: boolean
+}
+export type popUpTypes = {
+    modify: boolean
+    remove: boolean
+    productId?: string | null
+    categorieId?: string | null
+}
+export interface categoriesTypes {
     data: {
         _id?: string
         categoryName: string
@@ -119,4 +140,27 @@ export interface contextTyes {
     orders: ordersTypes[]
     links: linksTypes[]
     inputs: inputsTypes[]
+}
+
+export type productComponentsTypes = {
+    type: "remove" | "modify"
+    popUp: popUpTypes
+    setPopUp: React.Dispatch<React.SetStateAction<popUpTypes>>
+    productValue: inputTypes
+    setProductValue: React.Dispatch<React.SetStateAction<inputTypes>>
+    onChange: ChangeEventHandler
+    pictureValue: string
+    pictureAction: (action: string, index?: number) => void
+    onCreateProduct: MouseEventHandler
+    categories: categoriesTypes
+    loading?: loadingTypes
+    pictureMethod: (productId: string | null) => void
+    product?: inputTypes
+}
+export type productCardsComponentsTypes = {
+    loading: loadingTypes,
+    products: productsTypes
+    handelProduct: (id: string | null) => void
+    setPopUp: React.Dispatch<React.SetStateAction<popUpTypes>>
+    isUrl: (url: string) => string
 }

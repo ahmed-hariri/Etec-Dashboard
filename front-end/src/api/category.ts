@@ -1,4 +1,4 @@
-import { categorieNameTypes, categorieTypes } from "@/types"
+import { categorieNameTypes, categoriesTypes } from "@/types"
 import axios from "axios"
 import { setupCache } from "axios-cache-adapter"
 
@@ -16,7 +16,7 @@ export const refreshCache = () => {
 }
 
 /*---> Fetch all categories <---*/
-export const fetchAllCategories = async (): Promise<categorieTypes> => {
+export const fetchAllCategories = async (): Promise<categoriesTypes> => {
     return api?.get(`${process.env.NEXT_PUBLIC_API_URL}/api/categorys`, {
         headers: {
             'content-type': 'application/json'
@@ -31,7 +31,10 @@ export const createNewCategorie = async (newCategorie: categorieNameTypes) => {
             'content-type': 'application/json'
         },
         withCredentials: true
-    })?.then((response) => response?.data)?.catch((error) => console?.error("Error create newCategorie:", error?.response?.data?.message))
+    })?.then((response) => response?.data)?.catch((error) => {
+        console?.error("Error create newCategorie:", error?.response?.data?.message)
+        return { error: error?.response?.data?.message };
+    })
 }
 
 /*---> Update categorie <---*/

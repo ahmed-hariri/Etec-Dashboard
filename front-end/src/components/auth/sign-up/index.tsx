@@ -4,7 +4,7 @@ import { Input } from "@/components/shared/chadcn/ui/input"
 import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import Link from "next/link"
 import { Toaster, toast } from 'sonner';
 import { authenticationTypes } from "@/types"
@@ -21,26 +21,24 @@ export default function SignUpComponents() {
     const navigate = useRouter();
 
     /*---> Functions <---*/
-    const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleChanges = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e?.target;
         setAccount((prevState) => ({ ...prevState, [name]: value }));
-    }
-    const handleSubmit = async () => {
-        /*---> Verification <---*/
-        const validationFullName: boolean = account?.fullName?.trim() !== "";
-        const validationEmail: boolean = account?.email?.trim() !== "";
-        const validationPassword: boolean = account?.password?.trim() !== "";
-        const validationPasswordConfirmation: boolean = account?.passwordConfirmation?.trim() !== "";
-        if (!validationFullName || !validationEmail || !validationPassword || !validationPasswordConfirmation) {
-            toast?.warning("Please fill in all the fields.");
-            return
-        } else if (account?.password !== account?.passwordConfirmation) {
-            toast?.warning("Password and password confirmation not match.");
-            return
+    }, [])
+    const isValidSignUp = useCallback((account: Partial<authenticationTypes>) => {
+        return account?.fullName?.trim() && account?.email?.trim() && account?.password?.trim() && account?.passwordConfirmation?.trim();
+    }, []);
+    const handleSubmit = useCallback(async () => {
+        if (!isValidSignUp(account)) {
+            toast.warning("Please fill in all the fields.");
+            return;
         }
-        /*---> Create newAccount <---*/
-        await createAccount()
-    }
+        if (account?.password !== account?.passwordConfirmation) {
+            toast.warning("Password and password confirmation do not match.");
+            return;
+        }
+        await createAccount();
+    }, [account, isValidSignUp]);
     const createAccount = async (): Promise<void> => {
         setLoading(true)
         try {
@@ -66,20 +64,20 @@ export default function SignUpComponents() {
                 <div className="w-full flex flex-col gap-3">
                     <div className="w-full flex flex-col gap-2">
                         <Label htmlFor="fullName" className="text-[16px]">Full Name</Label>
-                        <Input type="text" id="fullName" placeholder="Full Name" name="fullName" value={account.fullName} onChange={handelChanges} />
+                        <Input type="text" id="fullName" placeholder="Full Name" name="fullName" value={account.fullName} onChange={handleChanges} />
                     </div>
                     <div className="w-full flex flex-col gap-2">
                         <Label htmlFor="email" className="text-[16px]">Email</Label>
-                        <Input type="email" id="email" placeholder="Email" name="email" value={account.email} onChange={handelChanges} />
+                        <Input type="email" id="email" placeholder="Email" name="email" value={account.email} onChange={handleChanges} />
                     </div>
                     <div className="w-full flex flex-wrap lg:flex-nowrap gap-3">
                         <div className="w-full lg:w-1/2 flex flex-col gap-2">
                             <Label htmlFor="password" className="text-[16px]">Password</Label>
-                            <Input type={`${showPassword ? "text" : "password"}`} id="password" placeholder="Password" name="password" value={account.password} onChange={handelChanges} />
+                            <Input type={`${showPassword ? "text" : "password"}`} id="password" placeholder="Password" name="password" value={account.password} onChange={handleChanges} />
                         </div>
                         <div className="w-full lg:w-1/2 flex flex-col gap-2">
                             <Label htmlFor="passwordConfirmation" className="text-[16px]">Password Confirmation</Label>
-                            <Input type={`${showPassword ? "text" : "password"}`} id="passwordConfirmation" placeholder="Password Confirmation" name="passwordConfirmation" value={account.passwordConfirmation} onChange={handelChanges} />
+                            <Input type={`${showPassword ? "text" : "password"}`} id="passwordConfirmation" placeholder="Password Confirmation" name="passwordConfirmation" value={account.passwordConfirmation} onChange={handleChanges} />
                         </div>
                     </div>
                 </div>
@@ -100,6 +98,7 @@ export default function SignUpComponents() {
                     <Link href="/auth/sign-in" className="font-[600] underline">Sign In</Link>
                 </div>
             </div>
+            {/* <!-- Message --> */}
             <div className='w-full flex justify-center bottom-0 absolute bg-yellow-600'>
                 <Toaster position="bottom-right" expand={true} />
             </div>

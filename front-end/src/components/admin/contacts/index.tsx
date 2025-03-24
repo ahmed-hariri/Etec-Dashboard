@@ -8,6 +8,7 @@ import { Button } from "@/components/shared/chadcn/ui/button"
 import TableMessage from "../../shared/table/message";
 import { useEffect, useState } from "react";
 import { fetchAllContacts, refreshCache, removeContact } from "@/api/contacts";
+import { fetchData } from "@/util/fetchData";
 
 export default function ContactsComponents() {
     /*---> States <---*/
@@ -17,16 +18,6 @@ export default function ContactsComponents() {
     const [popUp, setPopUp] = useState<{ remove: boolean, contactId: string | null }>({ remove: false, contactId: "" })
 
     /*---> Functions <---*/
-    const getAllContacts = async (): Promise<void> => {
-        try {
-            const response = await fetchAllContacts();
-            setContacts(response ?? []);
-        } catch (error) {
-            console?.error("Error gel all clients : ", error)
-        } finally {
-            setLoading(false)
-        }
-    }
     const deleteContact = async (id: string | null): Promise<void> => {
         try {
             const response = await removeContact(id);
@@ -34,7 +25,7 @@ export default function ContactsComponents() {
                 toast?.success(response?.message);
                 setPopUp({ remove: false, contactId: '' });
                 refreshCache()
-                await getAllContacts();
+                await fetchData(fetchAllContacts, setContacts)
             }
         } catch (error) {
             console?.error("Error remove contact : ", error)
@@ -43,7 +34,8 @@ export default function ContactsComponents() {
 
     /*---> Effects <---*/
     useEffect(() => {
-        getAllContacts()
+        fetchData(fetchAllContacts, setContacts, "Error get all contacts :")
+        setLoading(false)
     }, [])
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
@@ -86,6 +78,7 @@ export default function ContactsComponents() {
                 )}
             </div>
         </section>
+        {/* <!-- Message --> */}
         <div className='w-full py-5 flex justify-center bottom-0 absolute'>
             <Toaster position="bottom-right" expand={true} />
         </div>
@@ -94,18 +87,15 @@ export default function ContactsComponents() {
                 <div className="p-4 rounded-lg bg-black flex flex-col gap-5 text-white shadow-lg">
                     <h1 className="text-lg font-[600]">You want remove this products!</h1>
                     <div className="ml-40 flex gap-3">
-                        {[
-                            { name: 'Remove', style: 'text-[17px] bg-red-500 text-white' },
-                            { name: 'Cancel', style: 'text-[17px] bg-white text-black hover:text-white' }
-                        ]?.map((item, index) => (
-                            <Button key={index} className={`${item?.style}`} onClick={() => {
-                                if (item?.name === 'Cancel') {
+                        {['Remove', 'Cancel']?.map((item, index) => (
+                            <Button key={index} className="text-[17px]" onClick={() => {
+                                if (item === 'Cancel') {
                                     setPopUp((prevState) => ({ ...prevState, remove: false, productId: null }))
                                 } else {
                                     deleteContact(popUp?.contactId ?? null)
                                 }
                             }}>
-                                {item?.name}
+                                {item}
                             </Button>
                         ))}
                     </div>

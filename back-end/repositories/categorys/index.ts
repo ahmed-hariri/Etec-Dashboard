@@ -45,7 +45,7 @@ export const updateCategoryRepository: functionRepository<categoryTypes> = async
         if (!updatedCategory) {
             return { data: null, message: "Category not found!" };
         }
-        return { data: updatedCategory?.id, message: "Product updated successfully!" };
+        return { data: updatedCategory?.id, message: "Categorie updated successfully!" };
     } catch (error) {
         console.error("Error updating category:", error);
         return { data: null, message: "Error updating category!" }

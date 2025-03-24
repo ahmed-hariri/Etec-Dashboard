@@ -15,6 +15,7 @@ import { fetchAllProducts } from "@/api/product";
 import { fetchAllOrders } from "@/api/orders";
 import { fetchAllPurchased } from "@/api/purchased";
 import { fetchAllClients } from "@/api/clients";
+import { fetchData } from "@/util/fetchData";
 
 export default function DashboardComponents() {
     /*---> States <---*/
@@ -30,45 +31,15 @@ export default function DashboardComponents() {
     ]
     const [loading, setLoading] = useState<boolean>(true);
 
-    /*---> Functions <---*/
-    const getAllProducts = async (): Promise<void> => {
-        try {
-            const response = await fetchAllProducts();
-            setProducts(response ?? []);
-        } catch (error) {
-            console?.error("Error get all products : ", error)
-        }
-    }
-    const getAllOrders = async (): Promise<void> => {
-        try {
-            const response = await fetchAllOrders();
-            setOrders(response ?? []);
-        } catch (error) {
-            console?.error("Error get all orders : ", error)
-        }
-    }
-    const getAllPurchesed = async (): Promise<void> => {
-        try {
-            const response = await fetchAllPurchased();
-            setPurchased(response ?? []);
-        } catch (error) {
-            console?.error("Error get all purchased : ", error)
-        }
-    }
-    const getAllClients = async (): Promise<void> => {
-        try {
-            const response = await fetchAllClients();
-            setClients(response ?? []);
-        } catch (error) {
-            console?.error("Error get all clients : ", error)
-        }
-    }
 
     /*---> Effects <---*/
     useEffect(() => {
-        Promise?.allSettled([getAllProducts(), getAllOrders(), getAllPurchesed(), getAllClients()])
-            .finally(() => setLoading(false))
-            .catch((error) => console.error("Error fetching data:", error));
+        Promise?.allSettled([
+            fetchData(fetchAllProducts, setProducts, "Error get all products : "),
+            fetchData(fetchAllOrders, setOrders, "Error get all orders : "),
+            fetchData(fetchAllPurchased, setPurchased, "Error get all products : "),
+            fetchData(fetchAllClients, setClients, "Error get all clients : "),
+        ]).finally(() => setLoading(false))
     }, [])
 
     return <>

@@ -28,9 +28,16 @@ export const links = [
     { href: "clients", context: "Clients", icon: FaUsersLine },
     { href: "contacts", context: "Contacts", icon: RiContactsFill }
 ];
+
+export interface InputsTypes {
+    type: string
+    inputName: string
+    inputLabel: string
+    placeHolder: string
+}
 export const inputs = [
     { type: "text", inputName: "name", inputLabel: "Name", placeHolder: "name" },
     { type: "number", inputName: "price", inputLabel: "Price", placeHolder: "price" },
-    { type: "text", inputName: "picture", inputLabel: "Picture", placeHolder: "picture" },
+    { type: "text", inputName: "pictures", inputLabel: "Pictures", placeHolder: "pictures" },
     { type: "text", inputName: "description", inputLabel: "Description", placeHolder: "description" }
 ]

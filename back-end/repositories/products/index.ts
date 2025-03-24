@@ -66,13 +66,13 @@ export const removeProductRepository: functionRepository<productTypes> = async (
 
 /*---> Update product repository <---*/
 export const updateProductRepository: functionRepository<productTypes> = async (product) => {
-    const { id, name, description, price, categoryId } = product as productTypes
+    const { id, name, description, price, pictures, categoryId } = product as productTypes
     try {
         const findCategory = await categoryModel.findOne({ _id: categoryId });
         if (!findCategory) {
             return { data: null, message: "Category not found!" }
         }
-        const updatedProduct = await productModel?.findByIdAndUpdate(id, { id, name, description, price, categoryId }, { new: true })
+        const updatedProduct = await productModel?.findByIdAndUpdate(id, { id, name, description, price, pictures, categoryId }, { new: true })
         if (!updatedProduct) {
             return { data: null, message: "Product not found!" };
         }

@@ -8,6 +8,7 @@ import Image from "next/image";
 import { fetchAllPurchased, refreshCache, removePurchasedProduct } from "@/api/purchased";
 import { ordersTypes } from "@/types";
 import { FaUser } from "react-icons/fa";
+import { fetchData } from "@/util/fetchData";
 
 export default function PurchasedComponents() {
     /*---> States <---*/
@@ -16,16 +17,6 @@ export default function PurchasedComponents() {
     const [popUp, setPopUp] = useState<{ remove: boolean, productId: string | null }>({ remove: false, productId: null })
 
     /*---> Functions <---*/
-    const getAllProducts = async (): Promise<void> => {
-        try {
-            const response = await fetchAllPurchased();
-            setPurchaseds(response ?? []);
-        } catch (error) {
-            console?.error("Error get all purchased products : ", error)
-        } finally {
-            setLoading(false)
-        }
-    }
     const deleteProduct = async (id: string | null): Promise<void> => {
         try {
             const response = await removePurchasedProduct(id);
@@ -33,7 +24,7 @@ export default function PurchasedComponents() {
                 toast?.success(response?.message);
                 setPopUp({ remove: false, productId: '' });
                 refreshCache()
-                await getAllProducts();
+                await fetchData(fetchAllPurchased, setPurchaseds, "Error get all products :");
             }
         } catch (error) {
             console?.error("Error remove purchased product : ", error)
@@ -42,7 +33,8 @@ export default function PurchasedComponents() {
 
     /*---> Effects <---*/
     useEffect(() => {
-        getAllProducts()
+        fetchData(fetchAllPurchased, setPurchaseds, "Error get all products :")
+        setLoading(false)
     }, [])
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
@@ -122,6 +114,7 @@ export default function PurchasedComponents() {
                 )}
             </div>
         </section>
+        {/* <!-- Message --> */}
         <div className='w-full py-5 flex justify-center bottom-0 absolute'>
             <Toaster position="bottom-right" expand={true} />
         </div>

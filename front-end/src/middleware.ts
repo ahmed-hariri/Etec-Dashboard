@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
             return NextResponse.next();
         }
         else {
-            return NextResponse.error();
+            return NextResponse.redirect(new URL('/', req.url));
         }
     } catch (error) {
         console.error(error);

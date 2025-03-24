@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { accountTypes } from "@/types";
 import { fetchAllClients } from "@/api/clients";
 import { FaUser } from "react-icons/fa6";
+import { fetchData } from "@/util/fetchData";
 
 export default function ClientsComponents() {
     /*---> States <---*/
@@ -15,21 +16,10 @@ export default function ClientsComponents() {
     const [loading, setLoading] = useState<boolean>(true)
     const tableHead: string[] = ['Clients ID', 'FullName', 'Email', 'profile', 'subscribe']
 
-    /*---> Functions <---*/
-    const getAllClients = async (): Promise<void> => {
-        try {
-            const response = await fetchAllClients();
-            setClients(response ?? []);
-        } catch (error) {
-            console?.error("Error gel all clients : ", error)
-        } finally {
-            setLoading(false)
-        }
-    }
-
     /*---> Effects <---*/
     useEffect(() => {
-        getAllClients()
+        fetchData(fetchAllClients, setClients, "Error get all clients :")
+        setLoading(false)
     }, [])
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
@@ -74,6 +64,7 @@ export default function ClientsComponents() {
                 )}
             </div>
         </section>
+        {/* <!-- Message --> */}
         <div className='w-full py-5 flex justify-center bottom-0 absolute'>
             <Toaster position="bottom-right" expand={true} />
         </div>

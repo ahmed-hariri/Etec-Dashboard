@@ -4,7 +4,7 @@ import { Input } from "@/components/shared/chadcn/ui/input"
 import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import Link from "next/link"
 import { authenticationTypes } from "@/types"
 import { Toaster, toast } from 'sonner';
@@ -12,7 +12,7 @@ import { accountSignIn } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { jwtVerify } from "jose"
-import { setAuthToken  } from "@/util/authCookies"
+import { setAuthToken } from "@/util/authCookies"
 
 export default function SignInComponents() {
     /*---> States <---*/
@@ -22,21 +22,22 @@ export default function SignInComponents() {
     const navigate = useRouter();
 
     /*---> Functions <---*/
-    const handelChanges = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleChanges = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e?.target;
         setAccount((prevState) => ({ ...prevState, [name]: value }));
-    }
-    const handleSubmit = async () => {
+    }, [])
+    const isValidSignIn = useCallback((account: Partial<authenticationTypes>) => {
+        return account?.email?.trim() && account?.password?.trim()
+    }, [])
+    const handleSubmit = useCallback(async (): Promise<void> => {
         /*---> Verification <---*/
-        const validationEmail: boolean = account?.email?.trim() !== "";
-        const validationPassword: boolean = account?.password?.trim() !== "";
-        if (!validationEmail || !validationPassword) {
+        if (!isValidSignIn(account)) {
             toast?.warning("Please fill in all the fields.");
             return
         }
         /*---> Login account <---*/
         await loginAccount()
-    }
+    }, [account])
     const loginAccount = async (): Promise<void> => {
         setLoading(true)
         try {
@@ -61,7 +62,6 @@ export default function SignInComponents() {
         catch (error) { console.error("Error Register:", error) }
         finally { setLoading(false) }
     }
-
     return <>
         <section className="w-full h-screen flex justify-center items-center px-3 relative">
             <div className='w-full lg:max-w-[540px] flex flex-col gap-6 border border-gray-200 rounded-lg p-6'>
@@ -70,11 +70,11 @@ export default function SignInComponents() {
                 <div className="w-full flex flex-col gap-3">
                     <div className="flex flex-col gap-2">
                         <Label htmlFor="email" className="text-[16px]">Email</Label>
-                        <Input type="email" id="email" placeholder="Email" name="email" value={account.email} onChange={handelChanges} />
+                        <Input type="email" id="email" placeholder="Email" name="email" value={account.email} onChange={handleChanges} />
                     </div>
                     <div className="flex flex-col gap-2">
                         <Label htmlFor="password" className="text-[16px]">Password</Label>
-                        <Input type={`${showPassword ? "text" : "password"}`} id="password" name="password" placeholder="Password" value={account.password} onChange={handelChanges} />
+                        <Input type={`${showPassword ? "text" : "password"}`} id="password" name="password" placeholder="Password" value={account.password} onChange={handleChanges} />
                     </div>
                 </div>
                 {/* <!-- Checkbox --> */}
@@ -94,6 +94,7 @@ export default function SignInComponents() {
                     <Link href="/auth/sign-up" className="font-[600] underline">Sign Up</Link>
                 </div>
             </div>
+            {/* <!-- Message --> */}
             <div className='w-full flex justify-center bottom-0 absolute'>
                 <Toaster position="bottom-right" expand={true} />
             </div>

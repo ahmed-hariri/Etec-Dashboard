@@ -35,7 +35,7 @@ export const getProductByIdController: functionControllers = async (req, res, ne
 export const addProductController: functionControllers = async (req, res, next) => {
     const { name, description, price, pictures, categoryId } = req.body as productTypes
     if (!name || !description || !price || !pictures || !categoryId) {
-        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!pictures ? "picture" : ""} ${!categoryId ? "categoryId" : ""}` });
+        return res.status(400).type("json").json({ message: `You dont have : ${!name ? "name" : ""} ${!description ? "description" : ""} ${!price ? "price" : ""} ${!pictures ? "pictures" : ""} ${!categoryId ? "categoryId" : ""}` });
     }
     if (typeof price !== "number" || price <= 0) {
         return res.status(400).json({ message: "Price must be a positive number" });
