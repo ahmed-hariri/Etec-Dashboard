@@ -1,21 +1,29 @@
-# E-commerce MENN Stack Project
+# Etec Admin Dashboard
 
 ## Description
-This project is a full-stack e-commerce application built with the MENN stack (MongoDB, Express.js, Next.js, Node.js).
-It features an admin dashboard for product management and a shopping section for customers to browse and purchase products.
-The back-end handles data management through Express.js and MongoDB, while the front-end is built in Next for a dynamic and responsive
-user experience.
+This project focuses on the admin dashboard for managing products in an e-commerce system. Built with modern technologies, 
+it provides a dynamic and user-friendly interface for administrators to manage inventory, view customer orders, and perform
+other administrative tasks.
 
-## Features
-- Admin dashboard for managing products
-- Customer shopping section for browsing and purchasing products
-- User authentication and management
-- CRUD (Create, Read, Update, Delete) operations for product management
-- CORS handling for cross-origin requests
-- MongoDB connection via Mongoose
-- Responsive design using Tailwind CSS
-- Animations with Framer Motion
-- State management with Zustand
+## Features and Optimizations
+
+### Performance Optimizations
+- **Cache with Axios:** Caching the responses of requests to avoid reloading data on each call, thus improving application speed.
+- **Query Optimizations:** Reducing redundant API calls and preloading data to speed up access to information.
+
+### Main Features
+- **Admin Dashboard:** Allows centralized management of products and orders.
+- **User Authentication:** Secure login for users with session management.
+- **CRUD Operations for Product Management:** Create, read, update, and delete products.
+- **Limited Operations for Purchased Products:** Deleting and retrieving purchased products by users.
+- **Limited Operations for Clients:** Deleting and retrieving client information.
+- **Contact Management:** Tracking and managing client contacts.
+- **Real-Time Updates:** Tracking products and order statuses in real-time.
+
+### UI/UX and State Management
+- **Responsive Design with Tailwind CSS:** A user interface optimized to fit all screen sizes.
+- **State Management with Zustand:** Centralized and efficient state management using Zustand.
+- **Animations with Framer Motion:** Smooth, reactive animations of interface elements for an improved user experience.
 
 ## Prerequisites
 Before starting, make sure you have the following installed:
@@ -28,8 +36,8 @@ Before starting, make sure you have the following installed:
 
 1. Clone the project
    ```bash
-   git clone https://github.com/Kodatchi-001/Etec-Ecommerce.git
-   cd Etec-E-commerce
+   git clone https://github.com/Kodatchi-001/Etec-Dashboard.git
+   cd Etec-admin-dashboard
    ```
 
 2. Navigate to the back-end folder and install dependencies
@@ -45,7 +53,7 @@ Before starting, make sure you have the following installed:
    npm start
    ```
 
-5. The back-end server will be running at `http://localhost:3000`.
+5. The back-end server will be running at `http://localhost:5000`.
 
 ### Front-End
 
@@ -64,15 +72,15 @@ Before starting, make sure you have the following installed:
    npm run dev
    ```
 
-4. The front-end will be running at `http://localhost:3001`.
+4. The front-end will be running at `http://localhost:3000`.
 
 ### Running the Full Stack
 
 1. Ensure both the back-end and front-end servers are running on different ports:
-   - **Back-End**: `http://localhost:3000`
-   - **Front-End**: `http://localhost:3001`
+   - **Back-End**: `http://localhost:5000`
+   - **Front-End**: `http://localhost:3000`
 
-2. Open your browser and navigate to `http://localhost:3001` to see the application in action.
+2. Open your browser and navigate to `http://localhost:3000` to see the application in action.
 
 ## Main Dependencies
 
@@ -84,87 +92,6 @@ Before starting, make sure you have the following installed:
 - *Tailwind CSS*: Utility-first CSS framework for styling.
 - *Framer Motion*: Animation library for React.
 - *Zustand*: State management tool for React.
-
-## Project Structure
-
-```
-/Etec-E-commerce
-    /back-end
-        .env
-        .gitignore
-        /controllers
-            /authentication
-            /category
-            /client
-            /contact
-            /order
-            /product
-            /purchased
-        /dto
-        index.ts
-        /middleware
-        /models
-        nodemon.json
-        package-lock.json
-        package.json
-        /repositories
-            /authentication
-            /category
-            /client
-            /contact
-            /order
-            /product
-            /purchased
-        /routes
-            /authentication
-            /category
-            /client
-            /contact
-            /order
-            /product
-            /purchased
-        tsconfig.json
-    /front-end
-        /public
-        /src
-            /api
-                authentication.ts
-                cart.ts
-                category.ts
-                clients.ts
-                product.ts
-                subscribe.ts
-            /app
-                /admin
-                    /pages
-                        /categories
-                        /clients
-                        /contacts
-                        /dashboard
-                        layout.tsx
-                        /orders
-                        /products
-                        /purchased
-                    layout.tsx
-                    page.tsx
-                /auth
-                    /sign-in
-                    /sign-up
-                layout.tsx
-                not-found.tsx
-                page.tsx
-            /components
-            /data
-            /lib
-            middleware.ts
-            /styles
-            /types
-        tailwind.config.ts
-        tsconfig.json
-    README.md
-    .gitignore
-    package.json
-```
 
 ## Testing
 
