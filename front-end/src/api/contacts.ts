@@ -21,8 +21,8 @@ export const fetchAllContacts = async (): Promise<contactsTypes> => {
         headers: {
             'content-type': 'application/json'
         },
-        withCredentials: true
-    })?.then((response) => response?.data)?.catch((error) => console?.error("Error fetch all contacts:",error?.response?.data?.message))
+        withCredentials: true // send request with cookies
+    })?.then((response) => response?.data)?.catch((error) => console?.error("Error fetch all contacts:", error?.response?.data?.message))
 }
 
 /*---> Fetch all contacts <---*/
@@ -32,5 +32,5 @@ export const removeContact = async (contactId: string | null) => {
             'content-type': 'application/json'
         },
         withCredentials: true
-    })?.then((response) => response?.data)?.catch((error) => console?.error("Error delete contact:",error?.response?.data?.message))
+    })?.then((response) => response?.data)?.catch((error) => console?.error("Error delete contact:", error?.response?.data?.message))
 }

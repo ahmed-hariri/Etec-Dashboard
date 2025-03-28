@@ -25,18 +25,18 @@ export const fetchAllProducts = async (): Promise<productsTypes> => {
 }
 
 /*---> Create newProduct <---*/
-export const createNewProduct = async (newProduct: newProductTypes) => {
+export const createNewProduct = async (newProduct: Partial<newProductTypes>) => {
     return axios?.post(`${process.env.NEXT_PUBLIC_API_URL}/api/product`, newProduct, {
         headers: {
             Accept: "application/json",
             'content-type': 'application/json'
         },
-        withCredentials: true
+        withCredentials: true // send request with cookies
     })?.then((response) => response?.data)?.catch((error) => console?.error("Error create newProduct:", error?.response?.data?.message))
 }
 
 /*---> Update product <---*/
-export const updateProduct = async (id: string | null, product: newProductTypes) => {
+export const updateProduct = async (id: string | null, product: Partial<newProductTypes>) => {
     return axios?.put(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`, product, {
         headers: {
             Accept: "application/json",

@@ -53,7 +53,7 @@ export const clientInformationController: functionControllers = async (req, res,
 
 /*---> Update client information controller <---*/
 export const updateClientInformation: functionControllers = async (req, res, next) => {
-    const { id } = req.data;
+    const { id } = req.params;
     const { fullName, email, password, profile } = req.body
     if (!id) {
         return res.status(400).type("json").json({ message: `You dont have : ${!id ? "clientId" : ""}` });

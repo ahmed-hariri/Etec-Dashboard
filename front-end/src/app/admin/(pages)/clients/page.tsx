@@ -1,4 +1,4 @@
-import ClientsComponents from "@/components/admin/clients";
+import ClientsComponents from "@/components/admin/clients/manager";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

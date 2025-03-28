@@ -1,4 +1,4 @@
-import ContactsComponents from "@/components/admin/contacts";
+import ContactsComponents from "@/components/admin/contacts/manager";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

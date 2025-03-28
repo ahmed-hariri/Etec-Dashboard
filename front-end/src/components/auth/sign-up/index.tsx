@@ -4,7 +4,7 @@ import { Input } from "@/components/shared/chadcn/ui/input"
 import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import Link from "next/link"
 import { Toaster, toast } from 'sonner';
 import { authenticationTypes } from "@/types"
@@ -12,19 +12,22 @@ import { accountSignUp } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { setAuthToken } from "@/util/authCookies"
+import useSignUpStore from "@/store/auth/signUpStore"
 
 export default function SignUpComponents() {
-    /*---> States <---*/
-    const [account, setAccount] = useState<authenticationTypes>({ fullName: '', email: '', password: '', passwordConfirmation: '', profile: null, subsribe: false });
-    const [loading, setLoading] = useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    /*---> States (Zustand) <---*/
+    const {
+        account, setAccount,
+        loading, setLoading,
+        showPassword, setShowPassword
+    } = useSignUpStore()
     const navigate = useRouter();
 
     /*---> Functions <---*/
     const handleChanges = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e?.target;
-        setAccount((prevState) => ({ ...prevState, [name]: value }));
-    }, [])
+        setAccount({ [name]: value });
+    }, [setAccount])
     const isValidSignUp = useCallback((account: Partial<authenticationTypes>) => {
         return account?.fullName?.trim() && account?.email?.trim() && account?.password?.trim() && account?.passwordConfirmation?.trim();
     }, []);
@@ -83,7 +86,7 @@ export default function SignUpComponents() {
                 </div>
                 {/* <!-- Checkbox --> */}
                 <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" onClick={() => setShowPassword((prevState) => !prevState)} />
+                    <Checkbox id="terms" onClick={() => setShowPassword(!showPassword)} />
                     <label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Show Password
                     </label>

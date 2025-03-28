@@ -1,7 +1,7 @@
 import { accountTypes, functionRepository } from "../../dto";
 import orderModel from "../../models/orders";
 import purchesedModel from "../../models/purchesed";
-import accountModel from "../../models/clients"
+import accountModel from "../../models/users"
 import bcrypt from 'bcrypt';
 
 /*---> Get all clients repository <---*/
@@ -75,6 +75,6 @@ export const updateClientInformationRepository: functionRepository<accountTypes>
         return { data: updateClientInformation?.id, message: "Client information updated successfully!" };
     } catch (error) {
         console.error("Error client information:", error);
-        return { data: [], message: "Error client information!" };
+        return { data: null, message: "Error client information!" };
     }
 };

@@ -21,7 +21,7 @@ export const fetchAllOrders = async (): Promise<ordersTypes> => {
         headers: {
             'content-type': 'application/json'
         },
-        withCredentials: true
+        withCredentials: true // send request with cookies
     })?.then((response) => response?.data)?.catch((error) => console?.error("Error fetch all orders:", error?.response?.data?.message))
 }
 /*---> Change order state <---*/

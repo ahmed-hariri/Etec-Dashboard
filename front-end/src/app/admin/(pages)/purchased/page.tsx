@@ -1,4 +1,4 @@
-import PurchasedComponents from "@/components/admin/purchased";
+import PurchasedComponents from "@/components/admin/purchased/manager";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

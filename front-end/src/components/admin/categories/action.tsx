@@ -3,7 +3,14 @@ import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { popUpTypes } from "@/types"
 
-export default function CategorieAction(props: Partial<{ type: string, popUp: popUpTypes, setPopUp: React.Dispatch<React.SetStateAction<popUpTypes>>, methode: (Id: string | null) => void, handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void, value: string }>) {
+export default function CategorieAction(props: Partial<{
+    type: string,
+    popUp: popUpTypes,
+    setPopUp: (popUp: popUpTypes) => void,
+    methode: (Id: string | null) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    value: string
+}>) {
     const { type, popUp, setPopUp, methode, handleChange, value } = props
 
     return <>
@@ -16,7 +23,7 @@ export default function CategorieAction(props: Partial<{ type: string, popUp: po
                         {['Remove', 'Cancel']?.map((item, index) => (
                             <Button key={index} className="text-[17px]" onClick={() => {
                                 if (item === 'Cancel') {
-                                    setPopUp?.((prevState) => ({ ...prevState, remove: false, productId: null }))
+                                    setPopUp?.({ remove: false, productId: null })
                                 } else {
                                     methode?.(popUp?.categorieId ?? null)
                                 }
@@ -46,7 +53,7 @@ export default function CategorieAction(props: Partial<{ type: string, popUp: po
                                 {['Modify', 'Cancel']?.map((item, index) => (
                                     <Button key={index} className="w-full lg:w-1/2 py-[24px] text-[18px]" onClick={() => {
                                         if (item === 'Cancel') {
-                                            setPopUp?.((prevState) => ({ ...prevState, modify: false, productId: null }))
+                                            setPopUp?.({ modify: false, productId: null })
                                         } else {
                                             methode?.(popUp?.categorieId ?? null)
                                         }

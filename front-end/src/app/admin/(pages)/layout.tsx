@@ -15,14 +15,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        <div className="flex">
-          <Navbar />
-          {children}
-        </div>
-      </body>
-    </html>
-  );
+  return <>
+    <div className="flex">
+      <Navbar />
+      {children}
+    </div>
+  </>
 }

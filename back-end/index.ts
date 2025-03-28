@@ -10,7 +10,7 @@ import { authRoutes } from "./routes/authentication";
 import { productRoutes } from './routes/product';
 import { categoryRoutes } from './routes/categorys/index';
 import { orderRoutes } from './routes/orders';
-import { clientRoutes } from './routes/clients';
+import { clientRoutes } from './routes/users';
 import { contactRoute } from './routes/contacts';
 import { purchesedRoutes } from './routes/purchesed';
 

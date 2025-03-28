@@ -1,21 +1,21 @@
 "use client"
 
 import Title from "../../shared/title";
-import { ordersTypes } from "@/types";
 import { Toaster } from "sonner";
 import TableOrders from "../../shared/table/orders";
 import { fetchAllOrders } from "@/api/orders";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchData } from "@/util/fetchData";
+import useOrdersStore from "@/store/pages/ordersStore";
 
 export default function OrdersComponents() {
-    /*---> States <---*/
-    const [orders, setOrders] = useState<ordersTypes>({ data: [] });
+    /*---> States (Zustand) <---*/
+    const { orders, setOrders } = useOrdersStore()
 
     /*---> Effects <---*/
     useEffect(() => {
         fetchData(fetchAllOrders, setOrders, "Error get all orders :")
-    }, [])
+    }, [setOrders])
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">

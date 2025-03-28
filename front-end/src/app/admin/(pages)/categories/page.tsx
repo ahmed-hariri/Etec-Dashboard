@@ -1,4 +1,4 @@
-import CategoriesComponents from "@/components/admin/categories";
+import CategoriesComponents from "@/components/admin/categories/manager";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

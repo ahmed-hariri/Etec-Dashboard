@@ -4,13 +4,13 @@ import { Button } from "@/components/shared/chadcn/ui/button"
 import Image from "next/image"
 import { IoMdRemoveCircle } from "react-icons/io"
 import { inputs } from "@/data"
-import { Textarea } from "../chadcn/ui/textarea"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/shared/chadcn/ui/select"
-import { inputTypes, popUpTypes, productComponentsTypes } from "@/types"
+import { productComponentsTypes } from "@/types"
+import { Textarea } from "@/components/shared/chadcn/ui/textarea"
 
 export default function ProductAction(props: Partial<productComponentsTypes>) {
     const {
-        type, popUp, setPopUp, product, setProductValue,
+        type, popUp, setPopUp, product, setProduct,
         onChange, pictureAction, pictureMethod,
         categories, loading
     } = props
@@ -25,7 +25,7 @@ export default function ProductAction(props: Partial<productComponentsTypes>) {
                         {['Remove', 'Cancel']?.map((item, index) => (
                             <Button key={index} className="text-[17px]" onClick={() => {
                                 if (item === 'Cancel') {
-                                    setPopUp?.((prevState: popUpTypes) => ({ ...prevState, remove: false, productId: null }))
+                                    setPopUp?.({ remove: false, productId: null })
                                 } else {
                                     pictureMethod?.(popUp?.productId ?? null)
                                 }
@@ -60,7 +60,7 @@ export default function ProductAction(props: Partial<productComponentsTypes>) {
                                                 </div>
                                                 {/* <!-- All pictures --> */}
                                                 <div className={`w-1/2 flex items-center gap-2 ${product?.pictures?.length === 0 && "justify-center border border-dashed border-gray-400 rounded-md"}`}>
-                                                    {(product?.pictures?.length ?? 0) > 0 ? (
+                                                    {(product?.pictures ?? [])?.length > 0 ? (
                                                         product?.pictures?.map((picture, index) => (
                                                             <div key={index} className="w-[120px] h-[115px] flex justify-end p-2 rounded-md bg-white shadow-md relative">
                                                                 <Image src={picture} width={140} height={130} alt="newPicture" />
@@ -94,7 +94,7 @@ export default function ProductAction(props: Partial<productComponentsTypes>) {
                                 <div className="w-full lg:w-1/2 flex flex-col justify-between gap-3 lg:gap-0">
                                     <div className="w-full flex flex-col gap-2">
                                         <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                                        <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProductValue?.((prevState: inputTypes) => ({ ...prevState, categoryId: value }))}>
+                                        <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct?.((prevState) => ({ ...prevState, categoryId: value }))}>
                                             <SelectTrigger className="w-full">
                                                 {loading?.showProducts ? (
                                                     <SelectValue placeholder="Loading Categories..." />
@@ -118,7 +118,7 @@ export default function ProductAction(props: Partial<productComponentsTypes>) {
                                         {['Modify', 'Cancel']?.map((item, index) => (
                                             <Button key={index} className="w-full lg:w-1/2 py-[24px] text-[17px] hover:text-white" onClick={() => {
                                                 if (item === 'Cancel') {
-                                                    setPopUp?.((prevState: popUpTypes) => ({ ...prevState, modify: false, productId: null }))
+                                                    setPopUp?.({ modify: false, productId: null })
                                                 } else {
                                                     pictureMethod?.(popUp?.productId ?? null)
                                                 }
@@ -132,7 +132,8 @@ export default function ProductAction(props: Partial<productComponentsTypes>) {
                         </div>
                     </div>
                 </div>
-            </div>
-        )}
+            </div >
+        )
+        }
     </>
 };

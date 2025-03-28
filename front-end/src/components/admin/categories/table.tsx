@@ -1,9 +1,15 @@
 import { categoriesTypes, popUpTypes } from "@/types"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../chadcn/ui/table"
-import { Button } from "../chadcn/ui/button"
-import TableMessage from "../table/message"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shared/chadcn/ui/table"
+import { Button } from "@/components/shared/chadcn/ui/button"
+import TableMessage from "@/components/shared/table/message"
 
-export default function CategorieTable(props: { categories: categoriesTypes, loading: boolean, tableHead: string[], handelCategorie: (categorieId: string | null) => void, setPopUp: React.Dispatch<React.SetStateAction<popUpTypes>> }) {
+export default function CategorieTable(props: {
+    categories: categoriesTypes,
+    loading: boolean,
+    tableHead: string[],
+    handelCategorie: (categorieId: string | null) => void,
+    setPopUp: (popUp: popUpTypes) => void
+}) {
     const { categories, loading, tableHead, handelCategorie, setPopUp } = props
 
     return <>
@@ -30,7 +36,7 @@ export default function CategorieTable(props: { categories: categoriesTypes, loa
                                             if (item === 'Modify') {
                                                 handelCategorie(categorie?._id ?? null)
                                             } else {
-                                                setPopUp((prevState: popUpTypes) => ({ ...prevState, remove: true, categorieId: categorie?._id ?? null }))
+                                                setPopUp({ remove: true, categorieId: categorie?._id ?? null })
                                             }
                                         }}>
                                             {item}

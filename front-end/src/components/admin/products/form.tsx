@@ -4,12 +4,17 @@ import { Button } from "@/components/shared/chadcn/ui/button"
 import Image from "next/image"
 import { IoMdRemoveCircle } from "react-icons/io"
 import { inputs } from "@/data"
-import { Textarea } from "../chadcn/ui/textarea"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from "@/components/shared/chadcn/ui/select"
 import { productComponentsTypes } from "@/types"
+import { Textarea } from "@/components/shared/chadcn/ui/textarea"
 
 export default function ProductForm(props: Partial<productComponentsTypes>) {
-    const { productValue, setProductValue, pictureValue, onChange, pictureAction, onCreateProduct, categories, loading } = props
+    const {
+        product, setProduct,
+        pictureValue, onChange,
+        pictureAction, onCreateProduct,
+        categories, loading
+    } = props
 
     return <>
         <div className="w-full flex flex-col gap-3">
@@ -29,9 +34,9 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                                     </Button>
                                 </div>
                                 {/* <!-- All pictures --> */}
-                                <div className={`w-1/2 flex items-center gap-5 ${productValue?.pictures?.length === 0 && "justify-center border border-dashed border-gray-400 rounded-md"}`}>
-                                    {(productValue?.pictures?.length ?? 0) > 0 ? (
-                                        productValue?.pictures?.map((picture, index) => (
+                                <div className={`w-1/2 flex items-center gap-5 ${product?.pictures?.length === 0 && "justify-center border border-dashed border-gray-400 rounded-md"}`}>
+                                    {(product?.pictures ?? [])?.length > 0 ? (
+                                        product?.pictures?.map((picture, index) => (
                                             <div key={index} className="w-[125px] h-[120px] flex justify-end p-2 rounded-md bg-white shadow-md relative">
                                                 <Image src={picture} width={140} height={130} alt="newPicture" />
                                                 <IoMdRemoveCircle className="text-[22px] cursor-pointer absolute" onClick={() => pictureAction?.("removePicture", index)} />
@@ -46,7 +51,7 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                     ) : (
                         <div key={index} className="w-full lg:w-[49%] flex flex-col gap-2">
                             <Label htmlFor={input?.inputName} className="text-[16px]">{input?.inputLabel}</Label>
-                            <Input type={input?.type} id={input?.inputName} placeholder={input?.placeHolder} name={input?.inputName} onChange={onChange} value={productValue?.[input?.inputName] ?? ""} />
+                            <Input type={input?.type} id={input?.inputName} placeholder={input?.placeHolder} name={input?.inputName} onChange={onChange} value={product?.[input?.inputName] ?? ""} />
                         </div>
                     )
                 ))}
@@ -56,15 +61,15 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                 {inputs && inputs?.slice(3, 6)?.map((input, index) => (
                     <div key={index} className="w-full lg:w-1/2 flex flex-col gap-2">
                         <Label htmlFor={input?.inputName} className="text-[16px]">{input?.inputLabel}</Label>
-                        {input?.inputName !== 'description' && <Input type={input?.type} id={input?.inputName} placeholder={input?.placeHolder} name={input?.inputName} onChange={onChange} value={productValue?.[input?.inputName] ?? ""} />}
-                        {input?.inputName === 'description' && <Textarea placeholder="Type your description here." rows={4} className="resize-none" name="description" onChange={onChange} value={productValue?.[input?.inputName] ?? ""} />}
+                        {input?.inputName !== 'description' && <Input type={input?.type} id={input?.inputName} placeholder={input?.placeHolder} name={input?.inputName} onChange={onChange} value={product?.[input?.inputName] ?? ""} />}
+                        {input?.inputName === 'description' && <Textarea placeholder="Type your description here." rows={4} className="resize-none" name="description" onChange={onChange} value={product?.[input?.inputName] ?? ""} />}
                     </div>
                 ))}
                 <div className="w-full lg:w-1/2 flex flex-col justify-between gap-3 lg:gap-0">
                     {/* <!-- Options --> */}
                     <div className="w-full flex flex-col gap-2">
                         <Label htmlFor="categorys" className="text-[16px]">Category</Label>
-                        <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProductValue?.((prevState) => ({ ...prevState, categoryId: value }))}>
+                        <Select disabled={loading?.showProducts || categories?.data?.length === 0} name="categorys" onValueChange={(value) => setProduct?.({categoryId: value })}>
                             <SelectTrigger className="w-full">
                                 {loading?.showProducts ? (
                                     <SelectValue placeholder="Loading Categories..." />

@@ -14,11 +14,7 @@ export const chartData = [
     { month: "May", order: 209 },
     { month: "June", order: 214 }
 ]
-export const orders = [
-    { _id: "0", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "0", quantity: 5 }], status: "Processing", createdAt: '2025-10-30', totalPrice: 23 },
-    { _id: "1", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "1", quantity: 5 }], status: "Processing", createdAt: '2025-04-03', totalPrice: 45 },
-    { _id: "2", userId: { fullName: "Ahmed Hariri", email: "Ahmedhariri58@gmail.com" }, products: [{ productId: "2", quantity: 5 }], status: "Shipped", createdAt: '2025-01-28', totalPrice: 203 }
-];
+
 export const links = [
     { href: "dashboard", context: "Dashboard", icon: MdOutlineDashboard },
     { href: "products", context: "Products", icon: MdOutlineProductionQuantityLimits },
@@ -29,12 +25,6 @@ export const links = [
     { href: "contacts", context: "Contacts", icon: RiContactsFill }
 ];
 
-export interface InputsTypes {
-    type: string
-    inputName: string
-    inputLabel: string
-    placeHolder: string
-}
 export const inputs = [
     { type: "text", inputName: "name", inputLabel: "Name", placeHolder: "name" },
     { type: "number", inputName: "price", inputLabel: "Price", placeHolder: "price" },

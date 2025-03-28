@@ -8,7 +8,7 @@ const account = new Schema({
     password: { type: String, required: true },
     profile: { type: String, required: false },
     subscribe: { type: Boolean, required: false, default: false },
-    role: { type: String, enum: ["admin", "client"], required: false },
+    role: { type: String, enum: ["admin", "client"], required: false, default: "client" },
 });
 
 const accountModel = mongoose.model("user", account);

@@ -1,32 +1,34 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import Title from "../../shared/title";
 import { Input } from "@/components/shared/chadcn/ui/input"
 import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { toast, Toaster } from "sonner";
-import { categoriesTypes, popUpTypes } from "@/types";
 import { createNewCategorie, fetchAllCategories, refreshCache, removeCategorie, updateCategorie } from "@/api/category";
 import { fetchData } from "@/util/fetchData";
-import CategorieTable from "@/components/shared/categorie/table";
-import CategorieAction from "@/components/shared/categorie/action";
+import useCategorieStore from "@/store/pages/categoriesStore";
+import CategorieTable from "./table";
+import CategorieAction from "./action";
 
 export default function CategoriesComponents() {
-    /*---> States <---*/
-    const [categorie, setCategorie] = useState<string>('');
-    const [categories, setCategories] = useState<categoriesTypes>({ data: [] });
-    const tableHead: string[] = ['Categorie ID', 'Name', 'Action'];
-    const [loading, setLoading] = useState<boolean>(true);
-    const [popUp, setPopUp] = useState<popUpTypes>({ modify: false, remove: false, categorieId: "" })
+    /*---> States (Zustand) <---*/
+    const {
+        categorie, setCategorie,
+        categories, setCategories,
+        loading, setLoading,
+        popUp, setPopUp
+    } = useCategorieStore()
+    const tableHead: string[] = ['Categorie ID', 'Name', 'Action']
 
     /*---> Functions <---*/
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setCategorie(e?.target?.value);
+        setCategorie?.(e?.target?.value);
     }
     const handleValues = useCallback(async (): Promise<void> => {
-        const validationCategoryName: boolean = categorie?.trim() !== "";
-        if (!validationCategoryName) {
+        const validation: boolean = categorie?.trim() !== "";
+        if (!validation) {
             toast?.warning("Please fill in all the fields.");
             return
         }
@@ -34,11 +36,11 @@ export default function CategoriesComponents() {
     }, [categorie])
     const addNewCategorie = async (): Promise<void> => {
         try {
-            const response = await createNewCategorie({ categoryName: categorie });
+            const response = await createNewCategorie({ categoryName: categorie ?? "" });
             if (response?.message === "Category has been created!") {
                 toast?.success(response?.message)
-                setCategorie('')
-                refreshCache()
+                setCategorie?.('')
+                refreshCache() // Clears the cache to fetch new data.
                 await fetchData(fetchAllCategories, setCategories)
             } else {
                 toast?.warning(response?.error)
@@ -51,17 +53,17 @@ export default function CategoriesComponents() {
     const handelCategorie = (id: string | null): void => {
         const findCategorie = categories?.data?.find((product) => product?._id === id);
         if (findCategorie) {
-            setPopUp((prevState) => ({ ...prevState, modify: true, categorieId: id ?? null }))
-            setCategorie(findCategorie?.categoryName)
+            setPopUp?.({ modify: true, categorieId: id ?? null })
+            setCategorie?.(findCategorie?.categoryName)
         }
     }
     const modifyCategorie = async (categorieId: string | null): Promise<void> => {
         try {
-            const response = await updateCategorie(categorieId, { categoryName: categorie });
+            const response = await updateCategorie(categorieId, { categoryName: categorie ?? "" });
             if (response?.message === "Categorie updated successfully!") {
                 toast?.success(response?.message)
-                setPopUp({ modify: false, remove: false, categorieId: '' });
-                setCategorie('')
+                setPopUp?.({ modify: false, remove: false, categorieId: '' });
+                setCategorie?.('')
                 refreshCache()
                 await fetchData(fetchAllCategories, setCategories)
             }
@@ -74,7 +76,7 @@ export default function CategoriesComponents() {
             const response = await removeCategorie(categorieName);
             if (response?.message === "Category deleted successfully!") {
                 toast?.success(response?.message)
-                setPopUp({ modify: false, remove: false, categorieId: '' });
+                setPopUp?.({ modify: false, remove: false, categorieId: '' });
                 refreshCache()
                 await fetchData(fetchAllCategories, setCategories)
             }
@@ -87,7 +89,7 @@ export default function CategoriesComponents() {
     useEffect(() => {
         fetchData(fetchAllCategories, setCategories, "Error get all categories :");
         setLoading(false);
-    }, []);
+    }, [setCategories, setLoading]);
     return <>
         <section className="w-full lg:w-[80%] px-8 py-5 flex justify-center mb-5">
             <div className="w-full lg:max-w-[70rem] flex flex-col gap-8">
@@ -107,8 +109,8 @@ export default function CategoriesComponents() {
                 </div>
                 {/* <!-- Table Categories --> */}
                 <CategorieTable
-                    categories={categories} loading={loading} tableHead={tableHead}
-                    handelCategorie={handelCategorie} setPopUp={setPopUp}
+                    categories={categories} loading={loading} tableHead={tableHead ?? []}
+                    handelCategorie={handelCategorie} setPopUp={setPopUp ?? (() => { })}
                 />
             </div>
         </section>
@@ -119,6 +121,9 @@ export default function CategoriesComponents() {
         {/* <!-- Remove Categorie --> */}
         <CategorieAction type="remove" popUp={popUp} setPopUp={setPopUp} methode={deleteCategorie} />
         {/* <!-- Modify Categorie --> */}
-        <CategorieAction type="modify" popUp={popUp} setPopUp={setPopUp} methode={modifyCategorie} handleChange={handleChange} value={categorie} />
+        <CategorieAction
+            type="modify" popUp={popUp} setPopUp={setPopUp} methode={modifyCategorie}
+            handleChange={handleChange} value={categorie}
+        />
     </>
 }

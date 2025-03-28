@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import accountModel from '../../models/clients';
+import accountModel from '../../models/users';
 import { accountRepository, accountTypes } from '../../dto';
 
 /*---> Function to handle user registration (SignUp) <---*/
@@ -16,22 +16,26 @@ export const SignUpRepository: accountRepository = async (userData) => {
         }
         /*---> Hash password for better security <---*/
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser: accountTypes = {
-            fullName: fullName,
-            email: email,
-            profile: profile,
-            password: hashedPassword,
-            subscribe: subscribe,
-            role: role
-        }
+        /*---> Save the user at data bas <---*/
+        const newAccount = new accountModel({
+            fullName: fullName, email: email,
+            profile: profile, password: hashedPassword,
+            subscribe: subscribe, role: role
+        });
+        await newAccount.save();
         /*---> Generate a token using user info and secret key <---*/
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-        const token = jwt.sign(newUser, process.env.JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign({
+            id: newAccount?._id, fullName: fullName,
+            email: email, profile: profile,
+            password: hashedPassword, subscribe: subscribe,
+            role: role
+        },
+            process.env.JWT_SECRET,
+            { expiresIn: '12h' });
         if (token) {
-            const newAccount = new accountModel(newUser);
-            await newAccount.save();
             return { token: token, message: "Account has been created!" }
         }
         return { token: null, message: "Failed to generate token" };

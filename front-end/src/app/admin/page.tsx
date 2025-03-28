@@ -1,5 +1,11 @@
 import { Button } from "@/components/shared/chadcn/ui/button";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Admin",
+    description: "Access your admin panel to manage and monitor system activities efficiently.",
+  };
 
 export default function Admin() {
     return <>

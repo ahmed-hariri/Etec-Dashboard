@@ -1,12 +1,17 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import { Button } from '../chadcn/ui/button';
 import Image from 'next/image';
-import { popUpTypes, productCardsComponentsTypes } from '@/types';
+import { productCardsComponentsTypes } from '@/types';
+import { Button } from '@/components/shared/chadcn/ui/button';
 
 export default function ProductCards(props: productCardsComponentsTypes) {
-    const { loading, products, handelProduct, setPopUp, isUrl } = props
+    const {
+        loading, products,
+        handelProduct, setPopUp,
+        isUrl
+    } = props
+    
     return <>
         {loading?.showProducts ? (
             <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
@@ -38,7 +43,7 @@ export default function ProductCards(props: productCardsComponentsTypes) {
                                                 if (item === 'Modify') {
                                                     handelProduct(product?._id ?? null)
                                                 } else {
-                                                    setPopUp((prevState: popUpTypes) => ({ ...prevState, remove: true, productId: product?._id ?? null }))
+                                                    setPopUp?.({ remove: true, productId: product?._id ?? null })
                                                 }
                                             }}>
                                                 {item}

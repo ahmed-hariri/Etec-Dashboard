@@ -4,7 +4,7 @@ import { Input } from "@/components/shared/chadcn/ui/input"
 import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import Link from "next/link"
 import { authenticationTypes } from "@/types"
 import { Toaster, toast } from 'sonner';
@@ -13,19 +13,22 @@ import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { jwtVerify } from "jose"
 import { setAuthToken } from "@/util/authCookies"
+import useSignInStore from "@/store/auth/signInStore"
 
 export default function SignInComponents() {
     /*---> States <---*/
-    const [account, setAccount] = useState<Partial<authenticationTypes>>({ email: '', password: '' });
-    const [loading, setLoading] = useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const {
+        account, setAccount,
+        loading, setLoading,
+        showPassword, setShowPassword
+    } = useSignInStore()
     const navigate = useRouter();
 
     /*---> Functions <---*/
     const handleChanges = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e?.target;
-        setAccount((prevState) => ({ ...prevState, [name]: value }));
-    }, [])
+        setAccount({ [name]: value });
+    }, [setAccount])
     const isValidSignIn = useCallback((account: Partial<authenticationTypes>) => {
         return account?.email?.trim() && account?.password?.trim()
     }, [])
@@ -37,7 +40,7 @@ export default function SignInComponents() {
         }
         /*---> Login account <---*/
         await loginAccount()
-    }, [account])
+    }, [account, isValidSignIn])
     const loginAccount = async (): Promise<void> => {
         setLoading(true)
         try {
@@ -79,7 +82,7 @@ export default function SignInComponents() {
                 </div>
                 {/* <!-- Checkbox --> */}
                 <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" onClick={() => setShowPassword((prevState) => !prevState)} />
+                    <Checkbox id="terms" onClick={() => setShowPassword?.(!showPassword)} />
                     <label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Show Password
                     </label>

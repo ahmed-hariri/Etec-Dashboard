@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { functionRepository, orderTypes, productTypes } from "../../dto";
 import orderModel from "../../models/orders";
 import productModel from "../../models/products";
-import accountModel from "../../models/clients";
+import accountModel from "../../models/users";
 import purchesedModel from "../../models/purchesed";
 
 /*---> Get all orders repository <---*/

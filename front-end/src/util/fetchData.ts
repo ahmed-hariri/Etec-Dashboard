@@ -4,7 +4,7 @@ import { accountTypes, categoriesTypes, contactsTypes, ordersTypes, productsType
 export const fetchData = async <T extends productsTypes | categoriesTypes | ordersTypes | accountTypes | contactsTypes>
     (
         fetchFunction: () => Promise<T>,
-        setStateFunction: React.Dispatch<React.SetStateAction<T>>,
+        setStateFunction: (newData: T) => void,
         message?: string
     ): Promise<void> => {
     try {
