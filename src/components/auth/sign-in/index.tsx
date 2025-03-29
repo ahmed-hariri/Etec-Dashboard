@@ -11,7 +11,6 @@ import { Toaster, toast } from 'sonner';
 import { accountSignIn } from "@/api/authentication"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { jwtVerify } from "jose"
 import { setAuthToken } from "@/util/authCookies"
 import useSignInStore from "@/store/auth/signInStore"
 
@@ -48,12 +47,7 @@ export default function SignInComponents() {
             if (response?.message === "Login successful!") {
                 setAuthToken(response?.token ?? "")
                 toast.success(response?.message)
-                const { payload } = await jwtVerify(response?.token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
-                if (payload?.role === "admin") {
-                    navigate.push("/admin");
-                } else {
-                    navigate.push("/");
-                }
+                navigate.push("/dashboard");
                 setAccount({ email: '', password: '' });
                 return
             }
