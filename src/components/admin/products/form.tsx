@@ -25,8 +25,8 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                     input?.inputName === "pictures" ? (
                         <div key={index} className="w-full flex flex-col gap-2">
                             <Label htmlFor={input?.inputName} className="text-[16px]">{input?.inputLabel}</Label>
-                            <div className="w-full flex gap-4">
-                                <div className="w-1/2 flex flex-col gap-4">
+                            <div className="w-full flex flex-col lg:flex-row gap-4">
+                                <div className="w-full lg:w-1/2 flex flex-col gap-4">
                                     {/* <!-- Add new picture --> */}
                                     <Input type={input?.type} id={input?.inputName} placeholder={input?.placeHolder} name={input?.inputName} onChange={onChange} value={pictureValue} />
                                     <Button className="w-full py-[24px] text-[15px]" onClick={() => pictureAction?.("addNewPicture")}>
@@ -34,7 +34,7 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                                     </Button>
                                 </div>
                                 {/* <!-- All pictures --> */}
-                                <div className={`w-1/2 flex items-center gap-5 ${product?.pictures?.length === 0 && "justify-center border border-dashed border-gray-400 rounded-md"}`}>
+                                <div className={`w-full lg:w-1/2 flex items-center gap-5 ${product?.pictures?.length === 0 && "h-24 justify-center border border-dashed border-gray-400 rounded-md"}`}>
                                     {(product?.pictures ?? [])?.length > 0 ? (
                                         product?.pictures?.map((picture, index) => (
                                             <div key={index} className="w-[125px] h-[120px] flex justify-end p-2 rounded-md bg-white shadow-md relative">
@@ -43,7 +43,7 @@ export default function ProductForm(props: Partial<productComponentsTypes>) {
                                             </div>
                                         ))
                                     ) : (
-                                        <h1 className="font-[600] text-lg">You dont have any pictures</h1>
+                                        <h1 className="font-[600] text-xl lg:text-lg">You dont have any pictures</h1>
                                     )}
                                 </div>
                             </div>
