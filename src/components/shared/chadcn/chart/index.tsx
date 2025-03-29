@@ -10,7 +10,7 @@ export function Component(props: { chartTitle: string, chartData: { month: strin
   const { chartTitle, chartData } = props;
 
   return (
-    <Card className="w-full sm:w-1/2">
+    <Card className="w-full sm:w-1/2 -z-10 lg:z-auto">
       <CardHeader>
         <CardTitle>{chartTitle}</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

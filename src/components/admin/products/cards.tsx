@@ -16,7 +16,7 @@ export default function ProductCards(props: productCardsComponentsTypes) {
         {loading?.showProducts ? (
             <iframe src="https://lottie.host/embed/95e591bc-3837-452b-9a4b-77ec3c873cc7/fEh9CBsGi6.lottie"></iframe>
         ) : (
-            <div className="w-full flex flex-wrap justify-between sm:gap-5 lg:gap-4">
+            <div className="w-full flex flex-wrap justify-between sm:gap-5 lg:gap-4 -z-10 lg:z-auto">
                 {products && products?.data?.length > 0 ? (
                     products?.data?.map((product) => (
                         <div key={product?._id} className="w-full sm:w-[48.5%] md:max-w-[550px] lg:w-full lg:h-[280px] xl:w-[49%] overflow-hidden flex flex-col lg:flex-row bg-white rounded-lg shadow-lg">

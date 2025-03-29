@@ -8,46 +8,33 @@ import { usePathname, useRouter } from "next/navigation";
 import { GrMenu } from "react-icons/gr";
 import { links } from "@/data";
 
-
 export default function Navbar() {
     /*---> States <---*/
     const [showAllContent, setShowAllContent] = useState<boolean>(false);
     const [displayState, setDisplayState] = useState<string>('')
     const navigate = useRouter();
-    const pathName = usePathname();
+    const pathname = usePathname();
 
     /*---> Functions <---*/
     const toggle = (): void => setShowAllContent((prevState) => !prevState);
-    const logOut = (): void => { Cookies.remove("token"); navigate?.push("/auth/sign-in") }
+    const logOut = (): void => {
+        Cookies.remove("token");
+        navigate?.push("/")
+    }
 
     /*---> Effects <---*/
     useEffect(() => {
-        switch (pathName) {
-            case "/admin/dashboard":
-                setDisplayState('dashboard')
-                break;
-            case "/admin/products":
-                setDisplayState('products')
-                break;
-            case "/admin/categories":
-                setDisplayState('categories')
-                break;
-            case "/admin/purchased":
-                setDisplayState('purchased')
-                break;
-            case "/admin/orders":
-                setDisplayState('orders')
-                break;
-            case "/admin/clients":
-                setDisplayState('clients')
-                break;
-            case "/admin/contacts":
-                setDisplayState('contacts')
-                break;
-            default:
-                return;
-        }
-    }, [pathName])
+        const stateMapping: { [key: string]: string } = {
+            "/dashboard": 'dashboard',
+            "/products": 'products',
+            "/categories": 'categories',
+            "/purchased": 'purchased',
+            "/orders": 'orders',
+            "/clients": 'clients',
+            "/contacts": 'contacts',
+        };
+        setDisplayState(stateMapping[pathname] || '');
+    }, [pathname])
 
     return <>
         <div className="w-full lg:w-auto flex fixed sm:absolute lg:relative">
@@ -67,9 +54,9 @@ export default function Navbar() {
                         <h1 className="text-2xl lg:text-[22px] font-[700]">Navigation</h1>
                         <ul className="w-full flex flex-col gap-1 font-[600]">
                             {links && links?.map((link, index) => (
-                                <li key={index} className={`w-full flex items-center gap-[4px] lg:gap-[5px] rounded-md px-3 py-[7px] ${displayState === link?.context.toLocaleLowerCase() && "bg-[#ececec]"}`} onClick={toggle}>
+                                <li key={index} className={`w-full flex items-center gap-[4px] lg:gap-[5px] rounded-md px-3 py-[7px] ${displayState === link?.context?.toLocaleLowerCase() && "bg-[#ececec]"}`} onClick={toggle}>
                                     <link.icon />
-                                    <Link href={`/admin/${link.href}`} className="text-lg lg:text-base">{link.context}</Link>
+                                    <Link href={`/${link.href}`} className="text-lg lg:text-base">{link.context}</Link>
                                 </li>
                             ))}
                         </ul>

@@ -60,7 +60,7 @@ export default function DashboardComponents() {
                         ))
                     ) : (
                         cards?.map((card, index) => (
-                            <Link href={`/admin/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] sm:gap-0 py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
+                            <Link href={`/${card?.title?.toLocaleLowerCase()}`} key={index} className="w-full sm:w-[49%] lg:w-[25%] flex justify-between items-center cursor-pointer gap-[135px] sm:gap-0 py-[21px] px-[24px] rounded-xl hover:shadow-xl duration-500 border border-[#e3e2e2]">
                                 <div className="flex flex-col justify-center gap-1">
                                     <h1 className="text-gray-600 text-[15px] font-[600]">{card?.title}</h1>
                                     <h1 className="text-[25px] font-[700]">{card?.number}</h1>

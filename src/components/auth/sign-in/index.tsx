@@ -26,7 +26,7 @@ export default function SignInComponents() {
     /*---> Functions <---*/
     const handleChanges = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e?.target;
-        setAccount({ [name]: value });
+        setAccount({ [name]: name === "email" ? value?.toLowerCase() : value });
     }, [setAccount])
     const isValidSignIn = useCallback((account: Partial<authenticationTypes>) => {
         return account?.email?.trim() && account?.password?.trim()
