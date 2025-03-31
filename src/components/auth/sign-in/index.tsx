@@ -5,7 +5,6 @@ import { Label } from "@/components/shared/chadcn/ui/label"
 import { Button } from "@/components/shared/chadcn/ui/button"
 import { Checkbox } from "@/components/shared/chadcn/ui/checkbox"
 import { useCallback } from "react"
-import Link from "next/link"
 import { authenticationTypes } from "@/types"
 import { Toaster, toast } from 'sonner';
 import { accountSignIn } from "@/api/authentication"
@@ -86,10 +85,10 @@ export default function SignInComponents() {
                     Sign In
                     <Loader2 className={`animate-spin ${loading ? "flex" : "hidden"}`} />
                 </Button>
-                <div className="flex items-start gap-[5.8px] text-sm">
+                {/* <div className="flex items-start gap-[5.8px] text-sm">
                     <h1 className="text-gray-700">Dont have an account?</h1>
                     <Link href="/auth/sign-up" className="font-[600] underline">Sign Up</Link>
-                </div>
+                </div> */}
             </div>
             {/* <!-- Message --> */}
             <div className='w-full flex justify-center bottom-0 absolute'>
