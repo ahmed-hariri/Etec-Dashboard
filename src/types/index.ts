@@ -37,7 +37,7 @@ export interface ordersTypes {
                 name: string
                 description: string
                 price: number
-                picture: string
+                pictures: string[]
                 categoryId: {
                     _id: string
                     categoryName: string
@@ -104,9 +104,7 @@ export type loadingTypes = {
 export type popUpTypes = {
     modify?: boolean
     remove?: boolean
-    productId?: string | null
-    categorieId?: string | null
-    contactId?: string | null
+    id : string | null
 }
 export interface inputsTypes {
     type: string
@@ -137,18 +135,17 @@ export interface contextTyes {
 }
 
 export type productComponentsTypes = {
-    type: "remove" | "modify"
     popUp: popUpTypes
     setPopUp?: (popUp: popUpTypes) => void
     product?: inputTypes
     setProduct: React.Dispatch<React.SetStateAction<inputTypes>>
     onChange: ChangeEventHandler
-    pictureValue: string
+    picture: string
     pictureAction: (action: string, index?: number) => void
     onCreateProduct: MouseEventHandler
     categories: categoriesTypes
     loading?: loadingTypes
-    pictureMethod: (productId: string | null) => void
+    method: (productId: string | null) => void
 }
 export type productCardsComponentsTypes = {
     loading: loadingTypes,

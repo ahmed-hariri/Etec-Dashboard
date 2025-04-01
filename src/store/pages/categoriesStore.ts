@@ -8,7 +8,7 @@ const useCategorieStore = create<categoriesStoreType>((set) => ({
     setCategories: (newCategories) => set({ categories: newCategories }),
     loading: true,
     setLoading: (loading: boolean) => set({ loading }),
-    popUp: { modify: false, remove: false, categorieId: "" },
+    popUp: { modify: false, remove: false, id: "" },
     setPopUp: (newPopUpValue) => set((state) => ({ popUp: { ...state?.popUp, ...newPopUpValue } }))
 }))
 

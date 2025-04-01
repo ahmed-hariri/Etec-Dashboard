@@ -12,9 +12,10 @@ import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { setAuthToken } from "@/util/authCookies"
 import useSignInStore from "@/store/auth/signInStore"
+import { jwtVerify } from "jose"
 
 export default function SignInComponents() {
-    /*---> States <---*/
+    /*---> States (Zustand) <---*/
     const {
         account, setAccount,
         loading, setLoading,
@@ -45,8 +46,13 @@ export default function SignInComponents() {
             const response = await accountSignIn(account);
             if (response?.message === "Login successful!") {
                 setAuthToken(response?.token ?? "")
-                toast.success(response?.message)
-                navigate.push("/dashboard");
+                const { payload } = await jwtVerify(response?.token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
+                if (payload?.role === "admin") {
+                    toast.success(response?.message)
+                    navigate.push("/admin/dashboard");
+                } else {
+                    toast.error("You are not an admin.");
+                }
                 setAccount({ email: '', password: '' });
                 return
             }
@@ -85,10 +91,6 @@ export default function SignInComponents() {
                     Sign In
                     <Loader2 className={`animate-spin ${loading ? "flex" : "hidden"}`} />
                 </Button>
-                {/* <div className="flex items-start gap-[5.8px] text-sm">
-                    <h1 className="text-gray-700">Dont have an account?</h1>
-                    <Link href="/auth/sign-up" className="font-[600] underline">Sign Up</Link>
-                </div> */}
             </div>
             {/* <!-- Message --> */}
             <div className='w-full flex justify-center bottom-0 absolute'>

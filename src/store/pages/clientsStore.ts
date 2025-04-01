@@ -5,7 +5,9 @@ const useClientsStore = create<clientsStoreType>((set) => ({
     clients: { data: [] },
     setClients: (newClients) => set({ clients: newClients }),
     loading: true,
-    setLoading: (newLoading) => set({ loading: newLoading })
+    setLoading: (newLoading) => set({ loading: newLoading }),
+    popUp: { modify: false, remove: false, id: "" },
+    setPopUp: (newPopUp) => set({ popUp: newPopUp }),
 }))
 
 export default useClientsStore

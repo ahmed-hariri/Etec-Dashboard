@@ -14,7 +14,7 @@ const useProductsStore = create<productsStoreType>((set) => ({
     setPicture: (newPicture) => set({ picture: newPicture }),
     loading: { newProduct: false, showProducts: true },
     setLoading: (newLoading) => set((state) => ({ loading: { ...state?.loading, ...newLoading } })),
-    popUp: { modify: false, remove: false, productId: "" },
+    popUp: { modify: false, remove: false, id: "" },
     setPopUp: (newPopUpValue) => set((state) => ({ popUp: { ...state?.popUp, ...newPopUpValue } }))
 }))
 

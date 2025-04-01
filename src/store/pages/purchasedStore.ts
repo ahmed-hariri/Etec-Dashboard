@@ -6,7 +6,7 @@ const usePurchasedStore = create<purchasedStoreType>((set) => ({
     setPurchaseds: (newProducts) => set({ purchaseds: newProducts }),
     loading: true,
     setLoading: (newLoading) => set({ loading: newLoading }),
-    popUp: { modify: false, remove: false, productId: "" },
+    popUp: { modify: false, remove: false, id: "" },
     setPopUp: (newPopUpValue) => set((state) => ({ popUp: { ...state?.popUp, ...newPopUpValue } }))
 }))
 

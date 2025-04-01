@@ -6,7 +6,7 @@ const useContactsStore = create<contactsStoreType>((set) => ({
     setContacts: (newContacts) => set({ contacts: newContacts }),
     loading: true,
     setLoading: (newLoading) => set({ loading: newLoading }),
-    popUp: { remove: false, contactId: "" },
+    popUp: { remove: false, id: "" },
     setPopUp: (newPopUpValue) => set((state) => ({ popUp: { ...state?.popUp, ...newPopUpValue } }))
 }))
 
