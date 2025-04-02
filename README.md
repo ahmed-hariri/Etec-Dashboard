@@ -79,4 +79,10 @@ Before starting, make sure you have the following installed:
 
 ## Testing
 
-No tests have been implemented in this project yet.
+### End-to-End (E2E) Testing
+- The project includes end-to-end testing to ensure that the entire system works as expected from the user's perspective.
+
+### Unit Testing
+- Unit tests have been implemented to verify individual components and their functionalities.
+
+These tests ensure that the dashboard's core features, such as product management, authentication, and client interactions, are functioning correctly.
