@@ -13,6 +13,7 @@ export default function TableOrders(props: { tableHead: string[], ordersData: or
     /*---> Functions <---*/
     const getAllOrders = async (): Promise<void> => {
         try {
+            // if fetchData is false, use the ordersData prop to avoid fetching again
             const response = fetchData ? await fetchAllOrders() : ordersData
             setOrders(response ?? []);
         } catch (error) {
@@ -26,8 +27,8 @@ export default function TableOrders(props: { tableHead: string[], ordersData: or
             const response = await changeOrderState(id, newStatus)
             if (response?.message) {
                 console?.log(response?.message)
-                refreshCache()
-                await getAllOrders()
+                refreshCache() // refresh cache after changing order state
+                await getAllOrders() // refresh orders data
             }
         } catch (error) {
             console?.error("Error change order : ", error)

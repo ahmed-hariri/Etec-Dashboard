@@ -33,6 +33,7 @@ export default function CategoriesComponents() {
             toast?.warning("Please fill in all the fields.");
             return
         }
+        // Create a new categorie
         await addNewCategorie()
     }, [categorie])
     const addNewCategorie = async (): Promise<void> => {
@@ -42,7 +43,7 @@ export default function CategoriesComponents() {
                 toast?.success(response?.message)
                 setCategorie?.('')
                 refreshCache() // Clears the cache to fetch new data.
-                await fetchData(fetchAllCategories, setCategories)
+                await fetchData(fetchAllCategories, setCategories) // Fetch all categories again to update the state
             } else {
                 toast?.warning("something went wrong, please try again.")
                 setCategorie?.('')
@@ -66,8 +67,8 @@ export default function CategoriesComponents() {
                 toast?.success(response?.message)
                 setPopUp?.({ modify: false, remove: false, id: '' });
                 setCategorie?.('')
-                refreshCache()
-                await fetchData(fetchAllCategories, setCategories)
+                refreshCache() // Clears the cache to fetch new data.
+                await fetchData(fetchAllCategories, setCategories) // Fetch all categories again to update the state
             }
         } catch (error) {
             console?.error("Error update a categorie : ", error)
@@ -79,8 +80,8 @@ export default function CategoriesComponents() {
             if (response?.message === "Category deleted successfully!") {
                 toast?.success(response?.message)
                 setPopUp?.({ modify: false, remove: false, id: '' });
-                refreshCache()
-                await fetchData(fetchAllCategories, setCategories)
+                refreshCache() // Clears the cache to fetch new data.
+                await fetchData(fetchAllCategories, setCategories) // Fetch all categories again to update the state
             }
         } catch (error) {
             console?.error("Error delete a categorie : ", error)

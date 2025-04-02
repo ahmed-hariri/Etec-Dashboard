@@ -26,8 +26,8 @@ export default function ClientsComponents() {
             if (response?.message === 'Client removed successfully!') {
                 toast?.success(response?.message);
                 setPopUp?.({ remove: false, id: '' });
-                refreshCache()
-                await fetchData(fetchAllClients, setClients)
+                refreshCache() // Refresh the cache after removing a client
+                await fetchData(fetchAllClients, setClients) // Fetch the updated list of clients
             }
         } catch (error) {
             console?.error("Error remove a client : ", error)

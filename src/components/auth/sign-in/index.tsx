@@ -37,7 +37,7 @@ export default function SignInComponents() {
             toast?.warning("Please fill in all the fields.");
             return
         }
-        /*---> Login account <---*/
+        /*---> Log in to your account <---*/
         await loginAccount()
     }, [account, isValidSignIn])
     const loginAccount = async (): Promise<void> => {
@@ -45,7 +45,9 @@ export default function SignInComponents() {
         try {
             const response = await accountSignIn(account);
             if (response?.message === "Login successful!") {
+                // Set the token in cookies
                 setAuthToken(response?.token ?? "")
+                // Check if the token is valid and has the role of admin
                 const { payload } = await jwtVerify(response?.token, new TextEncoder()?.encode(process.env.NEXT_PUBLIC_JWT_SECRET));
                 if (payload?.role === "admin") {
                     toast.success(response?.message)

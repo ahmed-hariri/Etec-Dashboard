@@ -25,8 +25,8 @@ export default function ContactsComponents() {
             if (response?.message === 'Contact deleted successfully!') {
                 toast?.success(response?.message);
                 setPopUp?.({ remove: false, id: '' });
-                refreshCache()
-                await fetchData(fetchAllContacts, setContacts)
+                refreshCache() // Refresh cache after removing a contact
+                await fetchData(fetchAllContacts, setContacts) // Fetch all contacts again
             }
         } catch (error) {
             console?.error("Error remove contact : ", error)

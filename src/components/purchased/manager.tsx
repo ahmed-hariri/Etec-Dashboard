@@ -25,7 +25,7 @@ export default function PurchasedComponents() {
                 toast?.success(response?.message);
                 setPopUp?.({ remove: false, id: '' });
                 refreshCache() // Clears the cache to fetch new data.
-                await fetchData(fetchAllPurchased, setPurchaseds, "Error get all products :");
+                await fetchData(fetchAllPurchased, setPurchaseds, "Error get all products :"); // Fetches the new data after removing the product.
             }
         } catch (error) {
             console?.error("Error remove purchased product : ", error)

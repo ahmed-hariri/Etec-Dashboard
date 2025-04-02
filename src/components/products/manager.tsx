@@ -43,12 +43,14 @@ export default function ProductsComponents() {
             toast.warning("Please fill in all the fields.");
             return;
         }
+        // Create a new product
         await addProduct()
     }, [product])
     /* <!-- Picture (Add / Remove) --> */
     const pictureAction = useCallback((action: string, index?: number): void => {
         if (action === "addNewPicture") {
             if ((product?.pictures ?? [])?.length < 4 && picture?.trim() !== "") {
+                // Validate if the provided URL is valid
                 try {
                     new URL(picture)
                     setProduct(({ ...product, pictures: [...product?.pictures ?? [], picture] }))
@@ -78,7 +80,7 @@ export default function ProductsComponents() {
                 toast?.success(response?.message);
                 setProduct({ name: '', description: '', price: null, pictures: [], categoryId: '' })
                 refreshCache() // Clears the cache to fetch new data.
-                await fetchData(fetchAllProducts, setProducts);
+                await fetchData(fetchAllProducts, setProducts); // Fetches all products again.
             }
         } catch (error) {
             console?.error("Error create newProduct : ", error)
@@ -101,8 +103,8 @@ export default function ProductsComponents() {
                 toast?.success(response?.message);
                 setPopUp?.({ modify: false, remove: false, id: '' });
                 setProduct({ name: '', description: '', price: null, pictures: [], categoryId: '' })
-                refreshCache()
-                await fetchData(fetchAllProducts, setProducts);
+                refreshCache() // Clears the cache to fetch new data.
+                await fetchData(fetchAllProducts, setProducts); // Fetches all products again.
             }
         } catch (error) {
             console?.error("Error remove product : ", error)
@@ -114,8 +116,8 @@ export default function ProductsComponents() {
             if (response?.message === 'Product deleted successfully!') {
                 toast?.success(response?.message);
                 setPopUp?.({ modify: false, remove: false, id: '' });
-                refreshCache()
-                await fetchData(fetchAllProducts, setProducts);
+                refreshCache() // Clears the cache to fetch new data.
+                await fetchData(fetchAllProducts, setProducts); // Fetches all products again.
             }
         } catch (error) {
             console?.error("Error remove product : ", error)
