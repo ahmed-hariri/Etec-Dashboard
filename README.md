@@ -23,7 +23,6 @@ other administrative tasks.
 ### UI/UX and State Management
 - **Responsive Design with Tailwind CSS:** A user interface optimized to fit all screen sizes.
 - **State Management with Zustand:** Centralized and efficient state management using Zustand.
-- **Animations with Framer Motion:** Smooth, reactive animations of interface elements for an improved user experience.
 
 ## Prerequisites
 Before starting, make sure you have the following installed:
@@ -39,21 +38,6 @@ Before starting, make sure you have the following installed:
    git clone https://github.com/Kodatchi-001/Etec-Dashboard.git
    cd Etec-admin-dashboard
    ```
-
-2. Navigate to the back-end folder and install dependencies
-   ```bash
-   cd backend
-   npm install
-   ```
-
-3. Configure your MongoDB connection in `backend/config/db.js` by replacing the connection details with your MongoDB URI.
-
-4. Run the back-end server using `nodemon` (if you don't have `nodemon` installed, you can install it globally using `npm install -g nodemon`):
-   ```bash
-   npm start
-   ```
-
-5. The back-end server will be running at `http://localhost:5000`.
 
 ### Front-End
 
